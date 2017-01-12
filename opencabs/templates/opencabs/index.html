@@ -7,49 +7,49 @@
 
 {% block content %}
 <h1>Book your cab!</h1>
-<form class="form-inline">
-	<div class="row">
-		<div class="form-group">
-			<label class="sr-only" for="exampleInputEmail3">Email address</label>
-			<input type="text" class="form-control" id="exampleInputEmail3" placeholder="Source">
-		</div>
-		<div class="form-group">
-			<label class="sr-only" for="exampleinputpassword3">password</label>
-			<input type="text" class="form-control" id="exampleinputpassword3" placeholder="destination">
-		</div>
-  </div>
-  <div class="row">
-		<div class="form-group">
-			<div class="input-group date" id="datetimepicker1">
-				<input type="text" class="form-control" placeholder="Time of travel" />
-				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-calendar"></span>
-				</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="input-group date" id="datetimepicker1">
-				<select  class="form-control">
+<div class="row">
+  <form class="form" style="text-align: left">
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label class="" for="booking-source">Source</label>
+      <input type="text" class="form-control" id="booking-source" placeholder="Source">
+    </div>
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label class="" for="booking-destination">Destination</label>
+      <input type="text" class="form-control" id="booking-destination" placeholder="Destination">
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label for="booking-traveldatetime">Time of travel</label>
+      <div class="input-group date" id="booking-traveldatetime">
+        <input type="text" class="form-control" placeholder="Time of travel" />
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+    </div>
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label for="booking-vehicletype">Vehicle type</label>
+      <div class="input-group" id="booking-vehicletype">
+        <select  class="form-control">
           <option value="" disabled selected>Vehicle type</option>
-          <option value="A">A</option>
+          <option value="hatch">Hatchback</option>
+          <option value="sedan">Sedan</option>
         </select>
-			</div>
-		</div>
-	</div>
-  <div class="row">
-		<div class="form-group">
-			<label class="sr-only" for="exampleinputpassword3">password</label>
-			<input type="text" class="form-control" id="booking-name" placeholder="Name">
-		</div>
-		<div class="form-group">
-			<label class="sr-only" for="exampleinputpassword3">password</label>
-			<input type="tel" class="form-control" id="exampleinputpassword3" placeholder="Mobile">
-		</div>
-  </div>
-	<div class="row">
-		<button type="submit" class="btn btn-default">Sign in</button>
-	</div>
-</form>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label class="" for="booking-name">Name</label>
+      <input type="text" class="form-control" id="booking-name" placeholder="Name">
+    </div>
+    <div class="form-group col-xs-10 col-sm-4 col-md-4 col-lg-4">
+      <label class="" for="booking-mobile">Mobile</label>
+      <input type="tel" class="form-control" id="booking-mobile" placeholder="Mobile">
+    </div>
+    <div class="clearfix"></div>
+    <button type="submit" class="btn btn-default">Book</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block extrascripts %}
@@ -57,7 +57,7 @@
 	<script type="text/javascript" src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
 	<script type="text/javascript">
 		$(function (){
-      $('#datetimepicker1').datetimepicker();
+      $('#booking-traveldatetime').datetimepicker();
 		});
 	</script>
 {% endblock %}
