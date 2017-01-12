@@ -1,0 +1,63 @@
+{% extends "opencabs/base.html" %}
+{% load static %}
+
+{% block extrastylesheets %}
+	<link href="{% static "css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h1>Book your cab!</h1>
+<form class="form-inline">
+	<div class="row">
+		<div class="form-group">
+			<label class="sr-only" for="exampleInputEmail3">Email address</label>
+			<input type="text" class="form-control" id="exampleInputEmail3" placeholder="Source">
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="exampleinputpassword3">password</label>
+			<input type="text" class="form-control" id="exampleinputpassword3" placeholder="destination">
+		</div>
+  </div>
+  <div class="row">
+		<div class="form-group">
+			<div class="input-group date" id="datetimepicker1">
+				<input type="text" class="form-control" placeholder="Time of travel" />
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group date" id="datetimepicker1">
+				<select  class="form-control">
+          <option value="" disabled selected>Vehicle type</option>
+          <option value="A">A</option>
+        </select>
+			</div>
+		</div>
+	</div>
+  <div class="row">
+		<div class="form-group">
+			<label class="sr-only" for="exampleinputpassword3">password</label>
+			<input type="text" class="form-control" id="booking-name" placeholder="Name">
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="exampleinputpassword3">password</label>
+			<input type="tel" class="form-control" id="exampleinputpassword3" placeholder="Mobile">
+		</div>
+  </div>
+	<div class="row">
+		<button type="submit" class="btn btn-default">Sign in</button>
+	</div>
+</form>
+{% endblock %}
+
+{% block extrascripts %}
+	<script type="text/javascript" src="{% static "js/moment.min.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
+	<script type="text/javascript">
+		$(function (){
+      $('#datetimepicker1').datetimepicker();
+		});
+	</script>
+{% endblock %}
