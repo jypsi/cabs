@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'formtools',
+
     'opencabs'
 ]
 
@@ -127,3 +129,6 @@ BOOTSTRAP3 = {
     'required_css_class': 'bootstrap3-required',
     'javascript_in_head': True,
 }
+
+# Opencabs
+PNR_PREFIX = 'OC'
