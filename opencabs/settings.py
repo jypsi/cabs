@@ -131,4 +131,7 @@ BOOTSTRAP3 = {
 }
 
 # Opencabs
+PROJECT_NAME = 'Opencabs'
+PROJECT_HEADER = 'Book your travel!'
+PROJECT_DESCRIPTION = ''
 PNR_PREFIX = 'OC'
