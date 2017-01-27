@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
     'formtools',
 
     'opencabs'
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'opencabs.urls'
@@ -130,8 +132,13 @@ BOOTSTRAP3 = {
     'javascript_in_head': True,
 }
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 # Opencabs
 PROJECT_NAME = 'Opencabs'
 PROJECT_HEADER = 'Book your travel!'
 PROJECT_DESCRIPTION = ''
 PNR_PREFIX = 'OC'
+ROUTE_CODE_FUNC = lambda a, b: '%s-%s' % (a, b) if a > b else '%s-%s' % (b, a)
