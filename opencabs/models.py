@@ -51,11 +51,18 @@ class Rate(models.Model):
     oneway_price = models.PositiveIntegerField()
     driver_charge = models.PositiveIntegerField()
 
+    code = models.CharField(max_length=100, editable=False, blank=True)
+
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
         return '{}-{}'.format(self.source, self.destination)
+
+    def save(self, *args, **kwargs):
+        self.code = settings.ROUTE_CODE_FUNC(
+            self.source.name, self.destination.name)
+        super().save(*args, **kwargs)
 
 
 class Booking(models.Model):
@@ -67,16 +74,17 @@ class Booking(models.Model):
                                              ('RE', 'Rental')),
                                     max_length=2)
     travel_datetime = models.DateTimeField()
-    vehicle_category = models.ForeignKey(VehicleCategory,
-                                         on_delete=models.CASCADE,
-                                         related_name='booking')
+    vehicle = models.ForeignKey(VehicleCategory,
+                                on_delete=models.CASCADE,
+                                related_name='booking')
     customer_name = models.CharField(max_length=100)
     customer_mobile = models.CharField(max_length=20)
 
     status = models.CharField(choices=(('0', 'Request'),
                                        ('1', 'Confirmed'),
                                        ('2', 'Declined')),
-                              max_length=1)
+                              max_length=1,
+                              default='0')
     pnr = models.CharField(max_length=20, blank=True, editable=False)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
@@ -92,7 +100,7 @@ class Booking(models.Model):
     def _create_pnr(self):
         text = '{}-{}-{}-{}-{}-{}-{}-{}'.format(
             self.source, self.destination, self.booking_type,
-            self.travel_datetime, self.vehicle_category,
+            self.travel_datetime, self.vehicle,
             self.customer_name, self.customer_mobile,
             uuid.uuid1())
         return settings.PNR_PREFIX + md5(text.encode('utf-8')).hexdigest()[:8]
