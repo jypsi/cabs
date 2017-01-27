@@ -1,0 +1,33 @@
+{% extends "opencabs/index.html" %}
+
+{% block bookingform %}
+<form action="" method="post">{% csrf_token %}
+    {{ wizard.management_form }}
+    {% for radio in form.vehicle %}
+    <div class="media vehicle">
+        <div class="media-body">
+            {{ radio.choice_label }}
+        </div>
+        <div class="media-right">
+            <label for="{{ radio.label_for_id }}" class="select-vehicle btn btn-primary">
+                {{ radio.tag }} Select
+            </label>
+        </div>
+    </div>
+    {% endfor %}
+
+    <input type="submit" value="Submit" class="btn btn-primary btn-xl" style="display: none;"></input>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+$(function() {
+    $('.select-vehicle').on('click', function (e) {
+        $(e.target).find('input[type="radio"]').attr('checked', 'checked')
+            .end()
+            .parents('form').submit();
+    });
+}())
+</script>
+{% endblock %}
