@@ -21,6 +21,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.booking_wizard, name='index'),
+    url(r'^booking/(?P<pnr>\w+)/$', views.booking_details,
+        name='booking_details'),
     url(r'^admin/', admin.site.urls),
 ]
 

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Booking details
+        </div>
+        <div class="panel-body">
+            <h2>PNR: {{ booking.pnr }}</h2>
+
+            <dl class="dl-horizontal">
+                <dt>Status</dt>
+                <dd>{{ booking.get_status_display }}</dd>
+
+                <dt>Name</dt>
+                <dd>{{ booking.customer_name }}</dd>
+
+                <dt>Source<dt>
+                <dd>{{ booking.source }}</dd>
+
+                <dt>Destination<dt>
+                <dd>{{ booking.destination }}</dd>
+
+                <dt>Booking type</dt>
+                <dd>{{ booking.get_booking_type_display }}</dd>
+
+                <dt>Travel datetime</dt>
+                <dd>{{ booking.travel_datetime }}</dd>
+
+                <dt>Vehicle</dt>
+                <dd>{{ booking.vehicle }}</dd>
+            </dl>
+        </div>
+    </div>
+</section>
+<style>
+    .dl-horizontal dt {
+        text-align: left;
+    }
+</style>
+{% endblock %}

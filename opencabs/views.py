@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
 from formtools.wizard.views import CookieWizardView
@@ -40,7 +40,6 @@ class BookingWizard(CookieWizardView):
         return [TEMPLATES[self.steps.current]]
 
     def done(self, form_list, form_dict, **kwargs):
-        from ipdb import set_trace; set_trace()
         data = form_dict['itinerary'].cleaned_data
         data.update(form_dict['vehicles'].cleaned_data)
         data.update(form_dict['contactinfo'].cleaned_data)
@@ -56,3 +55,13 @@ def index(request):
         'settings': settings,
         'wizard': booking_wizard
     })
+
+
+def booking_details(request, pnr):
+    booking = get_object_or_404(Booking, pnr=pnr)
+    return render(request, 'opencabs/booking_details.html', {
+        'settings': settings,
+        'booking': booking
+    })
+
+
