@@ -142,3 +142,5 @@ PROJECT_HEADER = 'Book your travel!'
 PROJECT_DESCRIPTION = ''
 PNR_PREFIX = 'OC'
 ROUTE_CODE_FUNC = lambda a, b: '%s-%s' % (a, b) if a > b else '%s-%s' % (b, a)
+CONTACT_PHONE = '123-456-6789'
+CONTACT_EMAIL = 'your-email@your-domain.com'

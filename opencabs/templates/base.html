@@ -58,13 +58,16 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
+                {% comment %}
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">{{ settings.PROJECT_NAME }}</a>
+                {% endcomment %}
+                <a class="navbar-brand page-scroll" href="/">{{ settings.PROJECT_NAME }}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
+            {% comment %}
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -81,6 +84,7 @@
                     </li>
                 </ul>
             </div>
+            {% endcomment %}
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
@@ -101,15 +105,15 @@
                     <div class="col-lg-8 col-lg-offset-2 text-center">
                         <h2 class="section-heading">Let's Get In Touch!</h2>
                         <hr class="primary">
-                        <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                        <p>If you need any help, give us a call or send us an email and we will get back to you as soon as possible!</p>
                     </div>
                     <div class="col-lg-4 col-lg-offset-2 text-center">
                         <i class="fa fa-phone fa-3x sr-contact"></i>
-                        <p>123-456-6789</p>
+                        <p>{{ settings.CONTACT_PHONE }}</p>
                     </div>
                     <div class="col-lg-4 text-center">
                         <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                        <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
+                        <p><a href="mailto:{{ setting.CONTACT_EMAIL }}">{{ settings.CONTACT_EMAIL }}</a></p>
                     </div>
                 </div>
             </div>
