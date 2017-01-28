@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
+from django.urls import reverse
 
 from formtools.wizard.views import CookieWizardView
 
@@ -45,7 +46,7 @@ class BookingWizard(CookieWizardView):
         data.update(form_dict['contactinfo'].cleaned_data)
         booking = Booking(**data)
         booking.save()
-        return redirect('/')
+        return redirect(reverse('booking_details', args=[booking.pnr]))
 
 booking_wizard = BookingWizard.as_view()
 
