@@ -4,59 +4,49 @@
 
 {% block extrahead %}
 	{{ wizard.form.media }}
-<style>
-.form-inline .inline-label {
-    text-align: left;
-}
-</style>
 {% endblock %}
 
+{% block header_content_class %}index{% endblock %}
+
 {% block content %}
-<header>
-    <div class="header-content">
-        <div class="header-content-inner">
-            <h1 id="homeHeading">{{ settings.PROJECT_HEADER }}</h1>
-            <hr>
-            <p>{{ settings.PROJECT_DESCRIPTION }}</p>
+    <h1 id="homeHeading">{{ settings.PROJECT_HEADER }}</h1>
+    <hr>
+    <p>{{ settings.PROJECT_DESCRIPTION }}</p>
 
-			{% block bookingform %}
-            <form action="" method="post" class="form-inline">{% csrf_token %}
-                {{ wizard.management_form }}
-				<div class="form-group">
-                    <div class="inline-label">
-                        <label for="{{ wizard.form.source.id_for_label }}">{{ wizard.form.source.label }}</label>
-                    </div>
-                    {{ wizard.form.source }}
-				</div>
-				<div class="form-group">
-                    <div class="inline-label">
-                        <label for="{{ wizard.form.destination.id_for_label }}">{{ wizard.form.destination.label }}</label>
-                    </div>
-                    {{ wizard.form.destination }}
-				</div>
-				<div class="form-group">
-                    <div class="inline-label">
-                        <label for="{{ wizard.form.booking_type.id_for_label }}">{{ wizard.form.booking_type.label }}</label>
-                    </div>
-                    {{ wizard.form.booking_type }}
-				</div>
-				<div class="form-group">
-                    <div class="inline-label">
-                        <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
-                    </div>
-                    {{ wizard.form.travel_datetime }}
-				</div>
-
-                <div style="text-align: center; padding-top: 10px;">
-                    <input type="submit" value="Book" class="btn btn-primary btn-xl"></input>
-                </div>
-			</form>
-			{% endblock %}
-
+    <form action="" method="post" class="form-inline">{% csrf_token %}
+        {{ wizard.management_form }}
+        <div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.source.id_for_label }}">{{ wizard.form.source.label }}</label>
+            </div>
+            {{ wizard.form.source }}
         </div>
-    </div>
-</header>
+        <div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.destination.id_for_label }}">{{ wizard.form.destination.label }}</label>
+            </div>
+            {{ wizard.form.destination }}
+        </div>
+        <div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.booking_type.id_for_label }}">{{ wizard.form.booking_type.label }}</label>
+            </div>
+            {{ wizard.form.booking_type }}
+        </div>
+        <div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
+            </div>
+            {{ wizard.form.travel_datetime }}
+        </div>
 
+        <div style="text-align: center; padding-top: 10px;">
+            <input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer %}
 <section class="bg-primary" id="about">
     <div class="container">
         <div class="row">
@@ -113,103 +103,6 @@
     </div>
 </section>
 
-<section class="no-padding" id="portfolio">
-    <div class="container-fluid">
-        <div class="row no-gutter popup-gallery">
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/2.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <a href="img/portfolio/fullsize/6.jpg" class="portfolio-box">
-                    <img src="img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
-                    <div class="portfolio-box-caption">
-                        <div class="portfolio-box-caption-content">
-                            <div class="project-category text-faded">
-                                Category
-                            </div>
-                            <div class="project-name">
-                                Project Name
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
 <aside class="bg-dark">
     <div class="container text-center">
         <div class="call-to-action">
@@ -218,24 +111,5 @@
         </div>
     </div>
 </aside>
-
-<section id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">Let's Get In Touch!</h2>
-                <hr class="primary">
-                <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
-            </div>
-            <div class="col-lg-4 col-lg-offset-2 text-center">
-                <i class="fa fa-phone fa-3x sr-contact"></i>
-                <p>123-456-6789</p>
-            </div>
-            <div class="col-lg-4 text-center">
-                <i class="fa fa-envelope-o fa-3x sr-contact"></i>
-                <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
-            </div>
-        </div>
-    </div>
-</section>
+{{ block.super }}
 {% endblock %}

@@ -1,6 +1,7 @@
-{% extends "opencabs/index.html" %}
+{% extends "base.html" %}
 
-{% block bookingform %}
+{% block content %}
+<h2>Enter your contact info!</h2>
 <form class="form-horizontal" action="" method="post" style="text-align: left;">{% csrf_token %}
     {{ wizard.management_form }}
     <div class="form-group">

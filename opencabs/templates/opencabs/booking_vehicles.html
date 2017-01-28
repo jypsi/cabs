@@ -1,23 +1,28 @@
-{% extends "opencabs/index.html" %}
+{% extends "base.html" %}
 
-{% block bookingform %}
-<form action="" method="post">{% csrf_token %}
-    {{ wizard.management_form }}
-    {% for radio in form.vehicle %}
-    <div class="media vehicle">
-        <div class="media-body">
-            {{ radio.choice_label }}
-        </div>
-        <div class="media-right">
-            <label for="{{ radio.label_for_id }}" class="select-vehicle btn btn-primary">
-                {{ radio.tag }} Select
-            </label>
-        </div>
-    </div>
-    {% endfor %}
+{% block content %}
+<h2>Select your ride!</h2>
+<div class="panel">
+    <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+            {{ wizard.management_form }}
+            {% for radio in form.vehicle %}
+            <div class="media vehicle">
+                <div class="media-body">
+                    {{ radio.choice_label }}
+                </div>
+                <div class="media-right">
+                    <label for="{{ radio.label_for_id }}" class="select-vehicle btn btn-default">
+                        {{ radio.tag }} Select
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
 
-    <input type="submit" value="Submit" class="btn btn-primary btn-xl" style="display: none;"></input>
-</form>
+            <input type="submit" value="Submit" class="btn btn-primary btn-xl" style="display: none;"></input>
+        </form>
+   </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
