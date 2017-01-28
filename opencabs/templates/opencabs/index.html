@@ -1,9 +1,25 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load static %}
 
 {% block extrahead %}
+    <link href="{% static "css/bootstrap-datetimepicker.css" %}" rel="stylesheet">
 	{{ wizard.form.media }}
+    <style>
+        .bootstrap-datetimepicker-widget.dropdown-menu {
+            background-color: #483434;
+        }
+        .bootstrap-datetimepicker-widget table td.day:hover,
+        .bootstrap-datetimepicker-widget table td.hour:hover,
+        .bootstrap-datetimepicker-widget table td.minute:hover,
+        .bootstrap-datetimepicker-widget table td.second:hover {
+          background: #908b8b;
+        }
+        .bootstrap-datetimepicker-widget table td span:hover {
+              background: #908b8b;
+        }
+    </style>
 {% endblock %}
 
 {% block header_content_class %}index{% endblock %}
@@ -37,7 +53,12 @@
             <div class="inline-label">
                 <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
             </div>
-            {{ wizard.form.travel_datetime }}
+            <div class="input-group date" id="traveldatetime-picker">
+                {{ wizard.form.travel_datetime }}
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
         </div>
 
         <div style="text-align: center; padding-top: 10px;">
@@ -112,4 +133,16 @@
     </div>
 </aside>
 {{ block.super }}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "js/moment.min.js" %}"></script>
+<script src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
+<script type="text/javascript">
+$(function(){
+    $('#traveldatetime-picker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    }); 
+});
+</script>
 {% endblock %}
