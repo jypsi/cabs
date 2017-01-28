@@ -1,1 +1,15 @@
+decorator==4.0.11
 Django==1.10.5
+django-bootstrap3==8.1.0
+django-debug-toolbar==1.6
+django-formtools==2.0
+pexpect==4.2.1
+pickleshare==0.7.4
+prompt-toolkit==1.0.9
+ptyprocess==0.5.1
+Pygments==2.2.0
+simplegeneric==0.8.1
+six==1.10.0
+sqlparse==0.2.2
+traitlets==4.3.1
+wcwidth==0.1.7
