@@ -103,4 +103,5 @@ class Booking(models.Model):
             self.travel_datetime, self.vehicle,
             self.customer_name, self.customer_mobile,
             uuid.uuid1())
-        return settings.PNR_PREFIX + md5(text.encode('utf-8')).hexdigest()[:8]
+        return (settings.PNR_PREFIX + md5(
+            text.encode('utf-8')).hexdigest()[:8]).upper()

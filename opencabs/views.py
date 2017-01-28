@@ -58,10 +58,9 @@ def index(request):
 
 
 def booking_details(request, pnr):
+    pnr = pnr.upper()
     booking = get_object_or_404(Booking, pnr=pnr)
     return render(request, 'opencabs/booking_details.html', {
         'settings': settings,
         'booking': booking
     })
-
-
