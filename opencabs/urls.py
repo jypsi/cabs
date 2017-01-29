@@ -20,10 +20,10 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.booking_wizard, name='index'),
-    url(r'^booking/(?P<pnr>\w+)/$', views.booking_details,
+    url(r'^' + settings.URL_PREFIX + r'$', views.booking_wizard, name='index'),
+    url(r'^' + settings.URL_PREFIX + r'booking/(?P<pnr>\w+)/$', views.booking_details,
         name='booking_details'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^' + settings.URL_PREFIX + r'admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

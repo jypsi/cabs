@@ -137,6 +137,7 @@ INTERNAL_IPS = [
 ]
 
 # Opencabs
+URL_PREFIX = ""
 PROJECT_NAME = 'Opencabs'
 PROJECT_HEADER = 'Book your travel!'
 PROJECT_DESCRIPTION = ''
