@@ -17,8 +17,17 @@ class VehicleFeature(models.Model):
 
 
 class VehicleCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(max_length=200, blank=True, default='')
+
+    def __str__(self):
+        return self.name
+
+
+class VehicleRateCategory(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(max_length=200, blank=True, default='')
+    category = models.ForeignKey(VehicleCategory)
     features = models.ManyToManyField(VehicleFeature)
     tariff_per_km = models.PositiveIntegerField()
     tariff_after_hours = models.PositiveIntegerField()
@@ -45,7 +54,7 @@ class Rate(models.Model):
                                related_name='rate_source')
     destination = models.ForeignKey(Place, on_delete=models.CASCADE,
                                     related_name='rate_destination')
-    vehicle_category = models.ForeignKey(VehicleCategory,
+    vehicle_category = models.ForeignKey(VehicleRateCategory,
                                          on_delete=models.CASCADE,
                                          related_name='rate')
     oneway_price = models.PositiveIntegerField()
@@ -100,7 +109,7 @@ class Booking(models.Model):
                                              ('RE', 'Rental')),
                                     max_length=2)
     travel_datetime = models.DateTimeField()
-    vehicle = models.ForeignKey(VehicleCategory,
+    vehicle = models.ForeignKey(VehicleRateCategory,
                                 on_delete=models.CASCADE,
                                 related_name='booking')
     customer_name = models.CharField(max_length=100)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
-                     Vehicle, Driver)
+                     Vehicle, Driver, VehicleRateCategory)
 
 
 @admin.register(Booking)
@@ -25,10 +25,15 @@ class RateAdmin(admin.ModelAdmin):
     list_filter = ('vehicle_category',)
 
 
-@admin.register(VehicleCategory)
-class VehicleCategoryAdmin(admin.ModelAdmin):
+@admin.register(VehicleRateCategory)
+class VehicleRateCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'tariff_per_km', 'tariff_after_hours')
     list_filter = ('features',)
+
+
+@admin.register(VehicleCategory)
+class VehicleCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
 
 @admin.register(Driver)
