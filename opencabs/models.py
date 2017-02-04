@@ -133,7 +133,8 @@ class Booking(models.Model):
         return self.pnr
 
     def save(self, *args, **kwargs):
-        self.pnr = self._create_pnr()
+        if not self.pnr:
+            self.pnr = self._create_pnr()
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
         super().save(*args, **kwargs)
