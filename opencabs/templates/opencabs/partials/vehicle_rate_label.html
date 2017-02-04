@@ -1,17 +1,19 @@
 <div style="text-align: left;">
-    <h3 class="col-md-10" style="font-weight: 600; text-align: justify; margin-top: 0px;">
-        {{ rate.vehicle_category.name }}
-        <span class="pull-right">Rs. {{ rate.oneway_price }}</span>
+    <h3 class="row" style="font-weight: 600; text-align: justify; margin-top: 0px;">
+        <span class="col-md-10 col-sm-8 col-xs-6">
+            {{ rate.vehicle_category.name }}
+        </span>
+        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {{ rate.oneway_price }}</span>
     </h3>
 
     <div class="clearfix"></div>
 
-    <div style="text-align: left; padding-left: 15px;">
+    <div class="small" style="text-align: left;">
         <strong>Features: </strong>
         {% for i in rate.vehicle_category.features.all %} {{ i.name }} .{% empty %} -- {% endfor %}
 
-        <strong>Rate per KM: </strong>
-        Rs. {{ rate.vehicle_category.tariff_per_km }}
+        <strong>Rate: </strong>
+        Rs. {{ rate.vehicle_category.tariff_per_km }}/km
 
         <strong>After hours charges: </strong>
         Rs. {{ rate.vehicle_category.tariff_after_hours }}
