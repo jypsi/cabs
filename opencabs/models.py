@@ -109,9 +109,9 @@ class Booking(models.Model):
                                              ('RE', 'Rental')),
                                     max_length=2)
     travel_datetime = models.DateTimeField()
-    vehicle = models.ForeignKey(VehicleRateCategory,
-                                on_delete=models.CASCADE,
-                                related_name='booking')
+    vehicle_type = models.ForeignKey(VehicleRateCategory,
+                                     on_delete=models.CASCADE,
+                                     related_name='booking')
     customer_name = models.CharField(max_length=100)
     customer_mobile = models.CharField(max_length=20)
 

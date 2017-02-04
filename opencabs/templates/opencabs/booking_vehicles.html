@@ -6,7 +6,7 @@
     <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             {{ wizard.management_form }}
-            {% for radio in form.vehicle %}
+            {% for radio in form.vehicle_type %}
             <div class="media vehicle">
                 <div class="media-body">
                     {{ radio.choice_label }}
