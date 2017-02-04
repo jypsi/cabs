@@ -120,6 +120,10 @@ class Booking(models.Model):
                                        ('2', 'Declined')),
                               max_length=1,
                               default='0')
+
+    vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
+    driver = models.ForeignKey(Driver, blank=True, null=True)
+    extra_info = models.TextField(blank=True, default='')
     pnr = models.CharField(max_length=20, blank=True, editable=False)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
@@ -130,6 +134,8 @@ class Booking(models.Model):
 
     def save(self, *args, **kwargs):
         self.pnr = self._create_pnr()
+        if self.vehicle and not self.driver:
+            self.driver = self.vehicle.driver
         super().save(*args, **kwargs)
 
     def _create_pnr(self):
