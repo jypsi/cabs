@@ -28,7 +28,7 @@ class VehicleRateCategory(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(max_length=200, blank=True, default='')
     category = models.ForeignKey(VehicleCategory)
-    features = models.ManyToManyField(VehicleFeature)
+    features = models.ManyToManyField(VehicleFeature, blank=True, null=True)
     tariff_per_km = models.PositiveIntegerField()
     tariff_after_hours = models.PositiveIntegerField()
 
