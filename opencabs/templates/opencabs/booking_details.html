@@ -25,8 +25,27 @@
             <dt>Travel datetime</dt>
             <dd>{{ booking.travel_datetime }}</dd>
 
+            <dt>Vehicle type</dt>
+            <dd>{{ booking.vehicle_type }}</dd>
+
+            {% if booking.vehicle %}
             <dt>Vehicle</dt>
             <dd>{{ booking.vehicle }}</dd>
+            {% endif %}
+
+            {% if booking.driver %}
+            <dt>Driver</dt>
+            <dd>
+                {{ booking.driver.name }}
+                <i class="glyphicon glyphicon-earphone" style="padding-left:10px;"></i>
+                <a href="tel:{{ booking.driver.mobile }}" style="color: white;">{{ booking.driver.mobile }}</a>
+            </dd>
+            {% endif %}
+
+            {% if booking.extra_info %}
+            <dt>Booking info</dt>
+            <dd>{{ booking.extra_info }}</dd>
+            {% endif %}
         </dl>
     </div>
 </div>
