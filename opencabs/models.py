@@ -106,7 +106,8 @@ class Booking(models.Model):
     destination = models.ForeignKey(Place, on_delete=models.CASCADE,
                                     related_name='booking_destination')
     booking_type = models.CharField(choices=(('OW', 'One way'),
-                                             ('RE', 'Rental')),
+                                             # ('RE', 'Rental')
+                                             ),
                                     max_length=2)
     travel_datetime = models.DateTimeField()
     vehicle_type = models.ForeignKey(VehicleRateCategory,
@@ -120,11 +121,25 @@ class Booking(models.Model):
                                        ('2', 'Declined')),
                               max_length=1,
                               default='0')
+    payment_status = models.CharField(
+        choices=(
+            ('REC', 'Received'),
+            ('DUE', 'Due')
+        ), max_length=3, blank=True, null=True)
+    payment_mode = models.CharField(
+        choices=(
+            ('CA', 'Cash'),
+        ), max_length=2, blank=True, null=True
+    )
 
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
     extra_info = models.TextField(blank=True, default='')
     pnr = models.CharField(max_length=20, blank=True, editable=False)
+
+    total_fare = models.PositiveIntegerField(blank=True, default=0)
+    fare_details = models.TextField(blank=True, default="{}")
+    distance = models.PositiveIntegerField(blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
