@@ -21,7 +21,7 @@ class PlaceAdmin(admin.ModelAdmin):
 @admin.register(Rate)
 class RateAdmin(admin.ModelAdmin):
     list_display = ('source', 'destination', 'vehicle_category',
-                    'oneway_price', 'driver_charge')
+                    'oneway_price', 'roundtrip_price')
     list_filter = ('vehicle_category',)
 
 

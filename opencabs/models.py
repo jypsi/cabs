@@ -28,7 +28,7 @@ class VehicleRateCategory(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField(max_length=200, blank=True, default='')
     category = models.ForeignKey(VehicleCategory)
-    features = models.ManyToManyField(VehicleFeature, blank=True, null=True)
+    features = models.ManyToManyField(VehicleFeature, blank=True)
     tariff_per_km = models.PositiveIntegerField()
     tariff_after_hours = models.PositiveIntegerField()
 
@@ -58,7 +58,13 @@ class Rate(models.Model):
                                          on_delete=models.CASCADE,
                                          related_name='rate')
     oneway_price = models.PositiveIntegerField()
-    driver_charge = models.PositiveIntegerField()
+    oneway_distance = models.PositiveIntegerField()
+    oneway_driver_charge = models.PositiveIntegerField()
+
+    roundtrip_price = models.PositiveIntegerField(blank=True, default=0)
+    roundtrip_distance = models.PositiveIntegerField(blank=True, default=0)
+    roundtrip_driver_charge = models.PositiveIntegerField(
+        blank=True, default=0)
 
     code = models.CharField(max_length=100, editable=False, blank=True)
 
@@ -71,6 +77,12 @@ class Rate(models.Model):
     def save(self, *args, **kwargs):
         self.code = settings.ROUTE_CODE_FUNC(
             self.source.name, self.destination.name)
+        if not self.roundtrip_price:
+            self.roundtrip_price = 2 * self.oneway_price
+        if not self.roundtrip_driver_charge:
+            self.roundtrip_driver_charge = 2 * self.oneway_driver_charge
+        if not self.roundtrip_distance:
+            self.roundtrip_distance = 2 * self.roundtrip_distance
         super().save(*args, **kwargs)
 
 
@@ -106,7 +118,7 @@ class Booking(models.Model):
     destination = models.ForeignKey(Place, on_delete=models.CASCADE,
                                     related_name='booking_destination')
     booking_type = models.CharField(choices=(('OW', 'One way'),
-                                             # ('RE', 'Rental')
+                                             ('RT', 'Round trip')
                                              ),
                                     max_length=2)
     travel_datetime = models.DateTimeField()

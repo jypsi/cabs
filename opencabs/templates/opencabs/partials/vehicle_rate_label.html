@@ -3,7 +3,7 @@
         <span class="col-md-10 col-sm-8 col-xs-6">
             {{ rate.vehicle_category.name }}
         </span>
-        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {{ rate.oneway_price }}</span>
+        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {% if booking_type == 'OW' %}{{ rate.oneway_price }}{% elif booking_type == 'RT' %}{{ rate.roundtrip_price }}{% endif %}</span>
     </h3>
 
     <div class="clearfix"></div>
@@ -12,13 +12,10 @@
         <strong>Features: </strong>
         {% for i in rate.vehicle_category.features.all %} {{ i.name }} .{% empty %} -- {% endfor %}
 
-        <strong>Rate: </strong>
+        <strong>Extra distance charges: </strong>
         Rs. {{ rate.vehicle_category.tariff_per_km }}/km
 
-        <strong>After hours charges: </strong>
+        <strong>Extra after hours charges: </strong>
         Rs. {{ rate.vehicle_category.tariff_after_hours }}
-
-        <strong>Driver charge: </strong>
-        Rs. {{ rate.driver_charge }}
     </div>
 </div>

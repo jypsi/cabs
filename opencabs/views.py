@@ -34,7 +34,8 @@ class BookingWizard(CookieWizardView):
         if step == 'vehicles':
             itinerary_data = self.get_cleaned_data_for_step('itinerary')
             data.update({'source': itinerary_data['source'],
-                         'destination': itinerary_data['destination']})
+                         'destination': itinerary_data['destination'],
+                         'booking_type': itinerary_data['booking_type']})
         return data
 
     def get_template_names(self):

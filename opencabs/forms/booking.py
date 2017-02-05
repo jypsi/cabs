@@ -28,6 +28,7 @@ class BookingVehiclesForm(BaseBookingForm):
     def __init__(self, *args, **kwargs):
         source = kwargs.pop('source')
         destination = kwargs.pop('destination')
+        booking_type = kwargs.pop('booking_type')
         super().__init__(*args, **kwargs)
         self.fields['vehicle_type'].widget = forms.RadioSelect()
         code = settings.ROUTE_CODE_FUNC(source.name, destination.name)
@@ -35,7 +36,7 @@ class BookingVehiclesForm(BaseBookingForm):
         for rate in Rate.objects.filter(code=code):
             label = render_to_string(
                 'opencabs/partials/vehicle_rate_label.html',
-                context={'rate': rate})
+                context={'rate': rate, 'booking_type': booking_type})
             choices.append((rate.vehicle_category_id, label))
         self.fields['vehicle_type'].choices = choices
         self.fields['vehicle_type'].widget.attrs = {'hidden': 'true'}
