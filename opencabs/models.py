@@ -17,7 +17,7 @@ class VehicleFeature(models.Model):
 
 
 class VehicleCategory(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, db_index=True)
     description = models.TextField(max_length=200, blank=True, default='')
 
     def __str__(self):
@@ -25,9 +25,9 @@ class VehicleCategory(models.Model):
 
 
 class VehicleRateCategory(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, db_index=True, unique=True)
     description = models.TextField(max_length=200, blank=True, default='')
-    category = models.ForeignKey(VehicleCategory)
+    category = models.ForeignKey(VehicleCategory, db_index=True)
     features = models.ManyToManyField(VehicleFeature, blank=True)
     tariff_per_km = models.PositiveIntegerField()
     tariff_after_hours = models.PositiveIntegerField()
@@ -35,12 +35,15 @@ class VehicleRateCategory(models.Model):
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
 
+    class Meta:
+        unique_together = ('name', 'category')
+
     def __str__(self):
         return self.name
 
 
 class Place(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, db_index=True, unique=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
@@ -56,7 +59,7 @@ class Rate(models.Model):
                                     related_name='rate_destination')
     vehicle_category = models.ForeignKey(VehicleRateCategory,
                                          on_delete=models.CASCADE,
-                                         related_name='rate')
+                                         related_name='rate', db_index=True)
     oneway_price = models.PositiveIntegerField()
     oneway_distance = models.PositiveIntegerField()
     oneway_driver_charge = models.PositiveIntegerField()
@@ -66,10 +69,14 @@ class Rate(models.Model):
     roundtrip_driver_charge = models.PositiveIntegerField(
         blank=True, default=0)
 
-    code = models.CharField(max_length=100, editable=False, blank=True)
+    code = models.CharField(max_length=100, editable=False, blank=True,
+                            db_index=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
+
+    class Meta:
+        unique_together = ('code', 'vehicle_category')
 
     def __str__(self):
         return '{}-{}'.format(self.source, self.destination)
@@ -87,16 +94,16 @@ class Rate(models.Model):
 
 
 class Driver(models.Model):
-    name = models.CharField(max_length=100)
-    mobile = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100, db_index=True)
+    mobile = models.CharField(max_length=20, unique=True, db_index=True)
 
     def __str__(self):
         return '{}/{}'.format(self.name, self.mobile)
 
 
 class Vehicle(models.Model):
-    name = models.CharField(max_length=100)
-    number = models.CharField(max_length=20)
+    name = models.CharField(max_length=100, db_index=True)
+    number = models.CharField(max_length=20, unique=True, db_index=True)
     category = models.ForeignKey(
         VehicleCategory,
         on_delete=models.CASCADE)
@@ -125,8 +132,8 @@ class Booking(models.Model):
     vehicle_type = models.ForeignKey(VehicleRateCategory,
                                      on_delete=models.CASCADE,
                                      related_name='booking')
-    customer_name = models.CharField(max_length=100)
-    customer_mobile = models.CharField(max_length=20)
+    customer_name = models.CharField(max_length=100, db_index=True)
+    customer_mobile = models.CharField(max_length=20, db_index=True)
 
     status = models.CharField(choices=(('0', 'Request'),
                                        ('1', 'Confirmed'),
@@ -147,7 +154,8 @@ class Booking(models.Model):
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
     extra_info = models.TextField(blank=True, default='')
-    pnr = models.CharField(max_length=20, blank=True, editable=False)
+    pnr = models.CharField(max_length=20, blank=True, editable=False,
+                           db_index=True, unique=True)
 
     total_fare = models.PositiveIntegerField(blank=True, default=0)
     fare_details = models.TextField(blank=True, default="{}")
