@@ -47,7 +47,7 @@ class BookingWizard(CookieWizardView):
         data.update(form_dict['contactinfo'].cleaned_data)
         booking = Booking(**data)
         booking.save()
-        return redirect(reverse('booking_details', args=[booking.pnr]))
+        return redirect(reverse('booking_details') + '?pnr=' + booking.pnr)
 
 booking_wizard = BookingWizard.as_view()
 
