@@ -1,0 +1,26 @@
+version: '2'
+services:
+  web:
+    build: .
+    # image: docker.io/rtnpro/opencabs:devel
+    command: bash -c 'python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000'
+    depends_on:
+      - db
+    volumes:
+      - ./:/src
+      - ./settings.compose.py:/src/opencabs/settings.py
+    expose:
+      - "8000"
+    ports:
+        - 127.0.0.1:8080:8000
+    environment:
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_PASS: postgres
+
+  db:
+    image: postgres:latest
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
