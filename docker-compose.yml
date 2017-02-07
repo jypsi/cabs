@@ -17,6 +17,7 @@ services:
       DB_USER: postgres
       DB_NAME: postgres
       DB_PASS: postgres
+    restart: on-failure
 
   db:
     image: postgres:latest
