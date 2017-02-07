@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -20,12 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3n&=-gv4u1i*8&kxnm=j-z1yg6@$rpc!&%-6==-4$@$5#&rymc'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', '3n&=-gv4u1i*8&kxnm=j-z1yg6@$rpc!&%-6==-4$@$5#&rymc')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get('DEBUG', '').lower() == 'true' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = json.loads(os.environ.get('ALLOWED_HOSTS', '[]'))
 
 
 # Application definition
@@ -137,11 +139,11 @@ INTERNAL_IPS = [
 ]
 
 # Opencabs
-URL_PREFIX = ""
-PROJECT_NAME = 'Opencabs'
-PROJECT_HEADER = 'Book your travel!'
-PROJECT_DESCRIPTION = ''
-PNR_PREFIX = 'OC'
+URL_PREFIX = os.environ.get('URL_PREFIX', "")
+PROJECT_NAME = os.environ.get('PROJECT_NAME', 'Opencabs')
+PROJECT_HEADER = os.environ.get('PROJECT_HEADER', 'Book your travel!')
+PROJECT_DESCRIPTION = os.environ.get('PROJECT_DESCRIPTION', '')
+PNR_PREFIX = os.environ.get('PNR_PREFIX', 'OC')
 ROUTE_CODE_FUNC = lambda a, b: '%s-%s' % (a, b) if a > b else '%s-%s' % (b, a)
-CONTACT_PHONE = '123-456-6789'
-CONTACT_EMAIL = 'your-email@your-domain.com'
+CONTACT_PHONE = os.environ.get('CONTACT_PHONE', '123-456-6789')
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'your-email@your-domain.com')
