@@ -1,13 +1,12 @@
 FROM fedora
 
 RUN dnf -y update && dnf clean all
-RUN dnf -y install python3-pip
+RUN dnf -y install python3-pip gcc python3-devel redhat-rpm-config postgresql-devel
 
 ADD . /src
 
 WORKDIR /src
 RUN pip3 install -r requirements.txt
-RUN python3 manage.py migrate
 
 EXPOSE 8000
 
