@@ -9,6 +9,7 @@ services:
     volumes:
       - ./:/src
       - ./settings.compose.py:/src/opencabs/settings.py
+      - ./static:/static
     expose:
       - "8000"
     ports:
