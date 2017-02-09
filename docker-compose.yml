@@ -18,6 +18,7 @@ services:
       DB_USER: postgres
       DB_NAME: postgres
       DB_PASS: postgres
+      DEBUG: "True"
     restart: on-failure
 
   db:
