@@ -47,7 +47,8 @@ class BookingWizard(CookieWizardView):
         data.update(form_dict['contactinfo'].cleaned_data)
         booking = Booking(**data)
         booking.save()
-        return redirect(reverse('booking_details') + '?pnr=' + booking.pnr)
+        return redirect(
+            reverse('booking_details') + '?bookingid=' + booking.booking_id)
 
 booking_wizard = BookingWizard.as_view()
 
@@ -60,8 +61,8 @@ def index(request):
 
 
 def booking_details(request):
-    pnr = request.GET.get('pnr', '').upper()
-    booking = get_object_or_404(Booking, pnr=pnr)
+    booking_id = request.GET.get('bookingid', '').upper()
+    booking = get_object_or_404(Booking, booking_id=booking_id)
     return render(request, 'opencabs/booking_details.html', {
         'settings': settings,
         'booking': booking

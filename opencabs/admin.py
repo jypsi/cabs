@@ -6,11 +6,11 @@ from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('pnr', 'customer_name', 'customer_mobile',
+    list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_datetime', 'vehicle', 'status')
     list_filter = ('booking_type', 'vehicle', 'status')
-    search_fields = ('pnr', 'customer_name', 'customer_mobile')
+    search_fields = ('booking_id', 'customer_name', 'customer_mobile')
 
 
 @admin.register(Place)

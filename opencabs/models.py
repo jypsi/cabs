@@ -154,8 +154,8 @@ class Booking(models.Model):
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
     extra_info = models.TextField(blank=True, default='')
-    pnr = models.CharField(max_length=20, blank=True, editable=False,
-                           db_index=True, unique=True)
+    booking_id = models.CharField(max_length=20, blank=True, editable=False,
+                                  db_index=True, unique=True)
 
     total_fare = models.PositiveIntegerField(blank=True, default=0)
     fare_details = models.TextField(blank=True, default="{}")
@@ -165,20 +165,20 @@ class Booking(models.Model):
     last_updated = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
-        return self.pnr
+        return self.booking_id
 
     def save(self, *args, **kwargs):
-        if not self.pnr:
-            self.pnr = self._create_pnr()
+        if not self.booking_id:
+            self.booking_id = self._create_booking_id()
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
         super().save(*args, **kwargs)
 
-    def _create_pnr(self):
+    def _create_booking_id(self):
         text = '{}-{}-{}-{}-{}-{}-{}-{}'.format(
             self.source, self.destination, self.booking_type,
             self.travel_datetime, self.vehicle,
             self.customer_name, self.customer_mobile,
             uuid.uuid1())
-        return (settings.PNR_PREFIX + md5(
+        return (settings.BOOKING_ID_PREFIX + md5(
             text.encode('utf-8')).hexdigest()[:8]).upper()
