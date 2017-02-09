@@ -61,7 +61,7 @@ class Rate(models.Model):
                                          on_delete=models.CASCADE,
                                          related_name='rate', db_index=True)
     oneway_price = models.PositiveIntegerField()
-    oneway_distance = models.PositiveIntegerField()
+    oneway_distance = models.PositiveIntegerField(default=0, blank=True)
     oneway_driver_charge = models.PositiveIntegerField()
 
     roundtrip_price = models.PositiveIntegerField(blank=True, default=0)
