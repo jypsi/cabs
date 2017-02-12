@@ -125,6 +125,7 @@ class Booking(models.Model):
                                related_name='booking_source')
     destination = models.ForeignKey(Place, on_delete=models.CASCADE,
                                     related_name='booking_destination')
+    pickup_point = models.TextField(max_length=200, blank=True, default="")
     booking_type = models.CharField(choices=(('OW', 'One way'),
                                              ('RT', 'Round trip')
                                              ),
