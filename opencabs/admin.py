@@ -29,6 +29,24 @@ class BookingAdmin(admin.ModelAdmin):
                 ).format(obj.booking_id)
             send_sms([form.cleaned_data['customer_mobile']], msg)
 
+        if ('vehicle' in form.changed_data or
+                'driver' in form.changed_data or
+                'extra_info' in form.changed_data):
+            msg = ("Trip details for booking ID: {}\n"
+                   "Datetime: {}\n").format(
+                       obj.booking_id,
+                       obj.travel_datetime.strftime('%d %b, %Y %I:%M %p')
+                   )
+            if obj.vehicle and obj.driver:
+                msg += (
+                    "Vehicle: {} ({})\n"
+                    "Driver: {}, {}"
+                ).format(obj.vehicle.name, obj.vehicle.number,
+                         obj.driver.name, obj.driver.mobile)
+            else:
+                msg += obj.extra_info or ""
+            send_sms([form.cleaned_data['customer_mobile']], msg)
+
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
