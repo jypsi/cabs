@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+import json
 import uuid
 from hashlib import md5
 
@@ -172,6 +173,20 @@ class Booking(models.Model):
             self.booking_id = self._create_booking_id()
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
+        rate = self.vehicle_type.rate.get(
+            code=settings.ROUTE_CODE_FUNC(self.source.name,
+                                          self.destination.name))
+        fare_details = {
+            'tariff_per_km': self.vehicle_type.tariff_per_km,
+            'after_hour_charges': self.vehicle_type.tariff_after_hours,
+            'price': (rate.oneway_price if self.booking_type == 'OW' else
+                      rate.roundtrip_price),
+            'driver_charge': (rate.oneway_driver_charge
+                              if self.booking_type == 'OW' else
+                              rate.roundtrip_driver_charge)
+        }
+        self.total_fare = fare_details['price']
+        self.fare_details = json.dumps(fare_details)
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
