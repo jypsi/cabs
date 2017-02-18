@@ -25,7 +25,9 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', '3n&=-gv4u1i*8&kxnm=j-z1yg6@$rpc!&%-6==-4$@$5#&rymc')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get('DEBUG', '').lower() == 'true' else False
+DEBUG = True
+if os.environ.get('DEBUG', '').lower() == 'false':
+    DEBUG = False
 
 ALLOWED_HOSTS = json.loads(os.environ.get('ALLOWED_HOSTS', '[]'))
 
