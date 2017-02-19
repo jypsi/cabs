@@ -155,7 +155,20 @@
 $(function(){
     $('#traveldatetime-picker').datetimepicker({
         format: 'YYYY-MM-DD HH:mm'
-    }); 
+    });
+
+    $('#id_itinerary-source').on("change", function() {
+         $('#id_itinerary-destination option').show();
+         var value = $(this).val();
+         $('#id_itinerary-destination option[value="'+value+'"]').hide();
+    });
+
+    $('#id_itinerary-destination').on("change", function() {
+         $('#id_itinerary-source option').show();
+         var value = $(this).val();
+         $('#id_itinerary-source option[value="'+value+'"]').hide();
+    });
+
 });
 </script>
 {% endblock %}
