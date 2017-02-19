@@ -9,7 +9,7 @@ An open source web framework to manage cab services
 sudo dnf install docker docker-compose -y
 sudo systemctl enable docker; sudo systemctl start docker
 sudo chcon -Rt svirt_sandbox_file_t $(pwd)
-sudo docker-compsoe up
+sudo docker-compose up
 ```
 
 ### Using just Python on Fedora
