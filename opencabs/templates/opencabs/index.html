@@ -71,7 +71,30 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
+
         </div>
+
+
+
+<! lets paste div code from traveldate time picker >
+
+<div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
+            </div>
+
+           <div class="input-group date" id="traveldatetime-picker1">
+                {{ wizard.form.travel_datetime }}
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+</div>
+<! pasted code ends here>
+
+
+
+
 
         <div style="text-align: center; padding-top: 10px;">
             <input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
@@ -154,8 +177,18 @@
 <script type="text/javascript">
 $(function(){
     $('#traveldatetime-picker').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
+        format: 'LL'
     }); 
 });
+
+
+$(function(){
+    $('#traveldatetime-picker1').datetimepicker({
+        format: 'LT'
+    }); 
+});
+
+
+
 </script>
 {% endblock %}
