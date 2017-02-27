@@ -1,17 +1,26 @@
 from django.contrib import admin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
                      Vehicle, Driver, VehicleRateCategory)
 from .notification import send_sms
 
 
+class BookingResource(resources.ModelResource):
+
+    class Meta:
+        model = Booking
+
+
 @admin.register(Booking)
-class BookingAdmin(admin.ModelAdmin):
+class BookingAdmin(ImportExportModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_datetime', 'vehicle', 'status')
     list_filter = ('booking_type', 'vehicle', 'status')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile')
+    resource_class = BookingResource
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -46,6 +55,7 @@ class BookingAdmin(admin.ModelAdmin):
             else:
                 msg += obj.extra_info or ""
             send_sms([form.cleaned_data['customer_mobile']], msg)
+
 
 
 @admin.register(Place)
