@@ -136,6 +136,9 @@ class Booking(models.Model):
                                      related_name='booking')
     customer_name = models.CharField(max_length=100, db_index=True)
     customer_mobile = models.CharField(max_length=20, db_index=True)
+    ssr = models.TextField(verbose_name='Special service request',
+                           max_length=200, blank=True, default="",
+                           help_text="Special service request")
 
     status = models.CharField(choices=(('0', 'Request'),
                                        ('1', 'Confirmed'),

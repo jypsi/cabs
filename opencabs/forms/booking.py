@@ -45,4 +45,4 @@ class BookingVehiclesForm(BaseBookingForm):
 class BookingContactInfoForm(BaseBookingForm):
     class Meta:
         model = Booking
-        fields = ('customer_name', 'customer_mobile', 'pickup_point')
+        fields = ('customer_name', 'customer_mobile', 'pickup_point', 'ssr')
