@@ -65,7 +65,19 @@
             <div class="inline-label">
                 <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
             </div>
-            <div class="input-group date" id="traveldatetime-picker">
+            <div class="input-group date" id="traveldate-picker">
+                {{ wizard.form.travel_datetime }}
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="inline-label">
+                <label for="{{ wizard.form.travel_datetime.id_for_label }}">{{ wizard.form.travel_datetime.label }}</label>
+            </div>
+            <div class="input-group date" id="traveltime-picker">
                 {{ wizard.form.travel_datetime }}
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
@@ -153,8 +165,8 @@
 <script src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
 <script type="text/javascript">
 $(function(){
-    $('#traveldatetime-picker').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm'
+    $('#traveldate-picker').datetimepicker({
+        format: 'LL'
     });
 
     $('#id_itinerary-source').on("change", function() {
@@ -168,6 +180,11 @@ $(function(){
          var value = $(this).val();
          $('#id_itinerary-source option[value="'+value+'"]').hide();
     });
+
+    $('#traveltime-picker').datetimepicker({
+        format: 'LT'
+    });
+
 
 });
 </script>
