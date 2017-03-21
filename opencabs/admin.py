@@ -17,7 +17,7 @@ class BookingResource(resources.ModelResource):
 class BookingAdmin(ImportExportModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
-                    'travel_datetime', 'vehicle', 'status')
+                    'travel_date', 'travel_time', 'vehicle', 'status')
     list_filter = ('booking_type', 'vehicle', 'status')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile')
     resource_class = BookingResource
@@ -42,9 +42,10 @@ class BookingAdmin(ImportExportModelAdmin):
                 'driver' in form.changed_data or
                 'extra_info' in form.changed_data):
             msg = ("Trip details for booking ID: {}\n"
-                   "Datetime: {}\n").format(
+                   "Datetime: {} {}\n").format(
                        obj.booking_id,
-                       obj.travel_datetime.strftime('%d %b, %Y %I:%M %p')
+                       obj.travel_date.strftime('%d %b, %Y'),
+                       obj.travel_time.strftime('%I:%M %p')
                    )
             if obj.vehicle and obj.driver:
                 msg += (

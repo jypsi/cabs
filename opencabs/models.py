@@ -130,7 +130,8 @@ class Booking(models.Model):
                                              ('RT', 'Round trip')
                                              ),
                                     max_length=2)
-    travel_datetime = models.DateTimeField()
+    travel_date = models.DateField()
+    travel_time = models.TimeField()
     vehicle_type = models.ForeignKey(VehicleRateCategory,
                                      on_delete=models.CASCADE,
                                      related_name='booking')
@@ -194,9 +195,9 @@ class Booking(models.Model):
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
-        text = '{}-{}-{}-{}-{}-{}-{}-{}'.format(
+        text = '{}-{}-{}-{}-{}-{}-{}-{}-{}'.format(
             self.source, self.destination, self.booking_type,
-            self.travel_datetime, self.vehicle,
+            self.travel_date, self.travel_time, self.vehicle,
             self.customer_name, self.customer_mobile,
             uuid.uuid1())
         return (settings.BOOKING_ID_PREFIX + md5(
