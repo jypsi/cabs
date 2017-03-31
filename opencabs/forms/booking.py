@@ -17,7 +17,8 @@ class BookingTravelForm(BaseBookingForm):
     class Meta:
         model = Booking
         fields = (
-            'source', 'destination', 'booking_type', 'travel_datetime')
+            'source', 'destination', 'booking_type',
+            'travel_date', 'travel_time')
 
 
 class BookingVehiclesForm(BaseBookingForm):
