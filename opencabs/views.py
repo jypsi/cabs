@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.urls import reverse
+from django.core.mail import send_mail
 
 from formtools.wizard.views import CookieWizardView
 
@@ -49,11 +50,15 @@ class BookingWizard(CookieWizardView):
         booking = Booking(**data)
         booking.save()
         try:
-            send_sms([booking.customer_mobile],
-                     ("Dear customer,\n"
-                      "We've received your booking request with ID: {}\n"
-                      "You'll receive a notification when your booking "
-                      "is confirmed!").format(booking.booking_id))
+            msg = ("Dear customer,\n"
+                   "We've received your booking request with ID: {}\n"
+                   "You'll receive a notification when your booking "
+                   "is confirmed!").format(booking.booking_id)
+            if booking.customer_mobile:
+                send_sms([booking.customer_mobile], msg)
+            if booking.customer_email:
+                send_mail('Booking request received', msg,
+                          settings.FROM_EMAIL, [booking.customer_email])
         except Exception as e:
             print("SMS Error: %s" % e)
         return redirect(

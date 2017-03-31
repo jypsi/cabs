@@ -156,3 +156,9 @@ MSG91_AUTHKEY = os.environ.get('MSG91_AUTHKEY',
                                'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 MSG91_SENDER_ID = os.environ.get('MSG91_SENDER_ID', 'SOMEID')
 MSG91_ROUTE_ID = os.environ.get('MSG91_ROUTE_ID', 4)
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND',
+                               'django_mailgun.MailgunBackend')
+MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY', '')
+MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME', '')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@opencabs.org')

@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.core.mail import send_mail
+from django.conf import settings
+
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -27,17 +30,25 @@ class BookingAdmin(ImportExportModelAdmin):
         super().save_model(request, obj, form, change)
         status = form.cleaned_data['status']
         if 'status' in form.changed_data:
+            subject = ''
             if status == '1':
                 msg = (
                     "Your booking with ID: {} has been confirmed.\n"
                     "You'll be notified about vehicle & driver details "
                     "a few hours before your trip."
                 ).format(obj.booking_id)
+                subject = 'Booking confirmed'
             elif status == '2':
                 msg = (
                     "Your booking with ID: {} has been declined."
                 ).format(obj.booking_id)
-            send_sms([form.cleaned_data['customer_mobile']], msg)
+                subject = 'Booking declined'
+            if form.cleaned_data.get('customer_mobile'):
+                send_sms([form.cleaned_data['customer_mobile']], msg)
+            if form.cleaned_data.get('customer_email'):
+                send_mail(subject, msg,
+                          settings.FROM_EMAIL,
+                          [form.cleaned_data['customer_email']])
 
         if ('vehicle' in form.changed_data or
                 'driver' in form.changed_data or
@@ -56,8 +67,12 @@ class BookingAdmin(ImportExportModelAdmin):
                          obj.driver.name, obj.driver.mobile)
             else:
                 msg += obj.extra_info or ""
-            send_sms([form.cleaned_data['customer_mobile']], msg)
-
+            if form.cleaned_data.get('customer_mobile'):
+                send_sms([form.cleaned_data['customer_mobile']], msg)
+            if form.cleaned_data.get('customer_email'):
+                send_mail('Trip details',
+                          msg, settings.FROM_EMAIL,
+                          [form.cleaned_data['customer_email']])
 
 
 @admin.register(Place)

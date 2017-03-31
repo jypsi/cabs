@@ -19,6 +19,7 @@ services:
       DB_NAME: postgres
       DB_PASS: postgres
       DEBUG: "True"
+      EMAIL_BACKEND: 'django.core.mail.backends.dummy.EmailBackend'
     restart: on-failure
 
   db:
