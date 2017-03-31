@@ -18,8 +18,9 @@ class BookingAdmin(ImportExportModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'vehicle', 'status')
-    list_filter = ('booking_type', 'vehicle', 'status')
-    search_fields = ('booking_id', 'customer_name', 'customer_mobile')
+    list_filter = ('booking_type', 'vehicle', 'status', 'travel_date')
+    search_fields = ('booking_id', 'customer_name', 'customer_mobile',
+                     'travel_date')
     resource_class = BookingResource
 
     def save_model(self, request, obj, form, change):
