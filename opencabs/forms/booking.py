@@ -46,4 +46,14 @@ class BookingVehiclesForm(BaseBookingForm):
 class BookingContactInfoForm(BaseBookingForm):
     class Meta:
         model = Booking
-        fields = ('customer_name', 'customer_mobile', 'pickup_point', 'ssr')
+        fields = ('customer_name', 'customer_mobile', 'customer_email',
+                  'pickup_point', 'ssr')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        customer_mobile = cleaned_data.get('customer_mobile')
+        customer_email = cleaned_data.get('customer_email')
+
+        if not customer_mobile and not customer_email:
+            raise forms.ValidationError(
+                'One of mobile and email is required.')

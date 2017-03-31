@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 import json
 import uuid
@@ -135,8 +136,12 @@ class Booking(models.Model):
     vehicle_type = models.ForeignKey(VehicleRateCategory,
                                      on_delete=models.CASCADE,
                                      related_name='booking')
-    customer_name = models.CharField(max_length=100, db_index=True)
-    customer_mobile = models.CharField(max_length=20, db_index=True)
+    customer_name = models.CharField(max_length=100, db_index=True,
+                                     verbose_name='Name')
+    customer_mobile = models.CharField(max_length=20, default='', blank=True,
+                                       db_index=True, verbose_name='Mobile')
+    customer_email = models.EmailField(default='', blank=True, db_index=True,
+                                       verbose_name='Email')
     ssr = models.TextField(verbose_name='Special service request',
                            max_length=200, blank=True, default="",
                            help_text="Special service request")
@@ -174,6 +179,9 @@ class Booking(models.Model):
         return self.booking_id
 
     def save(self, *args, **kwargs):
+        if not self.customer_email and not self.customer_mobile:
+            raise ValidationError('Either of customer email and mobile is '
+                                  'mandatory.')
         if not self.booking_id:
             self.booking_id = self._create_booking_id()
         if self.vehicle and not self.driver:

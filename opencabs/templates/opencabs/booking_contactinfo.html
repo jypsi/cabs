@@ -6,22 +6,18 @@
         <h2>Enter your contact info!</h2>
         <form class="form-horizontal" action="" method="post" style="text-align: left;">{% csrf_token %}
             {{ wizard.management_form }}
-            <div class="form-group">
-                <label for="{{ wizard.form.customer_name.id_for_label }}">Name</label>
-                {{ wizard.form.customer_name }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.customer_mobile.id_for_label }}">Mobile</label>
-                {{ wizard.form.customer_mobile }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.pickup_point.id_for_label }}">Pickup address</label>
-                {{ wizard.form.pickup_point }}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.ssr.id_for_label }}">Special service request</label>
-                {{ wizard.form.ssr }}
-            </div>
+            {% for error in wizard.form.non_field_errors %}
+                <span class="help-block">{{ error }}</span>
+            {% endfor %}
+            {% for field in wizard.form %}
+            <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
             <input class="btn btn-primary" type="submit" value="Book"></input>
         </form>
     </div>
