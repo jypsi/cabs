@@ -48,6 +48,10 @@ class BookingContactInfoForm(BaseBookingForm):
         model = Booking
         fields = ('customer_name', 'customer_mobile', 'customer_email',
                   'pickup_point', 'ssr')
+        widgets = {
+            'pickup_point': forms.Textarea(attrs={'rows': 3}),
+            'ssr': forms.Textarea(attrs={'rows': 3})
+        }
 
     def clean(self):
         cleaned_data = super().clean()

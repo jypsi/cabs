@@ -1,25 +1,40 @@
 {% extends "base.html" %}
+{% load fieldsets %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6 col-sm-12 col-xs-12">
-        <h2>Enter your contact info!</h2>
-        <form class="form-horizontal" action="" method="post" style="text-align: left;">{% csrf_token %}
-            {{ wizard.management_form }}
-            {% for error in wizard.form.non_field_errors %}
-                <span class="help-block">{{ error }}</span>
-            {% endfor %}
-            {% for field in wizard.form %}
-            <div class="form-group {% if field.errors %}has-error{% endif %}">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-                    {% for error in field.errors %}
-                        <span class="help-block">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <input class="btn btn-primary" type="submit" value="Book"></input>
-        </form>
-    </div>
-</div>
+    <h2>Enter your contact info!</h2>
+    <form class="form-horizontal" action="" method="post" style="text-align: left;">{% csrf_token %}
+        {{ wizard.management_form }}
+        {% for error in wizard.form.non_field_errors %}
+            <span class="help-block">{{ error }}</span>
+        {% endfor %}
+        {% get_fieldset customer_name,customer_mobile,customer_email as col1_fields from wizard.form %}
+        {% get_fieldset pickup_point,ssr as col2_fields from wizard.form %}
+
+        <div class="row">
+            <div class="col-md-4">
+                {% for field in col1_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                {% for field in col2_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Book"></input>
+    </form>
 {% endblock %}
