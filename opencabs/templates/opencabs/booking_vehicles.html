@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Select your ride!</h2>
-<div class="panel">
+<div class="panel panel-default">
     <div class="panel-body">
         <form action="" method="post">{% csrf_token %}
             {{ wizard.management_form }}
@@ -12,7 +12,7 @@
                     {{ radio.choice_label }}
                 </div>
                 <div class="media-right">
-                    <label for="{{ radio.label_for_id }}" class="select-vehicle btn btn-default">
+                    <label for="{{ radio.label_for_id }}" class="select-vehicle btn btn-primary">
                         {{ radio.tag }} Select
                     </label>
                 </div>

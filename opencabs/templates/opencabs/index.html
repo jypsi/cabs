@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% load i18n %}
 {% load static %}
@@ -34,133 +34,158 @@
     </style>
 {% endblock %}
 
-{% block header_content_class %}index{% endblock %}
+{% block body_class %}index{% endblock %}
 
-{% block content %}
-    <h1 id="homeHeading">{{ settings.PROJECT_HEADER }}</h1>
-    <hr>
-    <p>{{ settings.PROJECT_DESCRIPTION }}</p>
+{% block content_container %}
+    <header>
+        <div class="header-content index">
+            <div class="header-content-inner">
+				<h1 id="homeHeading">{{ settings.PROJECT_HEADER }}</h1>
+				<hr>
+				<p>{{ settings.PROJECT_DESCRIPTION }}</p>
 
-    <form action="" method="post" class="form-inline">{% csrf_token %}
-        {{ wizard.management_form }}
-        <div class="form-group">
-            <div class="inline-label">
-                <label for="{{ wizard.form.source.id_for_label }}">{{ wizard.form.source.label }}</label>
-            </div>
-            {{ wizard.form.source }}
-        </div>
-        <div class="form-group">
-            <div class="inline-label">
-                <label for="{{ wizard.form.destination.id_for_label }}">{{ wizard.form.destination.label }}</label>
-            </div>
-            {{ wizard.form.destination }}
-        </div>
-        <div class="form-group">
-            <div class="inline-label">
-                <label for="{{ wizard.form.booking_type.id_for_label }}">{{ wizard.form.booking_type.label }}</label>
-            </div>
-            {{ wizard.form.booking_type }}
-        </div>
-        <div class="form-group">
-            <div class="inline-label">
-                <label for="{{ wizard.form.travel_date.id_for_label }}">{{ wizard.form.travel_date.label }}</label>
-            </div>
-            <div class="input-group date" id="traveldate-picker">
-                {{ wizard.form.travel_date }}
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-        </div>
+				<form action="" method="post" class="form-inline">{% csrf_token %}
+					{{ wizard.management_form }}
+					<div class="form-group">
+						<div class="inline-label">
+							<label for="{{ wizard.form.source.id_for_label }}">{{ wizard.form.source.label }}</label>
+						</div>
+						{{ wizard.form.source }}
+					</div>
+					<div class="form-group">
+						<div class="inline-label">
+							<label for="{{ wizard.form.destination.id_for_label }}">{{ wizard.form.destination.label }}</label>
+						</div>
+						{{ wizard.form.destination }}
+					</div>
+					<div class="form-group">
+						<div class="inline-label">
+							<label for="{{ wizard.form.booking_type.id_for_label }}">{{ wizard.form.booking_type.label }}</label>
+						</div>
+						{{ wizard.form.booking_type }}
+					</div>
+					<div class="form-group">
+						<div class="inline-label">
+							<label for="{{ wizard.form.travel_date.id_for_label }}">{{ wizard.form.travel_date.label }}</label>
+						</div>
+						<div class="input-group date" id="traveldate-picker">
+							{{ wizard.form.travel_date }}
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
 
-        <div class="form-group">
-            <div class="inline-label">
-                <label for="{{ wizard.form.travel_time.id_for_label }}">{{ wizard.form.travel_time.label }}</label>
-            </div>
-            <div class="input-group date" id="traveltime-picker">
-                {{ wizard.form.travel_time }}
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-time"></span>
-                </span>
-            </div>
-        </div>
+					<div class="form-group">
+						<div class="inline-label">
+							<label for="{{ wizard.form.travel_time.id_for_label }}">{{ wizard.form.travel_time.label }}</label>
+						</div>
+						<div class="input-group date" id="traveltime-picker">
+							{{ wizard.form.travel_time }}
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-time"></span>
+							</span>
+						</div>
+					</div>
 
-        <div style="text-align: center; padding-top: 10px;">
-            <input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
-        </div>
-    </form>
+					<div style="text-align: center; padding-top: 10px;">
+						<input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</header>
+	<section class="bg-primary" id="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2 text-center">
+					<h2 class="section-heading">An open source cab services management soluition!</h2>
+					<hr class="light">
+					<p class="text-faded">Host your own cab service and handle bookings and inventory management online.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% comment %}
+	<section id="features">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2 class="section-heading">Features</h2>
+					<hr class="primary">
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-magic text-primary sr-icons"></i>
+						<h3>Sturdy Templates</h3>
+						<p class="text-muted">Our templates are updated regularly so they don't break.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
+						<h3>Ready to Ship</h3>
+						<p class="text-muted">You can use this theme as is, or you can make changes!</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+						<h3>Up to Date</h3>
+						<p class="text-muted">We update dependencies to keep things fresh.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-heart text-primary sr-icons"></i>
+						<h3>Made with Love</h3>
+						<p class="text-muted">You have to make your websites with love these days!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endcomment %}
+
+	<aside class="bg-dark">
+		<div class="container text-center">
+			<div class="call-to-action">
+				<h2>Powered by Opencabs!</h2>
+				<a href="https://github.com/rtnpro/opencabs" class="btn btn-default btn-xl sr-button">Source code!</a>
+			</div>
+		</div>
+	</aside>
 {% endblock %}
 
 {% block footer %}
-<section class="bg-primary" id="about">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <h2 class="section-heading">An open source cab services management soluition!</h2>
-                <hr class="light">
-                <p class="text-faded">Host your own cab service and handle bookings and inventory management online.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% comment %}
-<section id="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Features</h2>
-                <hr class="primary">
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-magic text-primary sr-icons"></i>
-                    <h3>Sturdy Templates</h3>
-                    <p class="text-muted">Our templates are updated regularly so they don't break.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
-                    <h3>Ready to Ship</h3>
-                    <p class="text-muted">You can use this theme as is, or you can make changes!</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
-                    <h3>Up to Date</h3>
-                    <p class="text-muted">We update dependencies to keep things fresh.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 text-center">
-                <div class="service-box">
-                    <i class="fa fa-4x fa-heart text-primary sr-icons"></i>
-                    <h3>Made with Love</h3>
-                    <p class="text-muted">You have to make your websites with love these days!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% endcomment %}
-
-<aside class="bg-dark">
-    <div class="container text-center">
-        <div class="call-to-action">
-            <h2>Powered by Opencabs!</h2>
-            <a href="https://github.com/rtnpro/opencabs" class="btn btn-default btn-xl sr-button">Source code!</a>
-        </div>
-    </div>
-</aside>
-{{ block.super }}
+	<section id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2 text-center">
+					<h2 class="section-heading">Let's Get In Touch!</h2>
+					<hr class="primary">
+					<p>If you need any help, give us a call or send us an email and we will get back to you as soon as possible!</p>
+				</div>
+				<div class="col-lg-4 col-lg-offset-2 text-center">
+					<i class="fa fa-phone fa-3x sr-contact"></i>
+					<p>{{ settings.CONTACT_PHONE }}</p>
+				</div>
+				<div class="col-lg-4 text-center">
+					<i class="fa fa-envelope-o fa-3x sr-contact"></i>
+					<p><a href="mailto:{{ setting.CONTACT_EMAIL }}">{{ settings.CONTACT_EMAIL }}</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}
 
 {% block scripts %}
+{{ block.super }}
 <script src="{% static "js/moment.min.js" %}"></script>
 <script src="{% static "js/bootstrap-datetimepicker.min.js" %}"></script>
 <script type="text/javascript">
@@ -184,8 +209,6 @@ $(function(){
          var value = $(this).val();
          $('#id_itinerary-source option[value="'+value+'"]').hide();
     });
-
-
 });
 </script>
 {% endblock %}
