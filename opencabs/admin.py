@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db import models
+from django import forms
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -27,6 +29,37 @@ class BookingAdmin(ImportExportModelAdmin):
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('payment_due',)
+    formfield_overrides = {
+        models.TextField: {'widget': forms.Textarea(
+            attrs={'rows': 3, 'cols': 30})}
+    }
+    fieldsets = (
+        (
+            'Customer details', {
+                'fields': (
+                    ('customer_name', 'customer_mobile', 'customer_email'),
+                    ('pickup_point', 'ssr')
+                ),
+            }
+        ),
+        (
+            'Travel details', {
+                'fields': (
+                    ('source', 'destination', 'travel_date', 'travel_time'),
+                    ('booking_type', 'vehicle_type', 'vehicle', 'driver'),
+                    ('status', 'extra_info', 'distance')
+                )
+            }
+        ),
+        (
+            'Payment details', {
+                'fields': (
+                    ('total_fare', 'payment_done', 'payment_due'),
+                    ('payment_status', 'payment_mode', 'fare_details')
+                )
+            }
+        )
+    )
     resource_class = BookingResource
 
     def save_model(self, request, obj, form, change):
