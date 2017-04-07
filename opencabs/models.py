@@ -161,6 +161,8 @@ class Booking(models.Model):
             ('CA', 'Cash'),
         ), max_length=2, blank=True, null=True
     )
+    payment_done = models.PositiveIntegerField(blank=True, default=0)
+    payment_due = models.PositiveIntegerField(blank=True, default=0)
 
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
@@ -199,6 +201,7 @@ class Booking(models.Model):
                               rate.roundtrip_driver_charge)
         }
         self.total_fare = fare_details['price']
+        self.payment_due = self.total_fare - self.payment_done
         self.fare_details = json.dumps(fare_details)
         super().save(*args, **kwargs)
 
