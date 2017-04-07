@@ -153,12 +153,14 @@ class Booking(models.Model):
                               default='0')
     payment_status = models.CharField(
         choices=(
-            ('REC', 'Received'),
-            ('DUE', 'Due')
+            ('NP', 'Not paid'),
+            ('PR', 'Partial'),
+            ('PD', 'Paid'),
         ), max_length=3, blank=True, null=True)
     payment_mode = models.CharField(
         choices=(
             ('CA', 'Cash'),
+            ('BT', 'Bank Transfer')
         ), max_length=2, blank=True, null=True
     )
     payment_done = models.PositiveIntegerField(blank=True, default=0)
