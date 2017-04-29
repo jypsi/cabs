@@ -40,7 +40,7 @@ class BookingAdmin(ImportExportModelAdmin):
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
-                       'payment_status', 'fare_details')
+                       'payment_status', 'fare_details', 'revenue')
     formfield_overrides = {
         models.TextField: {'widget': forms.Textarea(
             attrs={'rows': 3, 'cols': 30})}
@@ -67,7 +67,7 @@ class BookingAdmin(ImportExportModelAdmin):
         (
             'Payment details', {
                 'fields': (
-                    ('total_fare', 'payment_done', 'payment_due'),
+                    ('total_fare', 'payment_done', 'payment_due', 'revenue'),
                     ('payment_status', 'fare_details'),
                     ('paid_to_driver', 'driver_invoice_id')
                 )

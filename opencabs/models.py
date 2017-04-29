@@ -162,6 +162,7 @@ class Booking(models.Model):
         ), max_length=3, blank=True, null=True, default='NP')
     payment_done = models.PositiveIntegerField(blank=True, default=0)
     payment_due = models.PositiveIntegerField(blank=True, default=0)
+    revenue = models.PositiveIntegerField(blank=True, default=0)
     payments = GenericRelation(Payment,
                                content_type_field='item_content_type',
                                object_id_field='item_object_id',
@@ -227,13 +228,23 @@ class Booking(models.Model):
 
     def update_payment_summary(self):
         payment_done = 0
+        expenses = 0
+
         for payment in self.payments.all():
-            payment_done += (payment.type * payment.amount.amount)
-        self.payment_due = self.total_fare - payment_done
+            if payment.type == 1:
+                payment_done += payment.amount.amount
+            else:
+                expenses += payment.amount.amount
+
+        self.payment_done = payment_done
+        self.payment_due = self.total_fare - self.payment_done
         if self.payment_due > 0:
             self.payment_status = 'PR'
         else:
             self.payment_status = 'PD'
+
+        self.revenue = payment_done - expenses
+
         self.save()
 
     def pay_to_driver(self):
