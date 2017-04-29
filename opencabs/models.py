@@ -187,26 +187,27 @@ class Booking(models.Model):
         if not self.customer_email and not self.customer_mobile:
             raise ValidationError('Either of customer email and mobile is '
                                   'mandatory.')
-        if not self.booking_id:
-            self.booking_id = self._create_booking_id()
-        if self.vehicle and not self.driver:
-            self.driver = self.vehicle.driver
-        rate = self.vehicle_type.rate.get(
-            code=settings.ROUTE_CODE_FUNC(self.source.name,
-                                          self.destination.name))
-        fare_details = {
-            'tariff_per_km': self.vehicle_type.tariff_per_km,
-            'after_hour_charges': self.vehicle_type.tariff_after_hours,
-            'price': (rate.oneway_price if self.booking_type == 'OW' else
-                      rate.roundtrip_price),
-            'driver_charge': (rate.oneway_driver_charge
-                              if self.booking_type == 'OW' else
-                              rate.roundtrip_driver_charge)
-        }
-        self.total_fare = fare_details['price']
         if self.id is None:
+            self.booking_id = self._create_booking_id()
+            rate = self.vehicle_type.rate.get(
+                code=settings.ROUTE_CODE_FUNC(self.source.name,
+                                              self.destination.name))
+            fare_details = {
+                'tariff_per_km': self.vehicle_type.tariff_per_km,
+                'after_hour_charges': self.vehicle_type.tariff_after_hours,
+                'price': (rate.oneway_price if self.booking_type == 'OW' else
+                          rate.roundtrip_price),
+                'driver_charge': (rate.oneway_driver_charge
+                                  if self.booking_type == 'OW' else
+                                  rate.roundtrip_driver_charge)
+            }
+            self.total_fare = fare_details['price']
             self.payment_due = self.total_fare - self.payment_done
             self.fare_details = json.dumps(fare_details)
+
+        if self.vehicle and not self.driver:
+            self.driver = self.vehicle.driver
+
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
