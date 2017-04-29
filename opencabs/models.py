@@ -163,12 +163,15 @@ class Booking(models.Model):
     payment_done = models.PositiveIntegerField(blank=True, default=0)
     payment_due = models.PositiveIntegerField(blank=True, default=0)
     revenue = models.PositiveIntegerField(blank=True, default=0)
+    last_payment_date = models.DateTimeField(blank=True, null=True)
+    accounts_verified = models.BooleanField(default=False, db_index=True)
     payments = GenericRelation(Payment,
                                content_type_field='item_content_type',
                                object_id_field='item_object_id',
                                related_query_name='bookings')
 
-    paid_to_driver = models.BooleanField(default=False)
+    driver_paid = models.BooleanField(default=False)
+    driver_pay = models.PositiveIntegerField(blank=True, default=0)
     driver_invoice_id = models.CharField(max_length=50, blank=True)
 
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
@@ -212,7 +215,7 @@ class Booking(models.Model):
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
 
-        if self.id and self.paid_to_driver:
+        if self.id and self.driver_paid:
             self.pay_to_driver()
 
         super().save(*args, **kwargs)
@@ -229,13 +232,16 @@ class Booking(models.Model):
     def update_payment_summary(self):
         payment_done = 0
         expenses = 0
+        last_payment_date = None
 
-        for payment in self.payments.all():
+        for payment in self.payments.all().order_by('timestamp'):
             if payment.type == 1:
                 payment_done += payment.amount.amount
             else:
                 expenses += payment.amount.amount
+            last_payment_date = payment.timestamp
 
+        self.last_payment_date = last_payment_date
         self.payment_done = payment_done
         self.payment_due = self.total_fare - self.payment_done
         if self.payment_due > 0:
@@ -261,4 +267,5 @@ class Booking(models.Model):
                 'type': -1
             }
         )
+        self.driver_pay = fare_details['driver_charge']
         self.driver_invoice_id = payment.invoice_id

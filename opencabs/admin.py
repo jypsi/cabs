@@ -35,12 +35,13 @@ class BookingAdmin(ImportExportModelAdmin):
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'vehicle', 'status',
                     'total_fare', 'payment_done', 'payment_status',
-                    'payment_due', 'paid_to_driver')
+                    'payment_due', 'driver_paid', 'driver_pay')
     list_filter = ('booking_type', 'vehicle', 'status', 'travel_date')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
-                       'payment_status', 'fare_details', 'revenue')
+                       'payment_status', 'fare_details', 'revenue',
+                       'last_payment_date', 'driver_pay')
     formfield_overrides = {
         models.TextField: {'widget': forms.Textarea(
             attrs={'rows': 3, 'cols': 30})}
@@ -68,8 +69,8 @@ class BookingAdmin(ImportExportModelAdmin):
             'Payment details', {
                 'fields': (
                     ('total_fare', 'payment_done', 'payment_due', 'revenue'),
-                    ('payment_status', 'fare_details'),
-                    ('paid_to_driver', 'driver_invoice_id')
+                    ('last_payment_date', 'payment_status', 'fare_details'),
+                    ('driver_paid', 'driver_pay', 'driver_invoice_id')
                 )
             }
         )
@@ -79,8 +80,8 @@ class BookingAdmin(ImportExportModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = self.readonly_fields
         if obj:
-            if obj.paid_to_driver:
-                readonly_fields += ('paid_to_driver', 'driver_invoice_id')
+            if obj.driver_paid:
+                readonly_fields += ('driver_paid', 'driver_invoice_id')
         return readonly_fields
 
     def save_model(self, request, obj, form, change):
@@ -130,6 +131,26 @@ class BookingAdmin(ImportExportModelAdmin):
                 send_mail('Trip details',
                           msg, settings.FROM_EMAIL,
                           [form.cleaned_data['customer_email']])
+
+
+class Account(Booking):
+    class Meta:
+        proxy = True
+
+
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ('booking_id', 'accounts_verified', 'payment_done',
+                    'last_payment_date', 'revenue', 'driver_pay',
+                    'driver_invoice_id')
+    list_editable = ('accounts_verified',)
+    fields = ('booking_id', 'accounts_verified', 'payment_done',
+              'last_payment_date', 'revenue', 'driver_pay',
+              'driver_invoice_id')
+    readonly_fields = ('booking_id', 'payment_done',
+                       'last_payment_date', 'revenue', 'driver_pay',
+                       'driver_invoice_id')
+    list_filter = ('accounts_verified',)
 
 
 @admin.register(Place)
