@@ -3,10 +3,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db import models
 from django import forms
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+from finance.models import Payment
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
                      Vehicle, Driver, VehicleRateCategory)
 from .notification import send_sms
@@ -16,6 +18,15 @@ class BookingResource(resources.ModelResource):
 
     class Meta:
         model = Booking
+
+
+class PaymentInline(GenericTabularInline):
+    model = Payment
+    extra = 1
+    ct_field = 'item_content_type'
+    ct_fk_field = 'item_object_id'
+    readonly_fields = ('invoice_id', )
+    can_delete = False
 
 
 @admin.register(Booking)
@@ -28,11 +39,13 @@ class BookingAdmin(ImportExportModelAdmin):
     list_filter = ('booking_type', 'vehicle', 'status', 'travel_date')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
-    readonly_fields = ('payment_due',)
+    readonly_fields = ('total_fare', 'payment_due', 'payment_done',
+                       'payment_status', 'fare_details')
     formfield_overrides = {
         models.TextField: {'widget': forms.Textarea(
             attrs={'rows': 3, 'cols': 30})}
     }
+    inlines = (PaymentInline,)
     fieldsets = (
         (
             'Customer details', {
@@ -55,7 +68,7 @@ class BookingAdmin(ImportExportModelAdmin):
             'Payment details', {
                 'fields': (
                     ('total_fare', 'payment_done', 'payment_due'),
-                    ('payment_status', 'payment_mode', 'fare_details')
+                    ('payment_status', 'fare_details'),
                 )
             }
         )

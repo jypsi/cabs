@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'formtools',
     'import_export',
+    'djmoney',
 
-    'opencabs'
+    'opencabs',
+    'finance'
 ]
 
 MIDDLEWARE = [
@@ -162,3 +164,5 @@ EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND',
 MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY', '')
 MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME', '')
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@opencabs.org')
+
+INVOICE_ID_PREFIX = os.environ.get('INVOICE_ID_PREFIX', 'OCV')

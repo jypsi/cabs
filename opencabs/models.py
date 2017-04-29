@@ -1,6 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
+
+from finance.models import Payment
 
 import json
 import uuid
@@ -156,15 +159,13 @@ class Booking(models.Model):
             ('NP', 'Not paid'),
             ('PR', 'Partial'),
             ('PD', 'Paid'),
-        ), max_length=3, blank=True, null=True)
-    payment_mode = models.CharField(
-        choices=(
-            ('CA', 'Cash'),
-            ('BT', 'Bank Transfer')
-        ), max_length=2, blank=True, null=True
-    )
+        ), max_length=3, blank=True, null=True, default='NP')
     payment_done = models.PositiveIntegerField(blank=True, default=0)
     payment_due = models.PositiveIntegerField(blank=True, default=0)
+    payments = GenericRelation(Payment,
+                               content_type_field='item_content_type',
+                               object_id_field='item_object_id',
+                               related_query_name='bookings')
 
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
@@ -203,8 +204,9 @@ class Booking(models.Model):
                               rate.roundtrip_driver_charge)
         }
         self.total_fare = fare_details['price']
-        self.payment_due = self.total_fare - self.payment_done
-        self.fare_details = json.dumps(fare_details)
+        if self.id is None:
+            self.payment_due = self.total_fare - self.payment_done
+            self.fare_details = json.dumps(fare_details)
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
@@ -215,3 +217,14 @@ class Booking(models.Model):
             uuid.uuid1())
         return (settings.BOOKING_ID_PREFIX + md5(
             text.encode('utf-8')).hexdigest()[:8]).upper()
+
+    def update_payment_summary(self):
+        payment_done = 0
+        for payment in self.payments.all():
+            payment_done += (payment.type * payment.amount.amount)
+        self.payment_due = self.total_fare - payment_done
+        if self.payment_due > 0:
+            self.payment_status = 'PR'
+        else:
+            self.payment_status = 'PD'
+        self.save()
