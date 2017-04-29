@@ -35,7 +35,7 @@ class BookingAdmin(ImportExportModelAdmin):
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'vehicle', 'status',
                     'total_fare', 'payment_done', 'payment_status',
-                    'payment_due')
+                    'payment_due', 'paid_to_driver')
     list_filter = ('booking_type', 'vehicle', 'status', 'travel_date')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
@@ -69,11 +69,19 @@ class BookingAdmin(ImportExportModelAdmin):
                 'fields': (
                     ('total_fare', 'payment_done', 'payment_due'),
                     ('payment_status', 'fare_details'),
+                    ('paid_to_driver', 'driver_invoice_id')
                 )
             }
         )
     )
     resource_class = BookingResource
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = self.readonly_fields
+        if obj:
+            if obj.paid_to_driver:
+                readonly_fields += ('paid_to_driver', 'driver_invoice_id')
+        return readonly_fields
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

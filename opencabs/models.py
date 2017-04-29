@@ -167,6 +167,9 @@ class Booking(models.Model):
                                object_id_field='item_object_id',
                                related_query_name='bookings')
 
+    paid_to_driver = models.BooleanField(default=False)
+    driver_invoice_id = models.CharField(max_length=50, blank=True)
+
     vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
     driver = models.ForeignKey(Driver, blank=True, null=True)
     extra_info = models.TextField(blank=True, default='')
@@ -208,6 +211,9 @@ class Booking(models.Model):
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
 
+        if self.id and self.paid_to_driver:
+            self.pay_to_driver()
+
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
@@ -229,3 +235,19 @@ class Booking(models.Model):
         else:
             self.payment_status = 'PD'
         self.save()
+
+    def pay_to_driver(self):
+        fare_details = json.loads(self.fare_details)
+        payment, created = Payment.objects.get_or_create(
+            item_content_type__app_label='opencabs',
+            item_content_type__model='booking',
+            item_object_id=self.id,
+            comment__startswith='Paid to driver',
+            defaults={
+                'item_object': self,
+                'amount': fare_details['driver_charge'],
+                'comment': "Paid to driver: %s" % self.driver,
+                'type': -1
+            }
+        )
+        self.driver_invoice_id = payment.invoice_id
