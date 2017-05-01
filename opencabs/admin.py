@@ -7,17 +7,68 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from import_export import fields
 
 from finance.models import Payment
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
                      Vehicle, Driver, VehicleRateCategory)
+from .models import (BOOKING_TYPE_CHOICES_DICT,
+                     BOOKING_STATUS_CHOICES_DICT,
+                     BOOKING_PAYMENT_STATUS_CHOICES_DICT)
 from .notification import send_sms
 
 
 class BookingResource(resources.ModelResource):
+    booking_type = fields.Field()
+    source = fields.Field()
+    destination = fields.Field()
+    driver = fields.Field()
+    driver_paid = fields.Field()
+    vehicle_type = fields.Field()
+    status = fields.Field()
+    payment_status = fields.Field()
 
     class Meta:
         model = Booking
+        exclude = ('accounts_verified',)
+        export_order = ('id', 'booking_id', 'source', 'destination',
+                        'booking_type', 'customer_name', 'customer_mobile',
+                        'customer_email', 'created',
+                        'travel_date', 'travel_time',
+                        'pickup_point', 'ssr', 'status', 'vehicle_type',
+                        'vehicle', 'driver', 'extra_info',
+                        'total_fare',
+                        'payment_status', 'payment_done', 'payment_due',
+                        'driver_paid', 'driver_pay', 'driver_invoice_id',
+                        'fare_details'
+                        )
+
+    def dehydrate_driver(self, booking):
+        return str(booking.driver) if booking.driver else ''
+
+    def dehydrate_source(self, booking):
+        return booking.source.name
+
+    def dehydrate_destination(self, booking):
+        return booking.destination.name
+
+    def dehydrate_vehicle_type(self, booking):
+        return booking.vehicle_type.name
+
+    def dehydrate_vehicle(self, booking):
+        return str(booking.vehicle)
+
+    def dehydrate_driver_paid(self, booking):
+        return str(booking.driver_paid)
+
+    def dehydrate_status(self, booking):
+        return BOOKING_STATUS_CHOICES_DICT.get(booking.status)
+
+    def dehydrate_payment_status(self, booking):
+        return BOOKING_PAYMENT_STATUS_CHOICES_DICT.get(booking.payment_status)
+
+    def dehydrate_booking_type(self, booking):
+        return BOOKING_TYPE_CHOICES_DICT.get(booking.booking_type)
 
 
 class PaymentInline(GenericTabularInline):

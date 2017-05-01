@@ -125,10 +125,26 @@ class Vehicle(models.Model):
         return '{}/{}'.format(self.name, self.number)
 
 
-BOOKING_TYPE_CHOICES_DICT = OrderedDict({
-    'OW': 'One way',
-    'RT': 'Round trip'
-})
+BOOKING_TYPE_CHOICES_DICT = OrderedDict(
+    (
+        ('OW', 'One way'),
+        ('RT', 'Round trip')
+    )
+)
+BOOKING_STATUS_CHOICES_DICT = OrderedDict(
+    (
+        ('0', 'Request'),
+        ('1', 'Confirmed'),
+        ('2', 'Declined')
+    )
+)
+BOOKING_PAYMENT_STATUS_CHOICES_DICT = OrderedDict(
+    (
+        ('NP', 'Not paid'),
+        ('PR', 'Partial'),
+        ('PD', 'Paid'),
+    )
+)
 
 
 class Booking(models.Model):
@@ -154,17 +170,12 @@ class Booking(models.Model):
                            max_length=200, blank=True, default="",
                            help_text="Special service request")
 
-    status = models.CharField(choices=(('0', 'Request'),
-                                       ('1', 'Confirmed'),
-                                       ('2', 'Declined')),
+    status = models.CharField(choices=BOOKING_STATUS_CHOICES_DICT.items(),
                               max_length=1,
                               default='0')
     payment_status = models.CharField(
-        choices=(
-            ('NP', 'Not paid'),
-            ('PR', 'Partial'),
-            ('PD', 'Paid'),
-        ), max_length=3, blank=True, null=True, default='NP')
+        choices=BOOKING_PAYMENT_STATUS_CHOICES_DICT.items(), max_length=3,
+        blank=True, null=True, default='NP')
     payment_done = models.PositiveIntegerField(blank=True, default=0)
     payment_due = models.PositiveIntegerField(blank=True, default=0)
     revenue = models.PositiveIntegerField(blank=True, default=0)
