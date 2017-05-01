@@ -133,6 +133,28 @@ class BookingAdmin(ImportExportModelAdmin):
                           msg, settings.FROM_EMAIL,
                           [form.cleaned_data['customer_email']])
 
+        if 'driver' in form.changed_data:
+            if obj.driver:
+                msg = (
+                    "Trip details for {booking_id}\n"
+                    "{customer_name}, {customer_mobile}\n"
+                    "on {travel_datetime}\n"
+                    "from {source} to {destination}, "
+                    "{booking_type_display}\n"
+                    "Pickup: {pickup_point}"
+                ).format(
+                    booking_id=obj.booking_id,
+                    customer_name=obj.customer_name,
+                    customer_mobile=obj.customer_mobile,
+                    travel_datetime='{} {}'.format(
+                       obj.travel_date.strftime('%d %b, %Y'),
+                       obj.travel_time.strftime('%I:%M %p')),
+                    source=obj.source, destination=obj.destination,
+                    booking_type_display=obj.booking_type_display,
+                    pickup_point=obj.pickup_point
+                )
+                send_sms(obj.driver.mobile, msg)
+
 
 class Account(Booking):
     class Meta:

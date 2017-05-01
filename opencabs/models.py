@@ -8,6 +8,7 @@ from finance.models import Payment
 import json
 import uuid
 from hashlib import md5
+from collections import OrderedDict
 
 
 class VehicleFeature(models.Model):
@@ -124,15 +125,19 @@ class Vehicle(models.Model):
         return '{}/{}'.format(self.name, self.number)
 
 
+BOOKING_TYPE_CHOICES_DICT = OrderedDict({
+    'OW': 'One way',
+    'RT': 'Round trip'
+})
+
+
 class Booking(models.Model):
     source = models.ForeignKey(Place, on_delete=models.CASCADE,
                                related_name='booking_source')
     destination = models.ForeignKey(Place, on_delete=models.CASCADE,
                                     related_name='booking_destination')
     pickup_point = models.TextField(max_length=200, blank=True, default="")
-    booking_type = models.CharField(choices=(('OW', 'One way'),
-                                             ('RT', 'Round trip')
-                                             ),
+    booking_type = models.CharField(choices=BOOKING_TYPE_CHOICES_DICT.items(),
                                     max_length=2)
     travel_date = models.DateField()
     travel_time = models.TimeField()
@@ -189,6 +194,10 @@ class Booking(models.Model):
 
     def __str__(self):
         return self.booking_id
+
+    @property
+    def booking_type_display(self):
+        return BOOKING_TYPE_CHOICES_DICT.get(self.booking_type)
 
     def save(self, *args, **kwargs):
         if not self.customer_email and not self.customer_mobile:
