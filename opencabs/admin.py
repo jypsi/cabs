@@ -33,10 +33,11 @@ class PaymentInline(GenericTabularInline):
 class BookingAdmin(ImportExportModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
-                    'travel_date', 'travel_time', 'vehicle', 'status',
-                    'total_fare', 'payment_done', 'payment_status',
+                    'travel_date', 'travel_time', 'created', 'vehicle',
+                    'status', 'total_fare', 'payment_done', 'payment_status',
                     'payment_due', 'driver_paid', 'driver_pay')
-    list_filter = ('booking_type', 'vehicle', 'status', 'travel_date')
+    list_filter = ('booking_type', 'vehicle', 'status', 'travel_date',
+                   'created')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
