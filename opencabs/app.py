@@ -7,4 +7,4 @@ class OpencabsConfig(AppConfig):
     verbose_name = _('opencabs')
 
     def ready(self):
-        import opencabs.signals # noqa
+        import opencabs.signals  # noqa
