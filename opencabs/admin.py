@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 from import_export import resources
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ExportMixin
 from import_export import fields
 
 from finance.models import Payment
@@ -81,7 +81,7 @@ class PaymentInline(GenericTabularInline):
 
 
 @admin.register(Booking)
-class BookingAdmin(ImportExportModelAdmin):
+class BookingAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'created', 'vehicle',
