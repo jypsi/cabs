@@ -166,3 +166,19 @@ MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME', '')
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@opencabs.org')
 
 INVOICE_ID_PREFIX = os.environ.get('INVOICE_ID_PREFIX', 'OCV')
+
+TAXABLE_FIELD = 'price'
+TAXES = {
+    'CGST': {
+        'rate': os.environ.get('TAXES_CSGT_RATE', 0.05),
+        'label': os.environ.get('TAXES_CGST_LABEL', 'CGST')
+    },
+    'SGST': {
+        'rate': os.environ.get('TAXES_SGST_RATE', 0.05),
+        'label': os.environ.get('TAXES_SGST_LABEL', 'SGST')
+    }
+}
+EXTRA_TAXES_FROM_DATETIME = os.environ.get(
+    'EXTRA_TAXES_FROM_DATETIME', '2017-11-04 00:00:00')
+
+DATETIME_STR_FORMAT = '%Y-%m-%d %H:%M:%S'

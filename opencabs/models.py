@@ -2,12 +2,14 @@ from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
+from django.utils import timezone
 
 from finance.models import Payment
 
 import json
 import uuid
 from hashlib import md5
+from datetime import datetime
 from collections import OrderedDict
 
 
@@ -228,7 +230,19 @@ class Booking(models.Model):
                                   if self.booking_type == 'OW' else
                                   rate.roundtrip_driver_charge)
             }
-            self.total_fare = fare_details['price']
+            if timezone.now().timestamp() >= datetime.strptime(
+                    settings.EXTRA_TAXES_FROM_DATETIME,
+                    settings.DATETIME_STR_FORMAT).timestamp():
+                fare_details['taxes'] = {
+                    k: v['rate'] * fare_details[settings.TAXABLE_FIELD]
+                    for k, v in settings.TAXES.items()}
+                fare_details['taxes']['total'] = sum(
+                    [fare_details['taxes'][k] for k in settings.TAXES])
+                fare_details['total'] = fare_details['price'] + fare_details[
+                'taxes']['total']
+            else:
+                fare_details['total'] = fare_details['price']
+            self.total_fare = fare_details['total']
             self.payment_due = self.total_fare - self.payment_done
             self.fare_details = json.dumps(fare_details)
 
