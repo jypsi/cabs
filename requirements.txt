@@ -9,7 +9,7 @@ django-money==0.10.2
 pexpect==4.2.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.9
-psycopg2==2.6.2
+psycopg2==2.7.3.2
 ptyprocess==0.5.1
 Pygments==2.2.0
 requests==2.13.0
@@ -18,3 +18,4 @@ six==1.10.0
 sqlparse==0.2.2
 traitlets==4.3.1
 wcwidth==0.1.7
+reportlab==3.4.0

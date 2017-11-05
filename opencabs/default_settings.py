@@ -112,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -182,3 +181,25 @@ EXTRA_TAXES_FROM_DATETIME = os.environ.get(
     'EXTRA_TAXES_FROM_DATETIME', '2017-11-04 00:00:00')
 
 DATETIME_STR_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+# Invoice
+INVOICE_BUSINESS_NAME = os.environ.get('INVOICE_BUSINESS_NAME' "Opencabs")
+
+INVOICE_BUSINESS_ADDRESS = os.environ.get('INVOICE_BUSINESS_ADDRESS',  """
+COMPANY NAME LTD
+STREET
+TOWN
+COUNTY
+POSTCODE
+COUNTRY
+
+Phone: +00 (0) 000 000 000
+Email: example@example.com
+Website: www.example.com
+Reg No: 00000000""")
+
+INVOICE_FOOTER = os.environ.get('INVOICE_FOOTER', """
+Bank Details: Street address, Town, County, POSTCODE
+Sort Code: 00-00-00 Account No: 00000000 (Quote invoice number).
+Please pay via bank transfer or cheque. All payments should be made in CURRENCY.
+Make cheques payable to Company Name Ltd.""")

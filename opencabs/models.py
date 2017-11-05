@@ -12,6 +12,8 @@ from hashlib import md5
 from datetime import datetime
 from collections import OrderedDict
 
+from utils.pdf import draw_pdf
+
 
 class VehicleFeature(models.Model):
     name = models.CharField(max_length=30)
@@ -303,3 +305,32 @@ class Booking(models.Model):
         )
         self.driver_pay = fare_details['driver_charge']
         self.driver_invoice_id = payment.invoice_id
+
+    def create_invoice(self):
+        customer_details = [self.customer_name, self.customer_mobile,
+                            self.customer_email]
+        fare_details = json.loads(self.fare_details)
+        booking_items = [{
+            'description': (
+                '{booking_type} trip, {source}-{destination}, {vehicle_type}'
+                ', {travel_date}').format(booking_type=self.booking_type,
+                                          source=self.source,
+                                          destination=self.destination,
+                                          vehicle_type=self.vehicle_type,
+                                          travel_date=self.travel_date),
+            'amount': fare_details['price']
+        }]
+        total_amount = fare_details['total']
+        f = open('invoice_{}.pdf'.format(self.booking_id), 'wb')
+        draw_pdf(f, {'id': self.booking_id,
+                     'date': self.last_payment_date or self.created,
+                     'customer_details': customer_details,
+                     'items': booking_items,
+                     'sgst': fare_details['taxes']['SGST'],
+                     'cgst': fare_details['taxes']['CGST'],
+                     'total_amount': total_amount,
+                     'business_name': settings.INVOICE_BUSINESS_NAME,
+                     'address': settings.INVOICE_BUSINESS_ADDRESS,
+                     'footer': settings.INVOICE_FOOTER
+                    })
+        f.close()
