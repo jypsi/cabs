@@ -1,0 +1,295 @@
+[
+{
+  "model": "opencabs.vehiclefeature",
+  "pk": 1,
+  "fields": {
+    "name": "AC",
+    "description": "",
+    "created": "2017-11-05T06:19:09.272Z",
+    "last_updated": "2017-11-05T06:19:09.272Z"
+  }
+},
+{
+  "model": "opencabs.vehiclecategory",
+  "pk": 1,
+  "fields": {
+    "name": "Sedan",
+    "description": ""
+  }
+},
+{
+  "model": "opencabs.vehiclecategory",
+  "pk": 2,
+  "fields": {
+    "name": "Hatchback",
+    "description": ""
+  }
+},
+{
+  "model": "opencabs.vehiclecategory",
+  "pk": 3,
+  "fields": {
+    "name": "SUV",
+    "description": ""
+  }
+},
+{
+  "model": "opencabs.vehicleratecategory",
+  "pk": 1,
+  "fields": {
+    "name": "Sedan AC",
+    "description": "",
+    "category": 1,
+    "tariff_per_km": 16,
+    "tariff_after_hours": 200,
+    "created": "2017-11-05T06:24:53.156Z",
+    "last_updated": "2017-11-05T06:24:53.156Z",
+    "features": [
+      1
+    ]
+  }
+},
+{
+  "model": "opencabs.vehicleratecategory",
+  "pk": 2,
+  "fields": {
+    "name": "Sedan Non AC",
+    "description": "",
+    "category": 1,
+    "tariff_per_km": 13,
+    "tariff_after_hours": 180,
+    "created": "2017-11-05T06:25:12.390Z",
+    "last_updated": "2017-11-05T06:25:12.390Z",
+    "features": []
+  }
+},
+{
+  "model": "opencabs.vehicleratecategory",
+  "pk": 3,
+  "fields": {
+    "name": "Hatchback AC",
+    "description": "",
+    "category": 2,
+    "tariff_per_km": 13,
+    "tariff_after_hours": 180,
+    "created": "2017-11-05T06:25:41.337Z",
+    "last_updated": "2017-11-05T06:25:41.337Z",
+    "features": [
+      1
+    ]
+  }
+},
+{
+  "model": "opencabs.vehicleratecategory",
+  "pk": 4,
+  "fields": {
+    "name": "Hatchback Non AC",
+    "description": "",
+    "category": 2,
+    "tariff_per_km": 12,
+    "tariff_after_hours": 170,
+    "created": "2017-11-05T06:26:02.365Z",
+    "last_updated": "2017-11-05T06:26:02.365Z",
+    "features": []
+  }
+},
+{
+  "model": "opencabs.place",
+  "pk": 1,
+  "fields": {
+    "name": "Bangalore",
+    "created": "2017-11-05T06:15:01.476Z",
+    "last_updated": "2017-11-05T06:15:01.476Z"
+  }
+},
+{
+  "model": "opencabs.place",
+  "pk": 2,
+  "fields": {
+    "name": "Mysore",
+    "created": "2017-11-05T06:15:25.688Z",
+    "last_updated": "2017-11-05T06:15:25.688Z"
+  }
+},
+{
+  "model": "opencabs.place",
+  "pk": 3,
+  "fields": {
+    "name": "Chennai",
+    "created": "2017-11-05T06:15:32.259Z",
+    "last_updated": "2017-11-05T06:15:32.259Z"
+  }
+},
+{
+  "model": "opencabs.rate",
+  "pk": 1,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "vehicle_category": 1,
+    "oneway_price": 1800,
+    "oneway_distance": 0,
+    "oneway_driver_charge": 1400,
+    "roundtrip_price": 3600,
+    "roundtrip_distance": 0,
+    "roundtrip_driver_charge": 2800,
+    "code": "Mysore-Bangalore",
+    "created": "2017-11-05T06:29:18.528Z",
+    "last_updated": "2017-11-05T06:29:36.160Z"
+  }
+},
+{
+  "model": "opencabs.rate",
+  "pk": 2,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "vehicle_category": 2,
+    "oneway_price": 1600,
+    "oneway_distance": 0,
+    "oneway_driver_charge": 1200,
+    "roundtrip_price": 3200,
+    "roundtrip_distance": 0,
+    "roundtrip_driver_charge": 2400,
+    "code": "Mysore-Bangalore",
+    "created": "2017-11-05T06:30:19.911Z",
+    "last_updated": "2017-11-05T06:30:19.911Z"
+  }
+},
+{
+  "model": "opencabs.rate",
+  "pk": 3,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "vehicle_category": 3,
+    "oneway_price": 1600,
+    "oneway_distance": 0,
+    "oneway_driver_charge": 1200,
+    "roundtrip_price": 3200,
+    "roundtrip_distance": 0,
+    "roundtrip_driver_charge": 2400,
+    "code": "Mysore-Bangalore",
+    "created": "2017-11-05T06:31:33.537Z",
+    "last_updated": "2017-11-05T06:31:33.537Z"
+  }
+},
+{
+  "model": "opencabs.rate",
+  "pk": 4,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "vehicle_category": 4,
+    "oneway_price": 1300,
+    "oneway_distance": 0,
+    "oneway_driver_charge": 1100,
+    "roundtrip_price": 2600,
+    "roundtrip_distance": 0,
+    "roundtrip_driver_charge": 2200,
+    "code": "Mysore-Bangalore",
+    "created": "2017-11-05T06:31:58.521Z",
+    "last_updated": "2017-11-05T06:31:58.521Z"
+  }
+},
+{
+  "model": "opencabs.rate",
+  "pk": 5,
+  "fields": {
+    "source": 1,
+    "destination": 3,
+    "vehicle_category": 1,
+    "oneway_price": 5000,
+    "oneway_distance": 0,
+    "oneway_driver_charge": 4000,
+    "roundtrip_price": 10000,
+    "roundtrip_distance": 0,
+    "roundtrip_driver_charge": 8000,
+    "code": "Chennai-Bangalore",
+    "created": "2017-11-05T08:49:21.510Z",
+    "last_updated": "2017-11-05T08:49:21.510Z"
+  }
+},
+{
+  "model": "opencabs.driver",
+  "pk": 1,
+  "fields": {
+    "name": "Ramu",
+    "mobile": "1234567890"
+  }
+},
+{
+  "model": "opencabs.driver",
+  "pk": 2,
+  "fields": {
+    "name": "John",
+    "mobile": "2345678901"
+  }
+},
+{
+  "model": "opencabs.vehicle",
+  "pk": 1,
+  "fields": {
+    "name": "Toyota Etios",
+    "number": "KA 123456",
+    "category": 1,
+    "driver": null
+  }
+},
+{
+  "model": "opencabs.vehicle",
+  "pk": 2,
+  "fields": {
+    "name": "Maruti Suzuki Swift Dzire",
+    "number": "KA 123457",
+    "category": 1,
+    "driver": null
+  }
+},
+{
+  "model": "opencabs.vehicle",
+  "pk": 3,
+  "fields": {
+    "name": "Tata Indica",
+    "number": "KA 123458",
+    "category": 2,
+    "driver": null
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 1,
+  "fields": {
+    "source": 1,
+    "destination": 3,
+    "pickup_point": "",
+    "booking_type": "OW",
+    "travel_date": "2017-11-22",
+    "travel_time": "12:02:00",
+    "vehicle_type": 1,
+    "customer_name": "John Doe",
+    "customer_mobile": "+911234576890",
+    "customer_email": "jdoe@example.com",
+    "ssr": "",
+    "status": "0",
+    "payment_status": "NP",
+    "payment_done": 0,
+    "payment_due": 10000,
+    "revenue": 0,
+    "last_payment_date": null,
+    "accounts_verified": false,
+    "driver_paid": false,
+    "driver_pay": 0,
+    "driver_invoice_id": "",
+    "vehicle": null,
+    "driver": null,
+    "extra_info": "",
+    "booking_id": "OC6C2318CF",
+    "total_fare": 10000,
+    "fare_details": "{\"tariff_per_km\": 16, \"after_hour_charges\": 200, \"price\": 5000, \"driver_charge\": 4000, \"taxes\": {\"CGST\": 2500.0, \"SGST\": 2500.0, \"total\": 5000.0}, \"total\": 10000.0}",
+    "distance": null,
+    "created": "2017-11-05T09:13:47.545Z",
+    "last_updated": "2017-11-05T09:13:47.545Z"
+  }
+}
+]
