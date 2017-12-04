@@ -311,6 +311,11 @@ class Booking(models.Model):
         customer_details = [self.customer_name, self.customer_mobile,
                             self.customer_email]
         fare_details = json.loads(self.fare_details)
+        if 'taxes' not in fare_details:
+            fare_details['taxes'] = {
+                'sgst': 0,
+                'cgst': 0
+            }
         booking_items = [{
             'description': (
                 '<b>From</b>: {source}   <b>Drop</b>: {destination}<br />\n'
@@ -326,7 +331,7 @@ class Booking(models.Model):
             ),
             'amount': fare_details['price']
         }]
-        total_amount = fare_details['total']
+        total_amount = fare_details.get('total') or fare_details.get('price')
         f = open('/tmp/oc-booking-invoice-{}.pdf'.format(self.booking_id),
                  'wb')
         draw_pdf(f, {'id': self.booking_id,
