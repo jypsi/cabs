@@ -313,8 +313,8 @@ class Booking(models.Model):
         fare_details = json.loads(self.fare_details)
         if 'taxes' not in fare_details:
             fare_details['taxes'] = {
-                'sgst': 0,
-                'cgst': 0
+                'SGST': 0,
+                'CGST': 0
             }
         booking_items = [{
             'description': (
