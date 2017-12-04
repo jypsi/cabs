@@ -8,6 +8,7 @@ from finance.models import Payment
 
 import json
 import uuid
+from io import StringIO
 from hashlib import md5
 from datetime import datetime
 from collections import OrderedDict
@@ -306,22 +307,28 @@ class Booking(models.Model):
         self.driver_pay = fare_details['driver_charge']
         self.driver_invoice_id = payment.invoice_id
 
-    def create_invoice(self):
+    def invoice(self):
         customer_details = [self.customer_name, self.customer_mobile,
                             self.customer_email]
         fare_details = json.loads(self.fare_details)
         booking_items = [{
             'description': (
-                '{booking_type} trip, {source}-{destination}, {vehicle_type}'
-                ', {travel_date}').format(booking_type=self.booking_type,
-                                          source=self.source,
-                                          destination=self.destination,
-                                          vehicle_type=self.vehicle_type,
-                                          travel_date=self.travel_date),
+                '<b>From</b>: {source}   <b>Drop</b>: {destination}<br />\n'
+                '<b>Travel date & time</b>: {travel_date} {travel_time}<br />\n'
+                '<b>Vehicle type</b>: {vehicle_type}, <b>Booking type</b>: {booking_type}'
+            ).format(
+                source=self.source,
+                destination=self.destination,
+                travel_date=self.travel_date.strftime('%d %b %Y'),
+                travel_time=self.travel_time.strftime('%I:%M %p'),
+                vehicle_type=self.vehicle_type,
+                booking_type=BOOKING_TYPE_CHOICES_DICT.get(self.booking_type)
+            ),
             'amount': fare_details['price']
         }]
         total_amount = fare_details['total']
-        f = open('invoice_{}.pdf'.format(self.booking_id), 'wb')
+        f = open('/tmp/oc-booking-invoice-{}.pdf'.format(self.booking_id),
+                 'wb')
         draw_pdf(f, {'id': self.booking_id,
                      'date': self.last_payment_date or self.created,
                      'customer_details': customer_details,
@@ -334,3 +341,4 @@ class Booking(models.Model):
                      'footer': settings.INVOICE_FOOTER
                     })
         f.close()
+        return f.name

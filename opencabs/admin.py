@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf.urls import url
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db import models
@@ -16,6 +17,7 @@ from .models import (BOOKING_TYPE_CHOICES_DICT,
                      BOOKING_STATUS_CHOICES_DICT,
                      BOOKING_PAYMENT_STATUS_CHOICES_DICT)
 from .notification import send_sms
+from .views import booking_invoice
 
 
 class BookingResource(resources.ModelResource):

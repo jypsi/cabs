@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^' + settings.URL_PREFIX + r'$', views.booking_wizard, name='index'),
     url(r'^' + settings.URL_PREFIX + r'booking/$', views.booking_details,
         name='booking_details'),
+    url(r'^' + settings.URL_PREFIX + 'booking/(?P<booking_id>\d+)/invoice/$',
+        views.booking_invoice, name='booking_invoice'),
     url(r'^' + settings.URL_PREFIX + r'admin/', admin.site.urls),
 ]
 

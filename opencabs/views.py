@@ -1,7 +1,11 @@
+import os
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
 
 from formtools.wizard.views import CookieWizardView
 
@@ -81,3 +85,14 @@ def booking_details(request):
         'settings': settings,
         'booking': booking
     })
+
+
+@staff_member_required
+def booking_invoice(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    path = booking.invoice()
+    with open(path, 'rb') as f:
+        response = HttpResponse(
+            content=f.read(), content_type='application/pdf')
+        os.remove(f.name)
+        return response
