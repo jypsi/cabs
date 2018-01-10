@@ -183,7 +183,7 @@ class Booking(models.Model):
         blank=True, null=True, default='NP')
     payment_done = models.PositiveIntegerField(blank=True, default=0)
     payment_due = models.PositiveIntegerField(blank=True, default=0)
-    revenue = models.PositiveIntegerField(blank=True, default=0)
+    revenue = models.IntegerField(blank=True, default=0)
     last_payment_date = models.DateTimeField(blank=True, null=True)
     accounts_verified = models.BooleanField(default=False, db_index=True)
     payments = GenericRelation(Payment,
