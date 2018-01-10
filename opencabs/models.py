@@ -332,7 +332,7 @@ class Booking(models.Model):
             'amount': fare_details['price']
         }]
         if self.pickup_point:
-            booking_items[0]['description'] += '\n<b>Pickup point: {}'.format(
+            booking_items[0]['description'] += '\n<b>Pickup point</b>: {}'.format(
                 self.pickup_point)
         total_amount = fare_details.get('total') or fare_details.get('price')
         f = open('/tmp/oc-booking-invoice-{}.pdf'.format(self.booking_id),
