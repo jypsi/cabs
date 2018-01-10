@@ -143,7 +143,11 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         status = form.cleaned_data['status']
         if 'status' in form.changed_data:
             subject = ''
-            if status == '1':
+            if status == '0':
+                msg = (
+                    "You booking request is being processed.")
+                subject = 'Booking under process'
+            elif status == '1':
                 msg = (
                     "Your booking with ID: {} has been confirmed.\n"
                     "You'll be notified about vehicle & driver details "
@@ -179,6 +183,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                          obj.driver.name, obj.driver.mobile)
             else:
                 msg += obj.extra_info or ""
+                msg += "\nVehicle/driver assignment pending."
             if form.cleaned_data.get('customer_mobile'):
                 send_sms([form.cleaned_data['customer_mobile']], msg)
             if form.cleaned_data.get('customer_email'):
