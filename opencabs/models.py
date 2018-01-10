@@ -255,6 +255,8 @@ class Booking(models.Model):
         if self.id and self.driver_paid:
             self.pay_to_driver()
 
+        self.update_payment_summary()
+
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
@@ -287,8 +289,6 @@ class Booking(models.Model):
             self.payment_status = 'PD'
 
         self.revenue = payment_done - expenses
-
-        self.save()
 
     def pay_to_driver(self):
         fare_details = json.loads(self.fare_details)

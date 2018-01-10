@@ -9,4 +9,4 @@ def update_booking_payment_info(sender, instance, **kwargs):
     if instance.item_content_type.app_label == 'opencabs' and \
             instance.item_content_type.model == 'booking':
         if instance.item_object:
-            instance.item_object.update_payment_summary()
+            instance.item_object.save()
