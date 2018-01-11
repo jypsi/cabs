@@ -99,13 +99,17 @@ def draw_pdf(buffer, data):
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('TEXTCOLOR', (0, 0), (-1, -1), (0.2, 0.2, 0.2)),
         ('GRID', (0, 0), (-1, -2), 1, (0.7, 0.7, 0.7)),
-        ('GRID', (-2, -1), (-1, -1), 1, (0.7, 0.7, 0.7)),
+        ('GRID', (-3, -1), (-1, -1), 1, (0.7, 0.7, 0.7)),
         ('ALIGN', (-2, 0), (-1, -1), 'RIGHT'),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
     ])
     tw, th, = table.wrapOn(canvas, 15 * cm, 19 * cm)
     table.drawOn(canvas, 0.5 * cm, -8 * cm - th)
+
+    textobject = canvas.beginText(1.0 * cm, -14.5 * cm)
+    textobject.textLine(u'(N.B : Your due payment is : %s)' % data['payment_due'])
+    canvas.drawText(textobject)
 
     canvas.showPage()
     canvas.save()
