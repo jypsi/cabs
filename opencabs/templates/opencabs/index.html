@@ -191,7 +191,8 @@
 <script type="text/javascript">
 $(function(){
     $('#traveldate-picker').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'YYYY-MM-DD',
+        minDate: new Date()
     });
 
     $('#traveltime-picker').datetimepicker({
