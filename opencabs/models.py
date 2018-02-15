@@ -256,9 +256,6 @@ class Booking(models.Model):
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
 
-        if self.id and self.driver_paid:
-            self.pay_to_driver()
-
         self.update_payment_summary()
 
         super().save(*args, **kwargs)
