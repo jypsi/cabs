@@ -233,21 +233,25 @@ class Booking(models.Model):
                                   if self.booking_type == 'OW' else
                                   rate.roundtrip_driver_charge)
             }
-            if timezone.now().timestamp() >= datetime.strptime(
-                    settings.EXTRA_TAXES_FROM_DATETIME,
-                    settings.DATETIME_STR_FORMAT).timestamp():
-                fare_details['taxes'] = {
-                    k: v['rate'] * fare_details[settings.TAXABLE_FIELD]
-                    for k, v in settings.TAXES.items()}
-                fare_details['taxes']['total'] = sum(
-                    [fare_details['taxes'][k] for k in settings.TAXES])
-                fare_details['total'] = fare_details['price'] + fare_details[
-                'taxes']['total']
-            else:
-                fare_details['total'] = fare_details['price']
-            self.total_fare = fare_details['total']
-            self.payment_due = self.total_fare - self.payment_done
-            self.fare_details = json.dumps(fare_details)
+        else:
+            fare_details = json.loads(self.fare_details)
+
+        if timezone.now().timestamp() >= datetime.strptime(
+                settings.EXTRA_TAXES_FROM_DATETIME,
+                settings.DATETIME_STR_FORMAT).timestamp():
+            fare_details['taxes'] = {
+                k: v['rate'] * fare_details[settings.TAXABLE_FIELD]
+                for k, v in settings.TAXES.items()}
+            fare_details['taxes']['total'] = sum(
+                [fare_details['taxes'][k] for k in settings.TAXES])
+            fare_details['total'] = fare_details['price'] + fare_details[
+            'taxes']['total']
+        else:
+            fare_details['total'] = fare_details['price']
+        self.total_fare = fare_details['total']
+        self.payment_due = int(round(self.total_fare)) - int(
+            round(self.payment_done))
+        self.fare_details = json.dumps(fare_details)
 
         if self.vehicle and not self.driver:
             self.driver = self.vehicle.driver
@@ -281,8 +285,8 @@ class Booking(models.Model):
             last_payment_date = payment.timestamp
 
         self.last_payment_date = last_payment_date
-        self.payment_done = payment_done
-        self.payment_due = self.total_fare - self.payment_done
+        self.payment_due = int(round(self.total_fare)) - int(
+            round(self.payment_done))
         if self.payment_done == 0:
             self.payment_status = 'NP'
         elif self.payment_due > 0:
@@ -291,6 +295,12 @@ class Booking(models.Model):
             self.payment_status = 'PD'
 
         self.revenue = payment_done - expenses
+
+        #FIXME: Assuming all expenses are driver pay
+        if expenses == self.driver_pay:
+            self.driver_paid = True
+        else:
+            self.driver_paid = False
 
     def pay_to_driver(self):
         fare_details = json.loads(self.fare_details)

@@ -94,7 +94,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
-                       'payment_status', 'fare_details', 'revenue',
+                       'payment_status', 'revenue', 'driver_paid',
                        'last_payment_date', 'driver_pay')
     formfield_overrides = {
         models.TextField: {'widget': forms.Textarea(
