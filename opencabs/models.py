@@ -283,7 +283,9 @@ class Booking(models.Model):
         self.last_payment_date = last_payment_date
         self.payment_done = payment_done
         self.payment_due = self.total_fare - self.payment_done
-        if self.payment_due > 0:
+        if self.payment_done == 0:
+            self.payment_status = 'NP'
+        elif self.payment_due > 0:
             self.payment_status = 'PR'
         else:
             self.payment_status = 'PD'
