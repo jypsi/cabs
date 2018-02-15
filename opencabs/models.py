@@ -301,6 +301,7 @@ class Booking(models.Model):
             self.driver_paid = True
         else:
             self.driver_paid = False
+        self.driver_pay = expenses
 
     def pay_to_driver(self):
         fare_details = json.loads(self.fare_details)
