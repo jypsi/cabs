@@ -168,7 +168,7 @@ INVOICE_ID_PREFIX = os.environ.get('INVOICE_ID_PREFIX', 'OCV')
 TAXABLE_FIELD = 'price'
 TAXES = {
     'CGST': {
-        'rate': os.environ.get('TAXES_CSGT_RATE', 0.05),
+        'rate': os.environ.get('TAXES_CGST_RATE', 0.05),
         'label': os.environ.get('TAXES_CGST_LABEL', 'CGST')
     },
     'SGST': {
