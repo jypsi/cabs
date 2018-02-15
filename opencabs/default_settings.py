@@ -168,11 +168,11 @@ INVOICE_ID_PREFIX = os.environ.get('INVOICE_ID_PREFIX', 'OCV')
 TAXABLE_FIELD = 'price'
 TAXES = {
     'CGST': {
-        'rate': os.environ.get('TAXES_CGST_RATE', 0.05),
+        'rate': float(os.environ.get('TAXES_CGST_RATE', 0.05)),
         'label': os.environ.get('TAXES_CGST_LABEL', 'CGST')
     },
     'SGST': {
-        'rate': os.environ.get('TAXES_SGST_RATE', 0.05),
+        'rate': float(os.environ.get('TAXES_SGST_RATE', 0.05)),
         'label': os.environ.get('TAXES_SGST_LABEL', 'SGST')
     }
 }
