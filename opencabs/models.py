@@ -296,6 +296,12 @@ class Booking(models.Model):
 
         self.revenue = payment_done - expenses
 
+        #FIXME: Assuming all expenses are driver pay
+        if expenses == self.driver_pay:
+            self.driver_paid = True
+        else:
+            self.driver_paid = False
+
     def pay_to_driver(self):
         fare_details = json.loads(self.fare_details)
         payment, created = Payment.objects.get_or_create(
