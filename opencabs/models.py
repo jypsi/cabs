@@ -281,6 +281,8 @@ class Booking(models.Model):
                 expenses += payment.amount.amount
             last_payment_date = payment.timestamp
 
+        self.payment_done = payment_done
+
         self.last_payment_date = last_payment_date
         self.payment_due = int(round(self.total_fare)) - int(
             round(self.payment_done))
