@@ -10,15 +10,15 @@ from hashlib import md5
 from djmoney.models.fields import MoneyField
 
 
-PAYMENT_MODE_CHOICES = (
+PAYMENT_MODE_CHOICES = getattr(settings, 'PAYMENT_MODE_CHOICES', (
     ('CA', 'Cash'),
     ('BT', 'Bank Transfer')
-)
+))
 
-PAYMENT_TYPE_CHOICES = (
+PAYMENT_TYPE_CHOICES = getattr(settings, 'PAYMENT_TYPE_CHOICES', (
     (1, 'Income'),
     (-1, 'Expenditure')
-)
+))
 
 
 class Payment(models.Model):
