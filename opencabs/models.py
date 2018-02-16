@@ -231,7 +231,9 @@ class Booking(models.Model):
                           rate.roundtrip_price),
                 'driver_charge': (rate.oneway_driver_charge
                                   if self.booking_type == 'OW' else
-                                  rate.roundtrip_driver_charge)
+                                  rate.roundtrip_driver_charge),
+                'discount': 0,
+                'markup': 0
             }
         else:
             fare_details = json.loads(self.fare_details)
@@ -245,9 +247,11 @@ class Booking(models.Model):
             fare_details['taxes']['total'] = sum(
                 [fare_details['taxes'][k] for k in settings.TAXES])
             fare_details['total'] = fare_details['price'] + fare_details[
-            'taxes']['total']
+                'taxes']['total']
         else:
             fare_details['total'] = fare_details['price']
+        fare_details['total'] += fare_details.get('markup', 0) - \
+            fare_details.get('discount', 0)
         self.total_fare = fare_details['total']
         self.payment_due = int(round(self.total_fare)) - int(
             round(self.payment_done))
