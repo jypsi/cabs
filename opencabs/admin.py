@@ -131,6 +131,12 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
     )
     resource_class = BookingResource
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.base_fields['fare_details'].widget.attrs = {
+            'cols': 60, 'rows': 3}
+        return form
+
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = self.readonly_fields
         if obj:
