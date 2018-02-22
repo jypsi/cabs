@@ -103,6 +103,23 @@ class Rate(models.Model):
             self.roundtrip_distance = 2 * self.roundtrip_distance
         super().save(*args, **kwargs)
 
+    @property
+    def total_oneway_price(self):
+        return int(round(self.oneway_price * (1 + self.tax_rate)))
+
+    @property
+    def total_roundtrip_price(self):
+        return int(round(self.roundtrip_price * (1 + self.tax_rate)))
+
+    @property
+    def tax_rate(self):
+        if getattr(self, '_tax_rate', None):
+            return self._tax_rate
+        self._tax_rate = sum(
+            [v['rate'] for v in settings.TAXES.values()])
+        return self._tax_rate
+
+
 
 class Driver(models.Model):
     name = models.CharField(max_length=100, db_index=True)

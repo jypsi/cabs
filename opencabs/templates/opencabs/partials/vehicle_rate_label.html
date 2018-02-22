@@ -3,7 +3,7 @@
         <span class="col-md-10 col-sm-8 col-xs-6">
             {{ rate.vehicle_category.name }}
         </span>
-        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {% if booking_type == 'OW' %}{{ rate.oneway_price }}{% elif booking_type == 'RT' %}{{ rate.roundtrip_price }}{% endif %}</span>
+        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {% if booking_type == 'OW' %}{{ rate.total_oneway_price }}{% elif booking_type == 'RT' %}{{ rate.total_roundtrip_price }}{% endif %}</span>
     </h3>
 
     <div class="clearfix"></div>
