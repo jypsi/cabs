@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                         <div class="form-group" style="padding-right: 10px;">
                                             <label for="{{ wizard.form.travel_date.id_for_label }}" class="col-sm-12 control-label" style="padding-left: 0; text-align: left;">{{ wizard.form.travel_date.label }}</label>
                                             <div class="input-group date col-sm-12" id="traveldate-picker">
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                         <div class="form-group" style="padding-left: 10px;">
                                             <label for="{{ wizard.form.travel_time.id_for_label }}" class="col-sm-12 control-label" style="text-align: left; padding-left: 0">{{ wizard.form.travel_time.label }}</label>
                                             <div class="input-group date col-sm-12" id="traveltime-picker">
@@ -89,6 +89,13 @@
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group" style="padding-left: 10px;">
+                                            <label for="{{ wizard.form.passengers.id_for_label }}" class="col-sm-12 control-label" style="text-align: left; padding-left: 0">{{ wizard.form.passengers.label }}</label>
+                                            {{ wizard.form.passengers }}
                                         </div>
                                     </div>
                                 </div>

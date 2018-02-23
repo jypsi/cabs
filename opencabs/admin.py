@@ -88,7 +88,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'created', 'vehicle',
                     'status', 'total_fare', 'payment_done', 'payment_status',
-                    'payment_due', 'driver_paid', 'driver_pay')
+                    'payment_due', 'driver_paid', 'driver_pay', 'passengers')
     list_filter = ('booking_type', 'vehicle', 'status', 'travel_date',
                    'created')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
@@ -113,7 +113,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         (
             'Travel details', {
                 'fields': (
-                    ('source', 'destination', 'travel_date', 'travel_time'),
+                    ('source', 'destination', 'travel_date', 'travel_time', 'passengers'),
                     ('booking_type', 'vehicle_type', 'vehicle', 'driver'),
                     ('status', 'extra_info', 'distance')
                 )

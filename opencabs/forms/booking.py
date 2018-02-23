@@ -18,7 +18,7 @@ class BookingTravelForm(BaseBookingForm):
         model = Booking
         fields = (
             'source', 'destination', 'booking_type',
-            'travel_date', 'travel_time')
+            'travel_date', 'travel_time', 'passengers')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

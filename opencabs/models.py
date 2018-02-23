@@ -184,6 +184,7 @@ class Booking(models.Model):
     vehicle_type = models.ForeignKey(VehicleRateCategory,
                                      on_delete=models.CASCADE,
                                      related_name='booking')
+    passengers = models.IntegerField(default=1, blank=True)
     customer_name = models.CharField(max_length=100, db_index=True,
                                      verbose_name='Name')
     customer_mobile = models.CharField(max_length=20, default='', blank=True,
