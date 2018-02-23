@@ -31,6 +31,8 @@ class VehicleCategory(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)
     description = models.TextField(max_length=200, blank=True, default='')
 
+    passengers = models.IntegerField(default=4, blank=True)
+
     def __str__(self):
         return self.name
 

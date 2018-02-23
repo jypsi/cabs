@@ -9,6 +9,7 @@
     <div class="clearfix"></div>
 
     <div class="small" style="text-align: left;">
+        <strong>Maximum passengers: </strong> {{ rate.vehicle_category.category.passengers }}
         <strong>Features: </strong>
         {% for i in rate.vehicle_category.features.all %} {{ i.name }} .{% empty %} -- {% endfor %}
 
