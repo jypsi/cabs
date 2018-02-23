@@ -44,54 +44,64 @@
 				<hr>
 				<p>{{ settings.PROJECT_DESCRIPTION }}</p>
 
-				<form action="" method="post" class="form-inline">{% csrf_token %}
-					{{ wizard.management_form }}
-					<div class="form-group">
-						<div class="inline-label">
-							<label for="{{ wizard.form.source.id_for_label }}">{{ wizard.form.source.label }}</label>
-						</div>
-						{{ wizard.form.source }}
-					</div>
-					<div class="form-group">
-						<div class="inline-label">
-							<label for="{{ wizard.form.destination.id_for_label }}">{{ wizard.form.destination.label }}</label>
-						</div>
-						{{ wizard.form.destination }}
-					</div>
-					<div class="form-group">
-						<div class="inline-label">
-							<label for="{{ wizard.form.booking_type.id_for_label }}">{{ wizard.form.booking_type.label }}</label>
-						</div>
-						{{ wizard.form.booking_type }}
-					</div>
-					<div class="form-group">
-						<div class="inline-label">
-							<label for="{{ wizard.form.travel_date.id_for_label }}">{{ wizard.form.travel_date.label }}</label>
-						</div>
-						<div class="input-group date" id="traveldate-picker">
-							{{ wizard.form.travel_date }}
-							<span class="input-group-addon">
-								<span class="glyphicon glyphicon-calendar"></span>
-							</span>
-						</div>
-					</div>
+                <div class="panel" style="color: black !important;">
+                    <div class="panel-body">
+                        <form action="" method="post" class="form-horizontal" style="text-align: left;">{% csrf_token %}
+                            {{ wizard.management_form }}
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    {% for choice in wizard.form.booking_type %}
+                                    <label class="radio-inline">
+                                        {{ choice.tag }}
+                                        {{ choice.choice_label }}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ wizard.form.source.id_for_label }}" class="col-sm-2 control-label" style="text-align: left;">{{ wizard.form.source.label }}</label>
+                                <div class="col-sm-10">
+                                    {{ wizard.form.source }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ wizard.form.destination.id_for_label }}" class="col-sm-2 control-label" style="text-align: left;">{{ wizard.form.destination.label }}</label>
+                                <div class="col-sm-10">
+                                    {{ wizard.form.destination }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group" style="padding-right: 10px;">
+                                        <label for="{{ wizard.form.travel_date.id_for_label }}" class="col-sm-12 control-label" style="padding-left: 0; text-align: left;">{{ wizard.form.travel_date.label }}</label>
+                                        <div class="input-group date col-sm-12" id="traveldate-picker">
+                                            {{ wizard.form.travel_date }}
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
-					<div class="form-group">
-						<div class="inline-label">
-							<label for="{{ wizard.form.travel_time.id_for_label }}">{{ wizard.form.travel_time.label }}</label>
-						</div>
-						<div class="input-group date" id="traveltime-picker">
-							{{ wizard.form.travel_time }}
-							<span class="input-group-addon">
-								<span class="glyphicon glyphicon-time"></span>
-							</span>
-						</div>
-					</div>
+                                <div class="col-sm-6">
+                                    <div class="form-group" style="padding-left: 10px;">
+                                        <label for="{{ wizard.form.travel_time.id_for_label }}" class="col-sm-12 control-label" style="text-align: left; padding-left: 0">{{ wizard.form.travel_time.label }}</label>
+                                        <div class="input-group date col-sm-12" id="traveltime-picker">
+                                            {{ wizard.form.travel_time }}
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-					<div style="text-align: center; padding-top: 10px;">
-						<input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
-					</div>
-				</form>
+                            <div style="text-align: center; padding-top: 10px;">
+                                <input type="submit" value="Search" class="btn btn-primary btn-xl"></input>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</header>

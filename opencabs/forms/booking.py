@@ -20,6 +20,13 @@ class BookingTravelForm(BaseBookingForm):
             'source', 'destination', 'booking_type',
             'travel_date', 'travel_time')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['booking_type'].widget = forms.RadioSelect()
+        self.fields['booking_type'].widget.choices = self.fields['booking_type'].choices[1:]
+        self.fields['booking_type'].widget.attrs = {'class': 'radio-inline'}
+
+
 
 class BookingVehiclesForm(BaseBookingForm):
     class Meta:
