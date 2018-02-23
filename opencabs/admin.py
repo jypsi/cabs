@@ -12,7 +12,7 @@ from import_export import fields
 
 from finance.models import Payment
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
-                     Vehicle, Driver, VehicleRateCategory)
+                     Vehicle, Driver, VehicleRateCategory, BookingVehicle)
 from .models import (BOOKING_TYPE_CHOICES_DICT,
                      BOOKING_STATUS_CHOICES_DICT,
                      BOOKING_PAYMENT_STATUS_CHOICES_DICT)
@@ -219,6 +219,10 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                 )
                 send_sms(obj.driver.mobile, msg)
 
+
+@admin.register(BookingVehicle)
+class BookingVehicle(admin.ModelAdmin):
+    pass
 
 class Account(Booking):
     class Meta:

@@ -386,3 +386,17 @@ class Booking(models.Model):
                     })
         f.close()
         return f.name
+
+
+class BookingVehicle(models.Model):
+    booking = models.ForeignKey(Booking)
+    driver_paid = models.BooleanField(default=False)
+    driver_pay = models.PositiveIntegerField(blank=True, default=0)
+    driver_invoice_id = models.CharField(max_length=50, blank=True)
+
+    vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
+    driver = models.ForeignKey(Driver, blank=True, null=True)
+    extra_info = models.TextField(blank=True, default='')
+
+    def __str__(self):
+        return '{}/{}/{}'.format(self.booking, self.vehicle, self.driver)
