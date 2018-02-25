@@ -278,9 +278,9 @@ class Booking(models.Model):
         super().save(*args, **kwargs)
 
     def _create_booking_id(self):
-        text = '{}-{}-{}-{}-{}-{}-{}-{}-{}'.format(
+        text = '{}-{}-{}-{}-{}-{}-{}-{}'.format(
             self.source, self.destination, self.booking_type,
-            self.travel_date, self.travel_time, self.vehicle,
+            self.travel_date, self.travel_time,
             self.customer_name, self.customer_mobile,
             uuid.uuid1())
         return (settings.BOOKING_ID_PREFIX + md5(
