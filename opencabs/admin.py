@@ -24,8 +24,6 @@ class BookingResource(resources.ModelResource):
     booking_type = fields.Field()
     source = fields.Field()
     destination = fields.Field()
-    driver = fields.Field()
-    driver_paid = fields.Field()
     vehicle_type = fields.Field()
     status = fields.Field()
     payment_status = fields.Field()
@@ -41,7 +39,6 @@ class BookingResource(resources.ModelResource):
                         'vehicle', 'driver', 'extra_info',
                         'total_fare',
                         'payment_status', 'payment_done', 'payment_due',
-                        'driver_paid', 'driver_pay', 'driver_invoice_id',
                         'fare_details'
                         )
 
@@ -82,25 +79,41 @@ class PaymentInline(GenericTabularInline):
     can_delete = False
 
 
+class BookingVehicleInline(admin.TabularInline):
+    model = BookingVehicle
+    extra = 1
+    can_delete = True
+    formfield_overrides = {
+        models.TextField: {'widget': forms.Textarea(
+            attrs={'rows': 3, 'cols': 50})},
+        models.CharField: {'widget': forms.TextInput(attrs={'width': '10em'})}
+    }
+    verbose_name = 'Vehicle'
+    verbose_name_plural = 'Vehicles'
+
+    def save_model(self, request, obj, form, change):
+        pass
+
+
 @admin.register(Booking)
 class BookingAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
-                    'travel_date', 'travel_time', 'created', 'vehicle',
+                    'travel_date', 'travel_time', 'created',
                     'status', 'total_fare', 'payment_done', 'payment_status',
-                    'payment_due', 'driver_paid', 'driver_pay', 'passengers')
-    list_filter = ('booking_type', 'vehicle', 'status', 'travel_date',
+                    'payment_due', 'passengers')
+    list_filter = ('booking_type', 'status', 'travel_date',
                    'created')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
-                       'payment_status', 'revenue', 'driver_paid',
-                       'last_payment_date', 'driver_pay')
+                       'payment_status', 'revenue',
+                       'last_payment_date',)
     formfield_overrides = {
         models.TextField: {'widget': forms.Textarea(
             attrs={'rows': 3, 'cols': 30})}
     }
-    inlines = (PaymentInline,)
+    inlines = (BookingVehicleInline, PaymentInline,)
     fieldsets = (
         (
             'Customer details', {
@@ -114,8 +127,8 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
             'Travel details', {
                 'fields': (
                     ('source', 'destination', 'travel_date', 'travel_time', 'passengers'),
-                    ('booking_type', 'vehicle_type', 'vehicle', 'driver'),
-                    ('status', 'extra_info', 'distance')
+                    ('booking_type', 'vehicle_type',),
+                    ('status', 'distance')
                 )
             }
         ),
@@ -124,7 +137,6 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                 'fields': (
                     ('total_fare', 'payment_done', 'payment_due', 'revenue'),
                     ('last_payment_date', 'payment_status', 'fare_details'),
-                    ('driver_paid', 'driver_pay', 'driver_invoice_id')
                 )
             }
         )
@@ -139,9 +151,6 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = self.readonly_fields
-        if obj:
-            if obj.driver_paid:
-                readonly_fields += ('driver_paid', 'driver_invoice_id')
         return readonly_fields
 
     def save_model(self, request, obj, form, change):
@@ -172,53 +181,27 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                           settings.FROM_EMAIL,
                           [form.cleaned_data['customer_email']])
 
-        if ('vehicle' in form.changed_data or
-                'driver' in form.changed_data or
-                'extra_info' in form.changed_data):
-            msg = ("Trip details for booking ID: {}\n"
-                   "Datetime: {} {}\n").format(
-                       obj.booking_id,
-                       obj.travel_date.strftime('%d %b, %Y'),
-                       obj.travel_time.strftime('%I:%M %p')
-                   )
-            if obj.vehicle and obj.driver:
-                msg += (
-                    "Vehicle: {} ({})\n"
-                    "Driver: {}, {}"
-                ).format(obj.vehicle.name, obj.vehicle.number,
-                         obj.driver.name, obj.driver.mobile)
-            else:
-                msg += obj.extra_info or ""
-                msg += "\nVehicle/driver assignment pending."
-            if form.cleaned_data.get('customer_mobile'):
-                send_sms([form.cleaned_data['customer_mobile']], msg)
-            if form.cleaned_data.get('customer_email'):
-                send_mail('Trip details',
-                          msg, settings.FROM_EMAIL,
-                          [form.cleaned_data['customer_email']])
 
-        if 'driver' in form.changed_data:
-            if obj.driver:
-                msg = (
-                    "Trip details for {booking_id}\n"
-                    "{customer_name}, {customer_mobile}\n"
-                    "on {travel_datetime}\n"
-                    "from {source} to {destination}, "
-                    "{booking_type_display}\n"
-                    "Pickup: {pickup_point}"
-                ).format(
-                    booking_id=obj.booking_id,
-                    customer_name=obj.customer_name,
-                    customer_mobile=obj.customer_mobile,
-                    travel_datetime='{} {}'.format(
-                       obj.travel_date.strftime('%d %b, %Y'),
-                       obj.travel_time.strftime('%I:%M %p')),
-                    source=obj.source, destination=obj.destination,
-                    booking_type_display=obj.booking_type_display,
-                    pickup_point=obj.pickup_point
-                )
-                send_sms(obj.driver.mobile, msg)
+    def save_formset(self, request, form, formset, change):
+        super().save_formset(request, form, formset, change)
+        if str(formset.model).find('BookingVehicle') >= 0:
+            for obj, fields in formset.changed_objects:
+                if ('vehicle' in fields or
+                        'driver' in fields or
+                        'extra_info' in fields):
+                    obj.send_trip_details_to_customer()
 
+                if 'driver' in fields:
+                    if obj.driver:
+                        obj.send_trip_details_to_driver()
+
+            for obj in formset.new_objects:
+                import pdb; pdb.set_trace()
+                if obj.vehicle or obj.driver or obj.extra_info:
+                    obj.send_trip_details_to_customer()
+
+                if obj.driver:
+                    obj.send_trip_details_to_driver()
 
 @admin.register(BookingVehicle)
 class BookingVehicle(admin.ModelAdmin):
@@ -232,15 +215,12 @@ class Account(Booking):
 @admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
     list_display = ('booking_id', 'accounts_verified', 'payment_done',
-                    'last_payment_date', 'revenue', 'driver_pay',
-                    'driver_invoice_id')
+                    'last_payment_date', 'revenue',)
     list_editable = ('accounts_verified',)
     fields = ('booking_id', 'accounts_verified', 'payment_done',
-              'last_payment_date', 'revenue', 'driver_pay',
-              'driver_invoice_id')
+              'last_payment_date', 'revenue',)
     readonly_fields = ('booking_id', 'payment_done',
-                       'last_payment_date', 'revenue', 'driver_pay',
-                       'driver_invoice_id')
+                       'last_payment_date', 'revenue',)
     list_filter = ('accounts_verified',)
 
 

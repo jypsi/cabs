@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils import timezone
+from django.core.mail import send_mail
 
 from finance.models import Payment
 
@@ -14,6 +15,8 @@ from datetime import datetime
 from collections import OrderedDict
 
 from utils.pdf import draw_pdf
+
+from .notification import send_sms
 
 
 class VehicleFeature(models.Model):
@@ -211,13 +214,6 @@ class Booking(models.Model):
                                object_id_field='item_object_id',
                                related_query_name='bookings')
 
-    driver_paid = models.BooleanField(default=False)
-    driver_pay = models.PositiveIntegerField(blank=True, default=0)
-    driver_invoice_id = models.CharField(max_length=50, blank=True)
-
-    vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
-    driver = models.ForeignKey(Driver, blank=True, null=True)
-    extra_info = models.TextField(blank=True, default='')
     booking_id = models.CharField(max_length=20, blank=True, editable=False,
                                   db_index=True, unique=True)
 
@@ -277,9 +273,6 @@ class Booking(models.Model):
             round(self.payment_done))
         self.fare_details = json.dumps(fare_details)
 
-        if self.vehicle and not self.driver:
-            self.driver = self.vehicle.driver
-
         self.update_payment_summary()
 
         super().save(*args, **kwargs)
@@ -318,13 +311,6 @@ class Booking(models.Model):
             self.payment_status = 'PD'
 
         self.revenue = payment_done - expenses
-
-        #FIXME: Assuming all expenses are driver pay
-        if expenses == self.driver_pay:
-            self.driver_paid = True
-        else:
-            self.driver_paid = False
-        self.driver_pay = expenses
 
     def pay_to_driver(self):
         fare_details = json.loads(self.fare_details)
@@ -400,3 +386,48 @@ class BookingVehicle(models.Model):
 
     def __str__(self):
         return '{}/{}/{}'.format(self.booking, self.vehicle, self.driver)
+
+    def send_trip_details_to_customer(self):
+        msg = ("Trip details for booking ID: {}\n"
+               "Datetime: {} {}\n").format(
+                   self.booking.booking_id,
+                   self.booking.travel_date.strftime('%d %b, %Y'),
+                   self.booking.travel_time.strftime('%I:%M %p')
+               )
+        if self.vehicle and self.driver:
+            msg += (
+                "Vehicle: {} ({})\n"
+                "Driver: {}, {}"
+            ).format(self.vehicle.name, self.vehicle.number,
+                     self.driver.name, self.driver.mobile)
+        else:
+            msg += self.extra_info or ""
+            msg += "\nVehicle/driver assignment pending."
+        if self.booking.customer_mobile:
+            send_sms([self.booking.customer_mobile], msg)
+        if self.booking.customer_email:
+            send_mail('Trip details',
+                      msg, settings.FROM_EMAIL,
+                      [self.booking.customer_email])
+
+    def send_trip_details_to_driver(self):
+        msg = (
+            "Trip details for {booking_id}\n"
+            "{customer_name}, {customer_mobile}\n"
+            "on {travel_datetime}\n"
+            "from {source} to {destination}, "
+            "{booking_type_display}\n"
+            "Pickup: {pickup_point}"
+        ).format(
+            booking_id=self.booking.booking_id,
+            customer_name=self.booking.customer_name,
+            customer_mobile=self.booking.customer_mobile,
+            travel_datetime='{} {}'.format(
+               self.booking.travel_date.strftime('%d %b, %Y'),
+               self.booking.travel_time.strftime('%I:%M %p')),
+            source=self.booking.source,
+            destination=self.booking.destination,
+            booking_type_display=self.booking.booking_type_display,
+            pickup_point=self.booking.pickup_point
+        )
+        send_sms(self.driver.mobile, msg)
