@@ -196,7 +196,6 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                         obj.send_trip_details_to_driver()
 
             for obj in formset.new_objects:
-                import pdb; pdb.set_trace()
                 if obj.vehicle or obj.driver or obj.extra_info:
                     obj.send_trip_details_to_customer()
 
