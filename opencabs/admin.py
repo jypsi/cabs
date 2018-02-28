@@ -22,6 +22,7 @@ from .views import booking_invoice
 
 class BookingResource(resources.ModelResource):
     booking_type = fields.Field()
+    vehicles = fields.Field()
     source = fields.Field()
     destination = fields.Field()
     vehicle_type = fields.Field()
@@ -36,7 +37,7 @@ class BookingResource(resources.ModelResource):
                         'customer_email', 'created',
                         'travel_date', 'travel_time',
                         'pickup_point', 'ssr', 'status', 'vehicle_type',
-                        'vehicle', 'driver', 'extra_info',
+                        'vehicles',
                         'total_fare',
                         'payment_status', 'payment_done', 'payment_due',
                         'fare_details'
@@ -54,8 +55,12 @@ class BookingResource(resources.ModelResource):
     def dehydrate_vehicle_type(self, booking):
         return booking.vehicle_type.name
 
-    def dehydrate_vehicle(self, booking):
-        return str(booking.vehicle)
+    def dehydrate_vehicle_count(self, booking):
+        return booking.vehicle_count
+
+    def dehydrate_vehicles(self, booking):
+        return ','.join([
+            str(i) for i in booking.bookingvehicle_set.all()] or ['x'])
 
     def dehydrate_driver_paid(self, booking):
         return str(booking.driver_paid)
