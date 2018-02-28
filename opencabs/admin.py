@@ -127,7 +127,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
             'Travel details', {
                 'fields': (
                     ('source', 'destination', 'travel_date', 'travel_time', 'passengers'),
-                    ('booking_type', 'vehicle_type',),
+                    ('booking_type', 'vehicle_type', 'vehicle_count'),
                     ('status', 'distance')
                 )
             }

@@ -187,6 +187,7 @@ class Booking(models.Model):
     vehicle_type = models.ForeignKey(VehicleRateCategory,
                                      on_delete=models.CASCADE,
                                      related_name='booking')
+    vehicle_count = models.PositiveIntegerField(default=1, blank=True)
     passengers = models.IntegerField(default=1, blank=True)
     customer_name = models.CharField(max_length=100, db_index=True,
                                      verbose_name='Name')
@@ -342,14 +343,15 @@ class Booking(models.Model):
             'description': (
                 '<b>From</b>: {source}   <b>Drop</b>: {destination}<br />\n'
                 '<b>Travel date & time</b>: {travel_date} {travel_time}<br />\n'
-                '<b>Vehicle type</b>: {vehicle_type}, <b>Booking type</b>: {booking_type}'
+                '<b>Vehicle</b>: {vehicle_type} X <b>{vehicle_count}</b>, <b>Booking type</b>: {booking_type}\n'
             ).format(
                 source=self.source,
                 destination=self.destination,
                 travel_date=self.travel_date.strftime('%d %b %Y'),
                 travel_time=self.travel_time.strftime('%I:%M %p'),
                 vehicle_type=self.vehicle_type,
-                booking_type=BOOKING_TYPE_CHOICES_DICT.get(self.booking_type)
+                booking_type=BOOKING_TYPE_CHOICES_DICT.get(self.booking_type),
+                vehicle_count=self.vehicle_count
             ),
             'amount': fare_details['price']
         }]
