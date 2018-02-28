@@ -430,4 +430,4 @@ class BookingVehicle(models.Model):
             booking_type_display=self.booking.booking_type_display,
             pickup_point=self.booking.pickup_point
         )
-        send_sms(self.driver.mobile, msg)
+        send_sms([self.driver.mobile], msg)
