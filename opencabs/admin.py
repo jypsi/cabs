@@ -99,7 +99,7 @@ class BookingVehicleInline(admin.TabularInline):
 class BookingAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
-                    'travel_date', 'travel_time', 'created',
+                    'travel_date', 'travel_time', 'vehicles', 'created',
                     'status', 'total_fare', 'payment_done', 'payment_status',
                     'payment_due', 'passengers')
     list_filter = ('booking_type', 'status', 'travel_date',
@@ -142,6 +142,9 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         )
     )
     resource_class = BookingResource
+
+    def vehicles(self, obj):
+        return ','.join([str(i) for i in obj.bookingvehicle_set.all()] or ['x'])
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
