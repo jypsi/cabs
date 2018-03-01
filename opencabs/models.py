@@ -43,7 +43,8 @@ class VehicleCategory(models.Model):
 class VehicleRateCategory(models.Model):
     name = models.CharField(max_length=30, db_index=True, unique=True)
     description = models.TextField(max_length=200, blank=True, default='')
-    category = models.ForeignKey(VehicleCategory, db_index=True)
+    category = models.ForeignKey(VehicleCategory, db_index=True,
+                                 on_delete=models.PROTECT)
     features = models.ManyToManyField(VehicleFeature, blank=True)
     tariff_per_km = models.PositiveIntegerField()
     tariff_after_hours = models.PositiveIntegerField()
@@ -69,12 +70,12 @@ class Place(models.Model):
 
 
 class Rate(models.Model):
-    source = models.ForeignKey(Place, on_delete=models.CASCADE,
+    source = models.ForeignKey(Place, on_delete=models.PROTECT,
                                related_name='rate_source')
-    destination = models.ForeignKey(Place, on_delete=models.CASCADE,
+    destination = models.ForeignKey(Place, on_delete=models.PROTECT,
                                     related_name='rate_destination')
     vehicle_category = models.ForeignKey(VehicleRateCategory,
-                                         on_delete=models.CASCADE,
+                                         on_delete=models.PROTECT,
                                          related_name='rate', db_index=True)
     oneway_price = models.PositiveIntegerField()
     oneway_distance = models.PositiveIntegerField(default=0, blank=True)
@@ -139,10 +140,10 @@ class Vehicle(models.Model):
     number = models.CharField(max_length=20, unique=True, db_index=True)
     category = models.ForeignKey(
         VehicleCategory,
-        on_delete=models.CASCADE)
+        on_delete=models.PROTECT)
     driver = models.OneToOneField(
         Driver,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         unique=True,
         null=True,
         blank=True
@@ -175,9 +176,9 @@ BOOKING_PAYMENT_STATUS_CHOICES_DICT = OrderedDict(
 
 
 class Booking(models.Model):
-    source = models.ForeignKey(Place, on_delete=models.CASCADE,
+    source = models.ForeignKey(Place, on_delete=models.PROTECT,
                                related_name='booking_source')
-    destination = models.ForeignKey(Place, on_delete=models.CASCADE,
+    destination = models.ForeignKey(Place, on_delete=models.PROTECT,
                                     related_name='booking_destination')
     pickup_point = models.TextField(max_length=200, blank=True, default="")
     booking_type = models.CharField(choices=BOOKING_TYPE_CHOICES_DICT.items(),
@@ -185,7 +186,7 @@ class Booking(models.Model):
     travel_date = models.DateField()
     travel_time = models.TimeField()
     vehicle_type = models.ForeignKey(VehicleRateCategory,
-                                     on_delete=models.CASCADE,
+                                     on_delete=models.PROTECT,
                                      related_name='booking')
     vehicle_count = models.PositiveIntegerField(default=1, blank=True)
     passengers = models.IntegerField(default=1, blank=True)
@@ -382,8 +383,10 @@ class BookingVehicle(models.Model):
     driver_pay = models.PositiveIntegerField(blank=True, default=0)
     driver_invoice_id = models.CharField(max_length=50, blank=True)
 
-    vehicle = models.ForeignKey(Vehicle, blank=True, null=True)
-    driver = models.ForeignKey(Driver, blank=True, null=True)
+    vehicle = models.ForeignKey(Vehicle, blank=True, null=True,
+                                on_delete=models.PROTECT)
+    driver = models.ForeignKey(Driver, blank=True, null=True,
+                               on_delete=models.PROTECT)
     extra_info = models.TextField(blank=True, default='')
 
     def __str__(self):
