@@ -104,7 +104,8 @@ class BookingVehicleInline(admin.TabularInline):
 class BookingAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
-                    'travel_date', 'travel_time', 'vehicles', 'created',
+                    'travel_date', 'travel_time', 'vehicle_count',
+                    'vehicles', 'created',
                     'status', 'total_fare', 'payment_done', 'payment_status',
                     'payment_due', 'passengers')
     list_filter = ('booking_type', 'status', 'travel_date',
