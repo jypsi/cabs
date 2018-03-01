@@ -82,7 +82,7 @@ def draw_pdf(buffer, data):
     canvas.drawText(textobject)
 
     # Items
-    items = [[u'#', u'Description', u'Amount'], ]
+    items = [[u'#', u'Description', u'Amount (INR)'], ]
     for count, item in enumerate(data['items']):
         items.append([u'{}'.format(count + 1),
                       Paragraph(item['description'], STYLES['pAlignLeft']),
@@ -93,6 +93,10 @@ def draw_pdf(buffer, data):
     items.append([u'', u'CGST:', data['cgst']])
     items.append([u'', Paragraph(u'<b>Total:</b>', STYLES['pAlignRight']),
                   Paragraph('<b>{}</b>'.format(data['total_amount']), STYLES['pAlignRight'])])
+    items.append([u'', Paragraph(u'Paid:', STYLES['pAlignRight']),
+                  Paragraph('{}'.format(data['paid']), STYLES['pAlignRight'])])
+    items.append([u'', Paragraph(u'<b>Due:</b>', STYLES['pAlignRight']),
+                  Paragraph('<b>{}</b>'.format(data['due']), STYLES['pAlignRight'])])
     table = Table(items, colWidths=[1 * cm, 10 * cm, 2.7 * cm])
     table.setStyle([
         ('FONT', (0, 0), (-1, -1), 'Helvetica'),
