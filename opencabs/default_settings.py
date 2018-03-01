@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'logentry_admin',
+
     'debug_toolbar',
     'formtools',
     'import_export',
