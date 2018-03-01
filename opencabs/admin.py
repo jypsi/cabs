@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import admin
 from django.conf.urls import url
 from django.core.mail import send_mail
@@ -28,6 +30,7 @@ class BookingResource(resources.ModelResource):
     vehicle_type = fields.Field()
     status = fields.Field()
     payment_status = fields.Field()
+    payments = fields.Field()
 
     class Meta:
         model = Booking
@@ -40,7 +43,8 @@ class BookingResource(resources.ModelResource):
                         'vehicle_count', 'vehicles',
                         'total_fare',
                         'payment_status', 'payment_done', 'payment_due',
-                        'fare_details'
+                        'fare_details',
+                        'payments'
                         )
 
     def dehydrate_driver(self, booking):
@@ -73,6 +77,15 @@ class BookingResource(resources.ModelResource):
 
     def dehydrate_booking_type(self, booking):
         return BOOKING_TYPE_CHOICES_DICT.get(booking.booking_type)
+
+    def dehydrate_payments(self, booking):
+        return json.dumps([
+            {'amount': float(p.amount), 'type': p.type, 'mode': p.mode,
+             'reference_id': p.reference_id, 'comment': p.comment,
+             'invoice_id': p.invoice_id, 'timestamp': str(p.timestamp)}
+            for p in booking.payments.all()
+        ])
+
 
 
 class PaymentInline(GenericTabularInline):
