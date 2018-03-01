@@ -37,7 +37,7 @@ class BookingResource(resources.ModelResource):
                         'customer_email', 'created',
                         'travel_date', 'travel_time',
                         'pickup_point', 'ssr', 'status', 'vehicle_type',
-                        'vehicles',
+                        'vehicle_count', 'vehicles',
                         'total_fare',
                         'payment_status', 'payment_done', 'payment_due',
                         'fare_details'
