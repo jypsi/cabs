@@ -354,7 +354,7 @@ class Booking(models.Model):
                 booking_type=BOOKING_TYPE_CHOICES_DICT.get(self.booking_type),
                 vehicle_count=self.vehicle_count
             ),
-            'amount': fare_details['price']
+            'amount': fare_details['price'] + fare_details.get('markup', 0)
         }]
         if self.pickup_point:
             booking_items[0]['description'] += '\n<b>Pickup point</b>: {}'.format(
@@ -362,6 +362,7 @@ class Booking(models.Model):
         total_amount = fare_details.get('total') or fare_details.get('price')
         paid = self.payment_done
         due = self.payment_due
+        discount = fare_details.get('discount', 0)
         f = open('/tmp/oc-booking-invoice-{}.pdf'.format(self.booking_id),
                  'wb')
         draw_pdf(f, {'id': self.booking_id,
@@ -371,6 +372,7 @@ class Booking(models.Model):
                      'sgst': fare_details['taxes']['SGST'],
                      'cgst': fare_details['taxes']['CGST'],
                      'total_amount': total_amount,
+                     'discount': discount,
                      'paid': paid,
                      'due': due,
                      'business_name': settings.INVOICE_BUSINESS_NAME,

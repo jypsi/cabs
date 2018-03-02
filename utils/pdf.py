@@ -91,6 +91,8 @@ def draw_pdf(buffer, data):
     items.append([u'', Paragraph('<b>Taxes</b>', STYLES['pAlignRight']), u''])
     items.append([u'', u'SGST:', data['sgst']])
     items.append([u'', u'CGST:', data['cgst']])
+    if 'discount' in data and data['discount']:
+        items.append([u'', Paragraph('<b>Discount</b>', STYLES['pAlignRight']), data['discount']])
     items.append([u'', Paragraph(u'<b>Total:</b>', STYLES['pAlignRight']),
                   Paragraph('<b>{}</b>'.format(data['total_amount']), STYLES['pAlignRight'])])
     items.append([u'', Paragraph(u'Paid:', STYLES['pAlignRight']),
