@@ -122,7 +122,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
                     'status', 'total_fare', 'payment_done', 'payment_status',
                     'payment_due', 'passengers')
     list_filter = ('booking_type', 'status', 'travel_date',
-                   'created')
+                   'created', 'payment_status')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
