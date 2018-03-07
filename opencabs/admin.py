@@ -163,7 +163,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = BookingResource
 
     def vehicles(self, obj):
-        return ','.join([str(i) for i in obj.bookingvehicle_set.all()] or ['x'])
+        return ', '.join(['{}/{}'.format(i.driver or '-', i.vehicle or '-') for i in obj.bookingvehicle_set.all()] or ['x'])
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
