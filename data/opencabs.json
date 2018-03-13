@@ -14,7 +14,8 @@
   "pk": 1,
   "fields": {
     "name": "Sedan",
-    "description": ""
+    "description": "",
+    "passengers": 4
   }
 },
 {
@@ -22,7 +23,8 @@
   "pk": 2,
   "fields": {
     "name": "Hatchback",
-    "description": ""
+    "description": "",
+    "passengers": 4
   }
 },
 {
@@ -30,7 +32,8 @@
   "pk": 3,
   "fields": {
     "name": "SUV",
-    "description": ""
+    "description": "",
+    "passengers": 4
   }
 },
 {
@@ -212,14 +215,6 @@
 },
 {
   "model": "opencabs.driver",
-  "pk": 1,
-  "fields": {
-    "name": "Ramu",
-    "mobile": "1234567890"
-  }
-},
-{
-  "model": "opencabs.driver",
   "pk": 2,
   "fields": {
     "name": "John",
@@ -258,38 +253,291 @@
 },
 {
   "model": "opencabs.booking",
-  "pk": 1,
+  "pk": 8,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "pickup_point": "Orchid Woods, Hennur Bagalur Road, Bangalore 560077",
+    "booking_type": "RT",
+    "travel_date": "2018-01-13",
+    "travel_time": "13:21:00",
+    "vehicle_type": 1,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "Ratnadeep",
+    "customer_mobile": "7829649042",
+    "customer_email": "rtnpro@gmail.com",
+    "ssr": "",
+    "status": "1",
+    "payment_status": "PD",
+    "payment_done": 3960,
+    "payment_due": 0,
+    "revenue": 1160,
+    "last_payment_date": "2018-01-10T08:12:04.982Z",
+    "accounts_verified": true,
+    "booking_id": "OC746F8DF2",
+    "total_fare": 3960,
+    "fare_details": "{\"tariff_per_km\": 16, \"after_hour_charges\": 200, \"price\": 3600, \"driver_charge\": 2800, \"taxes\": {\"CGST\": 180.0, \"SGST\": 180.0, \"total\": 360.0}, \"total\": 3960.0}",
+    "distance": null,
+    "created": "2018-01-10T07:52:18.425Z",
+    "last_updated": "2018-01-10T08:12:38.251Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 9,
+  "fields": {
+    "source": 2,
+    "destination": 1,
+    "pickup_point": "Mysore Palace",
+    "booking_type": "OW",
+    "travel_date": "2018-01-18",
+    "travel_time": "13:22:00",
+    "vehicle_type": 1,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "Sumukhi Vasudha Devi Dasi",
+    "customer_mobile": "8951924118",
+    "customer_email": "sumukhi.vasudha@gmail.com",
+    "ssr": "",
+    "status": "1",
+    "payment_status": "PD",
+    "payment_done": 1980,
+    "payment_due": 0,
+    "revenue": 580,
+    "last_payment_date": "2018-01-10T08:17:23Z",
+    "accounts_verified": true,
+    "booking_id": "OCD5FCE550",
+    "total_fare": 1980,
+    "fare_details": "{\"tariff_per_km\": 16, \"after_hour_charges\": 200, \"price\": 1800, \"driver_charge\": 1400, \"taxes\": {\"CGST\": 90.0, \"SGST\": 90.0, \"total\": 180.0}, \"total\": 1980.0}",
+    "distance": null,
+    "created": "2018-01-10T07:53:08.597Z",
+    "last_updated": "2018-01-10T08:17:59.518Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 10,
   "fields": {
     "source": 1,
     "destination": 3,
+    "pickup_point": "Orchid Woods, Hennur Bagalur Road, Bangalore 560077",
+    "booking_type": "RT",
+    "travel_date": "2018-01-24",
+    "travel_time": "13:23:00",
+    "vehicle_type": 1,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "Ratnadeep",
+    "customer_mobile": "7829649042",
+    "customer_email": "rtnpro@gmail.com",
+    "ssr": "",
+    "status": "1",
+    "payment_status": "PR",
+    "payment_done": 11000,
+    "payment_due": 2200,
+    "revenue": 3000,
+    "last_payment_date": "2018-01-10T08:15:30.930Z",
+    "accounts_verified": true,
+    "booking_id": "OC485D2074",
+    "total_fare": 13200,
+    "fare_details": "{\"tariff_per_km\": 16, \"after_hour_charges\": 200, \"price\": 12000, \"driver_charge\": 9000, \"taxes\": {\"CGST\": 600.0, \"SGST\": 600.0, \"total\": 1200.0}, \"markup\": 200, \"discount\": 200, \"total\": 13200.0}",
+    "distance": null,
+    "created": "2018-01-10T07:54:39.446Z",
+    "last_updated": "2018-02-16T04:13:22.140Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 11,
+  "fields": {
+    "source": 1,
+    "destination": 2,
     "pickup_point": "",
     "booking_type": "OW",
-    "travel_date": "2017-11-22",
-    "travel_time": "12:02:00",
-    "vehicle_type": 1,
-    "customer_name": "John Doe",
-    "customer_mobile": "+911234576890",
-    "customer_email": "jdoe@example.com",
+    "travel_date": "2018-02-15",
+    "travel_time": "22:57:00",
+    "vehicle_type": 2,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "sdsf",
+    "customer_mobile": "7829649042",
+    "customer_email": "rtnpro@gmail.com",
     "ssr": "",
     "status": "0",
     "payment_status": "NP",
     "payment_done": 0,
-    "payment_due": 10000,
+    "payment_due": 1760,
     "revenue": 0,
     "last_payment_date": null,
     "accounts_verified": false,
-    "driver_paid": false,
+    "booking_id": "OCD6BD8C28",
+    "total_fare": 1760,
+    "fare_details": "{\"tariff_per_km\": 13, \"after_hour_charges\": 180, \"price\": 1600, \"driver_charge\": 1200, \"taxes\": {\"CGST\": 80.0, \"SGST\": 80.0, \"total\": 160.0}, \"total\": 1760.0}",
+    "distance": null,
+    "created": "2018-02-15T17:28:10.527Z",
+    "last_updated": "2018-02-15T17:28:10.527Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 12,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "pickup_point": "",
+    "booking_type": "OW",
+    "travel_date": "2018-02-22",
+    "travel_time": "16:52:00",
+    "vehicle_type": 4,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "dfge",
+    "customer_mobile": "7829649042",
+    "customer_email": "",
+    "ssr": "",
+    "status": "0",
+    "payment_status": "NP",
+    "payment_done": 0,
+    "payment_due": 1430,
+    "revenue": 0,
+    "last_payment_date": null,
+    "accounts_verified": false,
+    "booking_id": "OC7AC6E17B",
+    "total_fare": 1430,
+    "fare_details": "{\"tariff_per_km\": 12, \"after_hour_charges\": 170, \"price\": 1300, \"driver_charge\": 1100, \"discount\": 0, \"markup\": 0, \"taxes\": {\"CGST\": 65.0, \"SGST\": 65.0, \"total\": 130.0}, \"total\": 1430.0}",
+    "distance": null,
+    "created": "2018-02-22T11:28:55.958Z",
+    "last_updated": "2018-02-22T11:28:55.958Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 15,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "pickup_point": "",
+    "booking_type": "OW",
+    "travel_date": "2018-02-26",
+    "travel_time": "18:49:00",
+    "vehicle_type": 4,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "test",
+    "customer_mobile": "7829649042",
+    "customer_email": "rtnpro@gmail.com",
+    "ssr": "",
+    "status": "0",
+    "payment_status": "NP",
+    "payment_done": 0,
+    "payment_due": 1430,
+    "revenue": 0,
+    "last_payment_date": null,
+    "accounts_verified": false,
+    "booking_id": "OC9B726986",
+    "total_fare": 1430,
+    "fare_details": "{\"tariff_per_km\": 12, \"after_hour_charges\": 170, \"price\": 1300, \"driver_charge\": 1100, \"discount\": 0, \"markup\": 0, \"taxes\": {\"CGST\": 65.0, \"SGST\": 65.0, \"total\": 130.0}, \"total\": 1430.0}",
+    "distance": null,
+    "created": "2018-02-25T13:23:36.239Z",
+    "last_updated": "2018-02-28T11:54:52.141Z"
+  }
+},
+{
+  "model": "opencabs.booking",
+  "pk": 16,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "pickup_point": "",
+    "booking_type": "OW",
+    "travel_date": "2018-02-28",
+    "travel_time": "17:57:00",
+    "vehicle_type": 4,
+    "vehicle_count": 1,
+    "passengers": 1,
+    "customer_name": "test",
+    "customer_mobile": "7829649042",
+    "customer_email": "rtnpro@gmail.com",
+    "ssr": "",
+    "status": "0",
+    "payment_status": "PR",
+    "payment_done": 1430,
+    "payment_due": 100,
+    "revenue": 1430,
+    "last_payment_date": "2018-02-28T12:32:48Z",
+    "accounts_verified": false,
+    "booking_id": "OC044D5E2D",
+    "total_fare": 1530,
+    "fare_details": "{\"tariff_per_km\": 12, \"after_hour_charges\": 170, \"price\": 1300, \"driver_charge\": 1100, \"discount\": 100, \"markup\": 200, \"taxes\": {\"CGST\": 65.0, \"SGST\": 65.0, \"total\": 130.0}, \"total\": 1530.0}",
+    "distance": null,
+    "created": "2018-02-28T12:28:23.660Z",
+    "last_updated": "2018-03-02T04:24:16.277Z"
+  }
+},
+{
+  "model": "opencabs.bookingvehicle",
+  "pk": 1,
+  "fields": {
+    "booking": 9,
+    "driver_paid": true,
+    "driver_pay": 1400,
+    "driver_invoice_id": "OCVC62D6900",
+    "vehicle": 1,
+    "driver": 2,
+    "extra_info": ""
+  }
+},
+{
+  "model": "opencabs.bookingvehicle",
+  "pk": 4,
+  "fields": {
+    "booking": 11,
+    "driver_paid": true,
     "driver_pay": 0,
     "driver_invoice_id": "",
     "vehicle": null,
     "driver": null,
-    "extra_info": "",
-    "booking_id": "OC6C2318CF",
-    "total_fare": 10000,
-    "fare_details": "{\"tariff_per_km\": 16, \"after_hour_charges\": 200, \"price\": 5000, \"driver_charge\": 4000, \"taxes\": {\"CGST\": 2500.0, \"SGST\": 2500.0, \"total\": 5000.0}, \"total\": 10000.0}",
-    "distance": null,
-    "created": "2017-11-05T09:13:47.545Z",
-    "last_updated": "2017-11-05T09:13:47.545Z"
+    "extra_info": ""
+  }
+},
+{
+  "model": "opencabs.bookingvehicle",
+  "pk": 5,
+  "fields": {
+    "booking": 10,
+    "driver_paid": true,
+    "driver_pay": 8000,
+    "driver_invoice_id": "OCV52D997D4",
+    "vehicle": 1,
+    "driver": 2,
+    "extra_info": ""
+  }
+},
+{
+  "model": "opencabs.bookingvehicle",
+  "pk": 6,
+  "fields": {
+    "booking": 12,
+    "driver_paid": true,
+    "driver_pay": 0,
+    "driver_invoice_id": "",
+    "vehicle": null,
+    "driver": null,
+    "extra_info": ""
+  }
+},
+{
+  "model": "opencabs.bookingvehicle",
+  "pk": 13,
+  "fields": {
+    "booking": 16,
+    "driver_paid": true,
+    "driver_pay": 0,
+    "driver_invoice_id": "",
+    "vehicle": null,
+    "driver": null,
+    "extra_info": ""
   }
 }
 ]
