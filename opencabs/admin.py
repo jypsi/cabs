@@ -235,13 +235,16 @@ class Account(Booking):
 
 @admin.register(Account)
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ('booking_id', 'accounts_verified', 'payment_done',
+    list_display = ('booking_id', 'accounts_verified', 'payment_status',
+                    'payment_done', 'payment_due',
                     'last_payment_date', 'revenue',)
     list_editable = ('accounts_verified',)
-    fields = ('booking_id', 'accounts_verified', 'payment_done',
+    fields = ('booking_id', 'accounts_verified',
+              'payment_status', 'payment_done', 'payment_due',
               'last_payment_date', 'revenue',)
     readonly_fields = ('booking_id', 'payment_done',
-                       'last_payment_date', 'revenue',)
+                       'last_payment_date', 'revenue', 'payment_status',
+                       'payment_due')
     list_filter = ('accounts_verified',)
 
 
