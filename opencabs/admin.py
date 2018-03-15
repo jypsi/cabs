@@ -118,9 +118,9 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
     list_display = ('booking_id', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'vehicle_type',
-                    'vehicle_count', 'vehicles', 'created',
+                    'vehicle_count', 'vehicles',
                     'status', 'total_fare', 'payment_done', 'payment_status',
-                    'payment_due', 'passengers')
+                    'payment_due', 'passengers', 'created',)
     list_filter = ('booking_type', 'status', 'travel_date',
                    'created', 'payment_status')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
