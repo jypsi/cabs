@@ -21,7 +21,7 @@ def draw_header(canvas, name):
     canvas.setFont('Helvetica', 16)
     canvas.drawString(12.7 * cm, -1 * cm, 'Invoice')
     if os.path.isfile(name):
-        canvas.drawInlineImage(name, 1 * cm, -1 * cm, 250, 16)
+        canvas.drawInlineImage(name, 0.4 * cm, -1 * cm, 100, 32)
     else:
         canvas.drawString(0.4 * cm, -1 * cm, name)
     canvas.setLineWidth(4)
