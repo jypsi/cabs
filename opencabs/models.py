@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core import urlresolvers
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils import timezone
@@ -232,6 +233,9 @@ class Booking(models.Model):
     @property
     def booking_type_display(self):
         return BOOKING_TYPE_CHOICES_DICT.get(self.booking_type)
+
+    def get_admin_url(self):
+        return urlresolvers.reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name), args=(self.id,))
 
     def save(self, *args, **kwargs):
         if not self.customer_email and not self.customer_mobile:
