@@ -259,17 +259,20 @@ class RateAdmin(admin.ModelAdmin):
     list_display = ('source', 'destination', 'vehicle_category',
                     'oneway_price', 'roundtrip_price')
     list_filter = ('vehicle_category',)
+    search_fields = ('source', 'destination',)
 
 
 @admin.register(VehicleRateCategory)
 class VehicleRateCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'tariff_per_km', 'tariff_after_hours')
     list_filter = ('features',)
+    search_fields = ('name',)
 
 
 @admin.register(VehicleCategory)
 class VehicleCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
+    search_fields = ('name',)
 
 
 @admin.register(Driver)
@@ -283,5 +286,6 @@ class VehicleAdmin(admin.ModelAdmin):
     list_display = ('name', 'number', 'category', 'driver')
     search_fields = ('name', 'number', 'driver')
     list_filter = ('category__name',)
+    search_fields = ('name', 'number')
 
 admin.site.register(VehicleFeature)
