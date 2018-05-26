@@ -8,3 +8,4 @@ class PaymentAdmin(admin.ModelAdmin):
     list_display = ('amount', 'type', 'mode', 'timestamp',
                     'item_object', 'reference_id', 'comment', 'created')
     list_filter = ('mode', 'created')
+    search_fields = ('bookings__booking_id',)
