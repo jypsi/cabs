@@ -226,7 +226,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
 
 @admin.register(BookingVehicle)
 class BookingVehicle(admin.ModelAdmin):
-    pass
+    search_fields = ('booking__booking_id', 'driver__name', 'vehicle__number')
 
 class Account(Booking):
     class Meta:
