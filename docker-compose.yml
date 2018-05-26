@@ -8,13 +8,13 @@ services:
       - db
     volumes:
       - ./:/src
-      - ./settings.compose.py:/src/opencabs/settings.py
       - ./static:/static
     expose:
       - "8000"
     ports:
         - 127.0.0.1:8080:8000
     environment:
+      DJANGO_SETTINGS_MODULE: 'settings.compose.py'
       DB_USER: postgres
       DB_NAME: postgres
       DB_PASS: postgres
