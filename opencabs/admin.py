@@ -245,7 +245,8 @@ class AccountAdmin(admin.ModelAdmin):
     readonly_fields = ('booking_id', 'payment_done',
                        'last_payment_date', 'revenue', 'payment_status',
                        'payment_due')
-    list_filter = ('accounts_verified',)
+    list_filter = ('accounts_verified', 'last_updated', 'created')
+    search_fields = ('booking_id',)
 
 
 @admin.register(Place)
