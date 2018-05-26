@@ -12,7 +12,7 @@ DATABASES = {
     }
 }
 
-INVOICE_BUSINESS_NAME = 'Gauranga Travels'
+INVOICE_BUSINESS_NAME = os.environ.get('INVOICE_BUSINESS_ADDRESS', 'Gauranga Travels')
 
 INVOICE_BUSINESS_ADDRESS = """
 Mayapur Community Development Trust
