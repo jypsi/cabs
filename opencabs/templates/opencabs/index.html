@@ -119,6 +119,46 @@
 			</div>
 		</div>
 	</header>
+	<section id="features">
+		<!--<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2 class="section-heading">Features</h2>
+					<hr class="primary">
+				</div>
+			</div>
+		</div>-->
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-info-circle text-primary sr-icons"></i>
+						<h3><a href="about-us">About Us</a></h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-file icon-remove text-primary sr-icons"></i>
+						<h3><a href="cancellation-policy">Cancellation Policy</a></h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-cogs text-primary sr-icons"></i>
+						<h3><a href="terms-and-conditions">Terms & Conditions</a></h3>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 text-center">
+					<div class="service-box">
+						<i class="fa fa-4x fa-user-secret text-primary sr-icons"></i>
+						<h3><a href="privacy-policy">Privacy Policy</a></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
 	<section class="bg-primary" id="about">
 		<div class="container">
 			<div class="row">
@@ -200,10 +240,17 @@
 					<p>{{ settings.CONTACT_PHONE }}</p>
 				</div>
 				<div class="col-lg-4 text-center">
-					<i class="fa fa-envelope-o fa-3x sr-contact"></i>
+					<i class="fa fa-envelope fa-3x sr-contact"></i>
 					<p><a href="mailto:{{ setting.CONTACT_EMAIL }}">{{ settings.CONTACT_EMAIL }}</a></p>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-lg-4 col-lg-offset-4 text-center">
+					<i class="fa fa-address-book fa-3x sr-contact"></i>
+					<p>{{ settings.CONTACT_PHONE }}</p>
+				</div>
+			</div>
+
 		</div>
 	</section>
 {% endblock %}
