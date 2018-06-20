@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'logentry_admin',
 
     'debug_toolbar',
@@ -61,9 +62,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'opencabs.urls'
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -155,6 +158,7 @@ BOOKING_ID_PREFIX = os.environ.get('PNR_PREFIX', 'OC')
 ROUTE_CODE_FUNC = lambda a, b: '%s-%s' % (a, b) if a > b else '%s-%s' % (b, a)
 CONTACT_PHONE = os.environ.get('CONTACT_PHONE', '123-456-6789')
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'your-email@your-domain.com')
+CONTACT_ADDRESS = os.environ.get('CONTACT_ADDRESS','Room 123,Transcend building');
 MSG91_AUTHKEY = os.environ.get('MSG91_AUTHKEY',
                                'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 MSG91_SENDER_ID = os.environ.get('MSG91_SENDER_ID', 'SOMEID')

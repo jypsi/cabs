@@ -6,6 +6,8 @@ __pycache__/
 *.swp
 *.swo
 
+lib64
+
 # C extensions
 *.so
 
@@ -13,12 +15,14 @@ __pycache__/
 .Python
 env/
 build/
+share/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
 lib/
+bin/
 lib64/
 parts/
 sdist/
@@ -84,9 +88,13 @@ celerybeat-schedule
 # virtualenv
 venv/
 ENV/
+pyvenv.cfg
 
 # Spyder project settings
 .spyderproject
 
 # Rope project settings
 .ropeproject
+
+# Sqlite Database
+db.sqlite3
