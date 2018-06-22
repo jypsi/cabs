@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ settings.PROJECT_NAME }}</title>
+    <title>{% block title %}{{ settings.PROJECT_NAME }}{% endblock %}</title>
 
     <!-- Bootstrap Core CSS -->
     {% block head %}

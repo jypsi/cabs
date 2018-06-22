@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.flatpages import views as flatpages_views
 
 from . import views
 
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^' + settings.URL_PREFIX + 'booking/(?P<booking_id>\d+)/invoice/$',
         views.booking_invoice, name='booking_invoice'),
     url(r'^' + settings.URL_PREFIX + r'admin/', admin.site.urls),
+    url(r'^' + settings.URL_PREFIX + r'(?P<url>.*/)$', flatpages_views.flatpage),
 ]
 
 if settings.DEBUG:
