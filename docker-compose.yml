@@ -14,7 +14,7 @@ services:
     ports:
         - 127.0.0.1:8080:8000
     environment:
-      DJANGO_SETTINGS_MODULE: 'settings.compose.py'
+      DJANGO_SETTINGS_MODULE: 'settings_compose'
       DB_USER: postgres
       DB_NAME: postgres
       DB_PASS: postgres
