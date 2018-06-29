@@ -5,11 +5,16 @@ RUN dnf -y install python3-pip gcc python3-devel redhat-rpm-config postgresql-de
 
 WORKDIR /src
 
-ADD opencabs /src/
-ADD manage.py /src/
 ADD requirements.txt /src/
 
 RUN pip3 install -r requirements.txt
+
+ADD data /src/data
+ADD opencabs /src/opencabs
+ADD finance /src/finance
+ADD utils /src/utils
+ADD static /static
+ADD manage.py /src/
 
 EXPOSE 8000
 
