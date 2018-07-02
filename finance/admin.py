@@ -6,7 +6,8 @@ from .models import Payment
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('amount', 'type', 'mode', 'timestamp', 'customer',
-                    'item_object', 'reference_id', 'comment', 'created',)
+                    'travel_date', 'item_object', 'reference_id',
+                    'comment', 'created',)
     list_filter = ('mode', 'created')
     search_fields = ('bookings__booking_id',)
 
@@ -16,6 +17,9 @@ class PaymentAdmin(admin.ModelAdmin):
 
     def customer(self, obj):
         return obj.item_object.customer_name
+
+    def travel_date(self, obj):
+        return obj.item_object.travel_date
 
 
     item_object.allow_tags = True
