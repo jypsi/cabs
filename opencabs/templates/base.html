@@ -12,27 +12,7 @@
 {% block navbar_class %}{{ block.super }} affix{% endblock %}
 
 {% block footer %}
-    <footer class="footer">
-        <div class="container">
-            <span class="row">
-                <span class="col-md-8 col-sm-12">
-                    <span class="col-md-4 col-sm-12 col-xs-12">
-                        <i class="fa fa-phone"></i>
-                        {{ settings.CONTACT_PHONE }}
-                    </span>
-                    <span class="col-md-8 col-sm-12 col-xs-12">
-                        <i class="fa fa-envelope-o"></i>
-                        <a href="mailto:{{ setting.CONTACT_EMAIL }}">{{ settings.CONTACT_EMAIL }}</a>
-                    </span>
-                </span>
-                <span class="col-md-4">
-                    <span class="pull-right">
-                        Powered by <a href="https://github.com/rtnpro/opencabs">Opencabs</a>
-                    </span>
-                </span>
-            </span>
-        </div>
-    </footer>
+    {% include "footer.html" %}
 {% endblock %}
 
 {% block scripts %}{% endblock %}
