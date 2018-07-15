@@ -8,7 +8,7 @@ services:
       - db
     volumes:
       - ./:/src
-      - ./static:/static
+      - ./static:/src/static
     expose:
       - "8000"
     ports:

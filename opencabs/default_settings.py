@@ -138,7 +138,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.environ.get(
-    'STATIC_ROOT', os.path.join(os.path.dirname(__file__), '../static'))
+    'STATIC_ROOT', os.path.join(BASE_DIR, 'static'))
 
 BOOTSTRAP3 = {
     'set_required': False,  # For Django <= 1.8 only
