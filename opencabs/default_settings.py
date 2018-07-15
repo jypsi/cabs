@@ -30,7 +30,7 @@ if os.environ.get('DEBUG', '').lower() == 'false':
 
 ALLOWED_HOSTS = json.loads(os.environ.get('ALLOWED_HOSTS', '[]'))
 
-SITE_ID = 1
+SITE_ID = int(os.environ.get('SITE_ID', '1'))
 
 
 # Application definition
