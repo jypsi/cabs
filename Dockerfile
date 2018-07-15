@@ -9,11 +9,12 @@ ADD requirements.txt /src/
 
 RUN pip3 install -r requirements.txt
 
+# This is where you mount custom static assets directory
+RUN mkdir -p /static
 ADD data /src/data
 ADD opencabs /src/opencabs
 ADD finance /src/finance
 ADD utils /src/utils
-ADD static /static
 ADD manage.py /src/
 
 EXPOSE 8000
