@@ -198,12 +198,15 @@
 $(function(){
     $('#id_itinerary-booking_type_0').click();
 
-    $('#traveldate-picker').datetimepicker({
-        format: 'YYYY-MM-DD'
-    });
+    $('#traveldate-picker').datetimepicker({ 
+        minDate: moment(),
+        maxDate: moment().add(120, 'd'),
+        format: 'YYYY-MM-DD' 
+      });
 
     $('#traveltime-picker').datetimepicker({
-        format: 'HH:mm'
+        // format: 'LT'
+        format : 'HH:mm'
     });
 
     $('#id_itinerary-source').on("change", function() {
