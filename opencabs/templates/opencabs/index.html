@@ -123,7 +123,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 text-center">
-					<h2 class="section-heading">An open source cab services management soluition!</h2>
+					<h2 class="section-heading">An open source cab services management solution!</h2>
 					<hr class="light">
 					<p class="text-faded">Host your own cab service and handle bookings and inventory management online.</p>
 				</div>
@@ -199,6 +199,8 @@ $(function(){
     $('#id_itinerary-booking_type_0').click();
 
     $('#traveldate-picker').datetimepicker({
+        minDate: moment(),
+        maxDate:moment().add(120, 'd'),
         format: 'YYYY-MM-DD'
     });
 
