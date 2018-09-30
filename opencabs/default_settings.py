@@ -143,6 +143,9 @@ STATICFILES_DIRS = [
     if item.strip()] or [
     os.path.join(BASE_DIR, 'static')]
 
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
+MEDIA_URL = '/media/'
+
 BOOTSTRAP3 = {
     'set_required': False,  # For Django <= 1.8 only
     'error_css_class': 'bootstrap3-error',
