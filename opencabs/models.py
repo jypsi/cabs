@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from finance.models import Payment
 
 import json
+import os
 import uuid
 from io import StringIO
 from hashlib import md5
@@ -34,6 +35,9 @@ class VehicleFeature(models.Model):
 class VehicleCategory(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)
     description = models.TextField(max_length=200, blank=True, default='')
+    image = models.ImageField(
+        upload_to='vehicles',
+        max_length=100, null=True, blank=True)
 
     passengers = models.IntegerField(default=4, blank=True)
 
