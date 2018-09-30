@@ -1,22 +1,33 @@
-<div style="text-align: left;">
-    <h3 class="row" style="font-weight: 600; text-align: justify; margin-top: 0px;">
-        <span class="col-md-10 col-sm-8 col-xs-6">
-            {{ rate.vehicle_category.name }}
+<div class="row" style="text-align: left;">
+    <div class="col-md-2">
+        {% if rate.vehicle_category.category.image %}
+        <span class="thumbnail">
+            <img src="{{ rate.vehicle_category.category.image.url }}" alt="">
         </span>
-        <span class="col-md-2 col-sm-4 col-xs-6">Rs. {% if booking_type == 'OW' %}{{ rate.total_oneway_price }}{% elif booking_type == 'RT' %}{{ rate.total_roundtrip_price }}{% endif %}</span>
-    </h3>
+        {% else %}
+        <span class="glyphicon glyphicon-picture" style="font-size:8em"></span>
+        {% endif %}
+    </div>
+    <div class="col-md-10">
+        <h3 class="row" style="font-weight: 600; text-align: justify; margin-top: 0px;">
+            <span class="col-md-10 col-sm-8 col-xs-6">
+                {{ rate.vehicle_category.name }}
+            </span>
+            <span class="col-md-2 col-sm-4 col-xs-6">Rs. {% if booking_type == 'OW' %}{{ rate.total_oneway_price }}{% elif booking_type == 'RT' %}{{ rate.total_roundtrip_price }}{% endif %}</span>
+        </h3>
 
-    <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-    <div class="small" style="text-align: left;">
-        <strong>Maximum passengers: </strong> {{ rate.vehicle_category.category.passengers }}
-        <strong>Features: </strong>
-        {% for i in rate.vehicle_category.features.all %} {{ i.name }} .{% empty %} -- {% endfor %}
+        <div class="small" style="text-align: left;">
+            <strong>Maximum passengers: </strong> {{ rate.vehicle_category.category.passengers }}
+            <strong>Features: </strong>
+            {% for i in rate.vehicle_category.features.all %} {{ i.name }} .{% empty %} -- {% endfor %}
 
-        <strong>Extra distance charges: </strong>
-        Rs. {{ rate.vehicle_category.tariff_per_km }}/km
+            <strong>Extra distance charges: </strong>
+            Rs. {{ rate.vehicle_category.tariff_per_km }}/km
 
-        <strong>Extra after hours charges: </strong>
-        Rs. {{ rate.vehicle_category.tariff_after_hours }}
+            <strong>Extra after hours charges: </strong>
+            Rs. {{ rate.vehicle_category.tariff_after_hours }}
+        </div>
     </div>
 </div>
