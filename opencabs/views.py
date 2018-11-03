@@ -11,7 +11,6 @@ from formtools.wizard.views import CookieWizardView
 
 from .forms import booking as booking_form
 from .models import Booking
-from .notification import send_sms
 
 FORMS = [
     ('itinerary', booking_form.BookingTravelForm),
@@ -53,18 +52,7 @@ class BookingWizard(CookieWizardView):
         data.update(form_dict['contactinfo'].cleaned_data)
         booking = Booking(**data)
         booking.save()
-        try:
-            msg = ("Dear customer,\n"
-                   "We've received your booking request with ID: {}\n"
-                   "You'll receive a notification when your booking "
-                   "is confirmed!").format(booking.booking_id)
-            if booking.customer_mobile:
-                send_sms([booking.customer_mobile], msg)
-            if booking.customer_email:
-                send_mail('Booking request received', msg,
-                          settings.FROM_EMAIL, [booking.customer_email])
-        except Exception as e:
-            print("SMS Error: %s" % e)
+        booking.send_booking_request_ack_to_customer()
         return redirect(
             reverse('booking_details') + '?bookingid=' + booking.booking_id)
 

@@ -217,3 +217,7 @@ Bank Details: Street address, Town, County, POSTCODE
 Sort Code: 00-00-00 Account No: 00000000 (Quote invoice number).
 Please pay via bank transfer or cheque. All payments should be made in CURRENCY.
 Make cheques payable to Company Name Ltd.""")
+
+# Notifications
+SEND_CUSTOMER_SMS = os.environ.get('SEND_CUSTOMER_SMS', 'True').lower() == 'true'
+SEND_DRIVER_SMS = os.environ.get('SEND_DRIVER_SMS', 'True').lower() == 'true'

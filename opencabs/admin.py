@@ -18,7 +18,6 @@ from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
 from .models import (BOOKING_TYPE_CHOICES_DICT,
                      BOOKING_STATUS_CHOICES_DICT,
                      BOOKING_PAYMENT_STATUS_CHOICES_DICT)
-from .notification import send_sms
 from .views import booking_invoice
 
 
@@ -179,29 +178,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         status = form.cleaned_data['status']
         if 'status' in form.changed_data:
-            subject = ''
-            if status == '0':
-                msg = (
-                    "You booking request is being processed.")
-                subject = 'Booking under process'
-            elif status == '1':
-                msg = (
-                    "Your booking with ID: {} has been confirmed.\n"
-                    "You'll be notified about vehicle & driver details "
-                    "a few hours before your trip."
-                ).format(obj.booking_id)
-                subject = 'Booking confirmed'
-            elif status == '2':
-                msg = (
-                    "Your booking with ID: {} has been declined."
-                ).format(obj.booking_id)
-                subject = 'Booking declined'
-            if form.cleaned_data.get('customer_mobile'):
-                send_sms([form.cleaned_data['customer_mobile']], msg)
-            if form.cleaned_data.get('customer_email'):
-                send_mail(subject, msg,
-                          settings.FROM_EMAIL,
-                          [form.cleaned_data['customer_email']])
+            obj.send_trip_status_to_customer()
 
 
     def save_formset(self, request, form, formset, change):
