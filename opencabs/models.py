@@ -390,6 +390,49 @@ class Booking(models.Model):
         f.close()
         return f.name
 
+    def send_trip_status_to_customer(self):
+        if not settings.SEND_CUSTOMER_SMS:
+            return
+        subject = ''
+        if status == '0':
+            msg = (
+                "You booking request is being processed.")
+            subject = 'Booking under process'
+        elif status == '1':
+            msg = (
+                "Your booking with ID: {} has been confirmed.\n"
+                "You'll be notified about vehicle & driver details "
+                "a few hours before your trip."
+            ).format(obj.booking_id)
+            subject = 'Booking confirmed'
+        elif status == '2':
+            msg = (
+                "Your booking with ID: {} has been declined."
+            ).format(obj.booking_id)
+            subject = 'Booking declined'
+        if self.customer_mobile:
+            send_sms([self.customer_mobile], msg)
+        if self.customer_email:
+            send_mail(subject, msg,
+                      settings.FROM_EMAIL,
+                      [self.customer_email])
+
+    def send_booking_request_ack_to_customer(self):
+        if not settings.SEND_CUSTOMER_SMS:
+            return
+        try:
+            msg = ("Dear customer,\n"
+                   "We've received your booking request with ID: {}\n"
+                   "You'll receive a notification when your booking "
+                   "is confirmed!").format(self.booking_id)
+            if self.customer_mobile:
+                send_sms([self.customer_mobile], msg)
+            if self.customer_email:
+                send_mail('Booking request received', msg,
+                          settings.FROM_EMAIL, [self.customer_email])
+        except Exception as e:
+            print("SMS Error: %s" % e)
+
 
 class BookingVehicle(models.Model):
     booking = models.ForeignKey(Booking)
@@ -407,6 +450,8 @@ class BookingVehicle(models.Model):
         return '{}/{}/{}'.format(self.booking, self.vehicle, self.driver)
 
     def send_trip_details_to_customer(self):
+        if not settings.SEND_CUSTOMER_SMS:
+            return
         msg = ("Trip details for booking ID: {}\n"
                "Datetime: {} {}\n").format(
                    self.booking.booking_id,
@@ -430,6 +475,8 @@ class BookingVehicle(models.Model):
                       [self.booking.customer_email])
 
     def send_trip_details_to_driver(self):
+        if not settings.SEND_DRIVER_SMS:
+            return
         msg = (
             "Trip details for {booking_id}\n"
             "{customer_name}, {customer_mobile}\n"
