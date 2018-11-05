@@ -394,21 +394,21 @@ class Booking(models.Model):
         if not settings.SEND_CUSTOMER_SMS:
             return
         subject = ''
-        if status == '0':
+        if self.status == '0':
             msg = (
                 "You booking request is being processed.")
             subject = 'Booking under process'
-        elif status == '1':
+        elif self.status == '1':
             msg = (
                 "Your booking with ID: {} has been confirmed.\n"
                 "You'll be notified about vehicle & driver details "
                 "a few hours before your trip."
-            ).format(obj.booking_id)
+            ).format(self.booking_id)
             subject = 'Booking confirmed'
-        elif status == '2':
+        elif self.status == '2':
             msg = (
                 "Your booking with ID: {} has been declined."
-            ).format(obj.booking_id)
+            ).format(self.booking_id)
             subject = 'Booking declined'
         if self.customer_mobile:
             send_sms([self.customer_mobile], msg)
