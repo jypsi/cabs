@@ -92,7 +92,7 @@ class PaymentInline(GenericTabularInline):
     extra = 1
     ct_field = 'item_content_type'
     ct_fk_field = 'item_object_id'
-    readonly_fields = ('invoice_id', )
+    readonly_fields = ('invoice_id', 'created_by',)
     can_delete = False
 
 
@@ -180,7 +180,6 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         if 'status' in form.changed_data:
             obj.send_trip_status_to_customer()
 
-
     def save_formset(self, request, form, formset, change):
         super().save_formset(request, form, formset, change)
         if str(formset.model).find('BookingVehicle') >= 0:
@@ -200,6 +199,11 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
 
                 if obj.driver:
                     obj.send_trip_details_to_driver()
+        if 'Payment' in str(formset.model):
+            for obj in formset.new_objects:
+                obj.created_by = request.user
+                obj.save()
+
 
 @admin.register(BookingVehicle)
 class BookingVehicle(admin.ModelAdmin):
