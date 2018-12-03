@@ -5,7 +5,7 @@ from .models import Payment
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_filter = ('mode', 'timestamp', 'created_by',)
+    list_filter = ('mode', 'timestamp', 'created_by', 'accounts_verified')
     search_fields = ('bookings__booking_id', 'created_by__username', 'timestamp')
     list_editable = []
 
