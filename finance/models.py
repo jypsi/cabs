@@ -49,6 +49,11 @@ class Payment(models.Model):
     created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL,
                                    help_text='User who created this entry')
 
+    class Meta:
+        permissions = (
+            ('verify_payment', 'Verify payment'),
+        )
+
     def __str__(self):
         return '%s' % self.received
 

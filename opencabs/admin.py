@@ -92,8 +92,13 @@ class PaymentInline(GenericTabularInline):
     extra = 1
     ct_field = 'item_content_type'
     ct_fk_field = 'item_object_id'
-    readonly_fields = ('invoice_id', 'created_by',)
     can_delete = False
+
+    def get_readonly_fields(self, request, obj=None):
+        fields = ['invoice_id', 'created_by']
+        if not request.user.has_perm('finance.verify_payment'):
+            fields.extend(['accounts_verified', 'accounts_verified_timestamp'])
+        return fields
 
 
 class BookingVehicleInline(admin.TabularInline):
