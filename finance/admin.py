@@ -5,8 +5,8 @@ from .models import Payment
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('item_object', 'created_by', 'amount', 'customer', 'type', 'mode', 'timestamp',
-                    'travel_date', 'reference_id', 'comment',  'created',)
+    list_display = ('item_object', 'created_by', 'amount', 'accounts_verified', 'accounts_verified_timestamp',
+                    'customer', 'type', 'mode', 'timestamp', 'travel_date', 'reference_id', 'comment',  'created',)
     list_filter = ('mode', 'timestamp', 'created_by')
     search_fields = ('bookings__booking_id', 'created_by__username', 'timestamp')
     readonly_fields = ('created_by',)

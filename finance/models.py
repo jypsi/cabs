@@ -41,6 +41,8 @@ class Payment(models.Model):
         ContentType, on_delete=models.CASCADE)
     item_object_id = models.PositiveIntegerField()
     item_object = GenericForeignKey('item_content_type', 'item_object_id')
+    accounts_verified = models.BooleanField(default=False, blank=False, db_index=True)
+    accounts_verified_timestamp = models.DateTimeField(blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
@@ -57,6 +59,10 @@ class Payment(models.Model):
     def save(self, *args, **kwargs):
         if not self.invoice_id:
             self.invoice_id = self._create_invoice_id()
+        if self.accounts_verified and not self.accounts_verified_timestamp:
+            self.accounts_verified_timestamp = timezone.now()
+        elif not self.accounts_verified and self.accounts_verified_timestamp:
+            self.accounts_verified_timestamp = None
         super().save(*args, **kwargs)
 
     def _create_invoice_id(self):
