@@ -107,6 +107,7 @@ class PaymentInline(GenericTabularInline):
     ct_field = 'item_content_type'
     ct_fk_field = 'item_object_id'
     can_delete = False
+    exclude = ('details',)
 
     def get_readonly_fields(self, request, obj=None):
         fields = ['invoice_id', 'created_by']
