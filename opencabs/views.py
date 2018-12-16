@@ -15,13 +15,15 @@ from .models import Booking
 FORMS = [
     ('itinerary', booking_form.BookingTravelForm),
     ('vehicles', booking_form.BookingVehiclesForm),
-    ('contactinfo', booking_form.BookingContactInfoForm)
+    ('contactinfo', booking_form.BookingContactInfoForm),
+    ('paymentinfo', booking_form.BookingPaymentInfoForm),
 ]
 
 TEMPLATES = {
     'itinerary': 'opencabs/index.html',
     'vehicles': 'opencabs/booking_vehicles.html',
-    'contactinfo': 'opencabs/booking_contactinfo.html'
+    'contactinfo': 'opencabs/booking_contactinfo.html',
+    'paymentinfo': 'opencabs/booking_paymentinfo.html',
 }
 
 
@@ -49,7 +51,8 @@ class BookingWizard(CookieWizardView):
     def done(self, form_list, form_dict, **kwargs):
         data = form_dict['itinerary'].cleaned_data
         data.update(form_dict['vehicles'].cleaned_data)
-        data.update(form_dict['contactinfo'].cleaned_data)
+        contact_info = form_dict['contactinfo'].cleaned_data
+        data.update(contact_info)
         booking = Booking(**data)
         booking.save()
         booking.send_booking_request_ack_to_customer()

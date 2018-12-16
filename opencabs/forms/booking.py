@@ -68,3 +68,9 @@ class BookingContactInfoForm(BaseBookingForm):
         if not customer_mobile and not customer_email:
             raise forms.ValidationError(
                 'One of mobile and email is required.')
+
+
+class BookingPaymentInfoForm(BaseBookingForm):
+    class Meta:
+        model = Booking
+        fields = ('payment_method',)
