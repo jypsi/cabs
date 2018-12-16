@@ -179,6 +179,13 @@ BOOKING_PAYMENT_STATUS_CHOICES_DICT = OrderedDict(
     )
 )
 
+BOOKING_PAYMENT_METHOD_CHOICES_DICT = OrderedDict(
+    (
+        ('POA', 'Pay on arrival'),
+        ('ONL', 'Online'),
+    )
+)
+
 
 class Booking(models.Model):
     source = models.ForeignKey(Place, on_delete=models.PROTECT,
@@ -208,6 +215,10 @@ class Booking(models.Model):
     status = models.CharField(choices=BOOKING_STATUS_CHOICES_DICT.items(),
                               max_length=1,
                               default='0')
+    payment_method = models.CharField(
+        choices=BOOKING_PAYMENT_METHOD_CHOICES_DICT.items(), max_length=3,
+        blank=True, null=True, default='POA'
+    )
     payment_status = models.CharField(
         choices=BOOKING_PAYMENT_STATUS_CHOICES_DICT.items(), max_length=3,
         blank=True, null=True, default='NP')

@@ -119,14 +119,14 @@ class BookingVehicleInline(admin.TabularInline):
 
 @admin.register(Booking)
 class BookingAdmin(ExportMixin, admin.ModelAdmin):
-    list_display = ('booking_id', 'customer_name', 'customer_mobile',
+    list_display = ('booking_id', 'payment_method', 'customer_name', 'customer_mobile',
                     'source', 'destination', 'booking_type',
                     'travel_date', 'travel_time', 'vehicle_type',
                     'vehicle_count', 'vehicles',
                     'status', 'total_fare', 'payment_done', 'payment_status',
                     'payment_due', 'passengers', 'created',)
     list_filter = ('booking_type', 'status', 'travel_date',
-                   'created', 'payment_status')
+                   'created', 'payment_status', 'payment_method')
     search_fields = ('booking_id', 'customer_name', 'customer_mobile',
                      'travel_date')
     readonly_fields = ('total_fare', 'payment_due', 'payment_done',
@@ -159,7 +159,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
             'Payment details', {
                 'fields': (
                     ('total_fare', 'payment_done', 'payment_due', 'revenue'),
-                    ('last_payment_date', 'payment_status', 'fare_details'),
+                    ('last_payment_date', 'payment_method', 'payment_status', 'fare_details'),
                 )
             }
         )
