@@ -158,31 +158,41 @@ class Vehicle(models.Model):
         return '{}/{}'.format(self.name, self.number)
 
 
-BOOKING_TYPE_CHOICES_DICT = OrderedDict(
-    (
-        ('OW', 'One way'),
-        ('RT', 'Round trip')
-    )
-)
-BOOKING_STATUS_CHOICES_DICT = OrderedDict(
-    (
-        ('0', 'Request'),
-        ('1', 'Confirmed'),
-        ('2', 'Declined')
-    )
-)
-BOOKING_PAYMENT_STATUS_CHOICES_DICT = OrderedDict(
-    (
-        ('NP', 'Not paid'),
-        ('PR', 'Partial'),
-        ('PD', 'Paid'),
+BOOKING_TYPE_CHOICES_DICT = getattr(
+    settings, 'BOOKING_TYPE_CHOICES_DICT', OrderedDict(
+        (
+            ('OW', 'One way'),
+            ('RT', 'Round trip')
+        )
     )
 )
 
-BOOKING_PAYMENT_METHOD_CHOICES_DICT = OrderedDict(
-    (
-        ('POA', 'Pay on arrival'),
-        ('ONL', 'Online'),
+BOOKING_STATUS_CHOICES_DICT = getattr(
+    settings, 'BOOKING_STATUS_CHOICES_DICT', OrderedDict(
+        (
+            ('0', 'Request'),
+            ('1', 'Confirmed'),
+            ('2', 'Declined')
+        )
+    )
+)
+
+BOOKING_PAYMENT_STATUS_CHOICES_DICT = getattr(
+    settings, 'BOOKING_PAYMENT_STATUS_CHOICES_DICT', OrderedDict(
+        (
+            ('NP', 'Not paid'),
+            ('PR', 'Partial'),
+            ('PD', 'Paid'),
+        )
+    )
+)
+
+BOOKING_PAYMENT_METHOD_CHOICES_DICT = getattr(
+    settings, 'BOOKING_PAYMENT_METHOD_CHOICES_DICT', OrderedDict(
+        (
+            ('POA', 'Pay on arrival'),
+            ('ONL', 'Online'),
+        )
     )
 )
 
