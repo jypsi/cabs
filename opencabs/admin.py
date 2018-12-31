@@ -11,6 +11,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from import_export import resources
 from import_export.admin import ExportMixin
 from import_export import fields
+from import_export.widgets import JSONWidget
 
 from finance.models import Payment
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
@@ -29,11 +30,21 @@ class BookingResource(resources.ModelResource):
     vehicle_type = fields.Field()
     status = fields.Field()
     payment_status = fields.Field()
-    payments = fields.Field()
+    payments = fields.Field(widget=JSONWidget())
 
     class Meta:
         model = Booking
-        exclude = ('accounts_verified',)
+        fields = ('id', 'booking_id', 'source', 'destination',
+                  'booking_type', 'customer_name', 'customer_mobile',
+                  'customer_email', 'created',
+                  'travel_date', 'travel_time',
+                  'pickup_point', 'ssr', 'status', 'vehicle_type',
+                  'vehicle_count', 'vehicles',
+                  'total_fare',
+                  'payment_status', 'payment_done', 'payment_due',
+                  'fare_details',
+                  'payments'
+                )
         export_order = ('id', 'booking_id', 'source', 'destination',
                         'booking_type', 'customer_name', 'customer_mobile',
                         'customer_email', 'created',
