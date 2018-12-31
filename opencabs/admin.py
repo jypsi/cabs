@@ -14,6 +14,9 @@ from import_export import fields
 from import_export.widgets import JSONWidget
 
 from finance.models import Payment
+
+from utils import import_path
+
 from .models import (Booking, Place, Rate, VehicleCategory, VehicleFeature,
                      Vehicle, Driver, VehicleRateCategory, BookingVehicle)
 from .models import (BOOKING_TYPE_CHOICES_DICT,
@@ -175,7 +178,7 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
             }
         )
     )
-    resource_class = BookingResource
+    resource_class = import_path(settings.BOOKING_RESOURCE_CLASS)
 
     def vehicles(self, obj):
         return ', '.join(['{}/{}'.format(i.driver or '-', i.vehicle or '-') for i in obj.bookingvehicle_set.all()] or ['x'])
