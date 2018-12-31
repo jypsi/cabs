@@ -90,7 +90,7 @@ class BookingResource(resources.ModelResource):
 
     def dehydrate_payments(self, booking):
         return json.dumps([
-            {'amount': float(p.amount), 'type': p.type, 'mode': p.mode,
+            {'amount': p.type * float(p.amount), 'mode': p.mode,
              'reference_id': p.reference_id, 'comment': p.comment,
              'invoice_id': p.invoice_id, 'timestamp': str(p.timestamp)}
             for p in booking.payments.all()
