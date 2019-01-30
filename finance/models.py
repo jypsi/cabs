@@ -33,6 +33,7 @@ PAYMENT_STATUS_CHOICES = getattr(settings, 'PAYMENT_STATUS_CHOICES', (
 class Payment(models.Model):
     amount = MoneyField(
          max_digits=10, decimal_places=2, default_currency='INR')
+    amount.v
     type = models.IntegerField(choices=PAYMENT_TYPE_CHOICES, default=1,
                                blank=True)
     mode = models.CharField(choices=PAYMENT_MODE_CHOICES, max_length=50,
