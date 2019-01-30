@@ -27,6 +27,7 @@ urlpatterns = [
         name='booking_details'),
     url(r'^' + settings.URL_PREFIX + 'booking/(?P<booking_id>\d+)/invoice/$',
         views.booking_invoice, name='booking_invoice'),
+    url(r'^' + settings.URL_PREFIX + r'payment/', include('finance.urls')),
     url(r'^' + settings.URL_PREFIX + r'admin/', admin.site.urls),
 ]
 

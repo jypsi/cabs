@@ -222,3 +222,29 @@ Make cheques payable to Company Name Ltd.""")
 # Notifications
 SEND_CUSTOMER_SMS = os.environ.get('SEND_CUSTOMER_SMS', 'True').lower() == 'true'
 SEND_DRIVER_SMS = os.environ.get('SEND_DRIVER_SMS', 'True').lower() == 'true'
+
+PAYMENT_PROVIDER = os.environ.get('PAYMENT_PROVIDER', 'ccavenue')
+
+PAYMENT_PROVIDERS = {
+    'ccavenue': {
+        'CLASS': 'finance.gateways.ccavenue.CCAvenue',
+        'PROJECT_NAME': os.environ.get('PROJECT_NAME', PROJECT_NAME),
+        'GATEWAY_BASE_URL': os.environ.get('CCAVENUE_GATEWAY_BASE_URL', 'http://test.ccavenue.com'),
+        'MERCHANT_ID': os.environ.get('CCAVENUE_MERCHANT_ID', ''),
+        'ACCESS_CODE': os.environ.get('CCAVENUE_ACCESS_CODE', ''),
+        'WORKING_KEY': os.environ.get('CCAVENUE_WORKING_KEY', ''),
+        'REDIRECT_URL': os.environ.get('CCAVENUE_REDIRECT_URL', ''),
+        'CANCEL_URL': os.environ.get('CCACENUE_CANCEL_URL', ''),
+        'LANGUAGE': os.environ.get('CCAVENUE_LANGUAGE', 'en'),
+        'BILLING_DETAILS': {
+            'NAME': os.environ.get('CCAVENUE_BILLING_NAME', ''),
+            'ADDRESS': os.environ.get('CCAVENUE_BILLING_ADDRESS', ''),
+            'CITY': os.environ.get('CCAVENUE_BILLING_CITY', ''),
+            'STATE': os.environ.get('CCAVENUE_BILLING_STATE', ''),
+            'ZIP': os.environ.get('CCAVENUE_BILLING_ZIP', ''),
+            'COUNTRY': os.environ.get('CCAVENUE_BILLING_COUNTRY', ''),
+            'TEL': os.environ.get('CCAVENUE_BILLING_TEL', ''),
+            'EMAIL': os.environ.get('CCAVENUE_BILLING_EMAIL', ''),
+        },
+    }
+}
