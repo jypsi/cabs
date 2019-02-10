@@ -13,7 +13,8 @@ from djmoney.models.fields import MoneyField
 
 PAYMENT_MODE_CHOICES = getattr(settings, 'PAYMENT_MODE_CHOICES', (
     ('CA', 'Cash'),
-    ('BT', 'Bank Transfer')
+    ('BT', 'Bank Transfer'),
+    ('PG', 'Payment Gateway'),
 ))
 
 PAYMENT_TYPE_CHOICES = getattr(settings, 'PAYMENT_TYPE_CHOICES', (
@@ -22,10 +23,12 @@ PAYMENT_TYPE_CHOICES = getattr(settings, 'PAYMENT_TYPE_CHOICES', (
 ))
 PAYMENT_STATUS_CHOICES = getattr(settings, 'PAYMENT_STATUS_CHOICES', (
     ('WAT', 'Waiting'),
-    ('INP', 'Input'),
+    ('STR', 'Started'),
+    ('SUC', 'Success'),
+    ('CAN', 'Cancelled'),
+    ('ABT', 'Aborted'),
     ('RFN', 'Refunded'),
-    ('REJ', 'Rejected'),
-    ('CNF', 'Confirmed'),
+    ('FAL', 'Failure'),
     ('ERR', 'Error')
 ))
 

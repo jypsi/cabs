@@ -54,10 +54,18 @@ class BookingWizard(CookieWizardView):
         contact_info = form_dict['contactinfo'].cleaned_data
         data.update(contact_info)
         booking = Booking(**data)
+        if booking.payment_method == 'ONL':
+            booking.status = '3'
         booking.save()
-        booking.send_booking_request_ack_to_customer()
-        return redirect(
-            reverse('booking_details') + '?bookingid=' + booking.booking_id)
+
+        if booking.payment_method == 'ONL':
+            payment = booking.payments.create(
+                amount=booking.total_fare, type=1, mode='PG', status='WAT')
+            return redirect(reverse('payment_start') + '?order_id=' + payment.invoice_id)
+        else:
+            booking.send_booking_request_ack_to_customer()
+            return redirect(
+                reverse('booking_details') + '?bookingid=' + booking.booking_id)
 
 booking_wizard = BookingWizard.as_view()
 

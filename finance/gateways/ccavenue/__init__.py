@@ -1,4 +1,7 @@
-from django.shortcuts import get_object_or_404, Http404, render
+import json
+
+from django.shortcuts import get_object_or_404, Http404, render, redirect
+from django.urls import reverse
 
 from finance.models import Payment
 
@@ -60,6 +63,8 @@ class CCAvenue(object):
         ])
 
         encrypted_merchant_data = encrypt(merchant_data, self._working_key)
+        payment.status = 'STR'
+        payment.save()
 
         return render(request, 'finance/ccavenue/start.html', context={
             'project_name': self._project_name,
@@ -69,12 +74,30 @@ class CCAvenue(object):
             'access_code': self._access_code,
         })
 
-    def handle_cancel(self, request):
+    def _handle_callback(self, request):
         enc_resp = request.POST['encResp']
         resp = decrypt(enc_resp, self._working_key)
-        return render(request, 'finance/ccavenue/cancel.html', context={'response': resp})
+        data = dict([i.split('=') for i in resp.split('&')])
+        payment = get_object_or_404(Payment, invoice_id=data['order_id'])
+        payment.details = json.dumps(data)
+        payment.save()
+        booking = payment.bookings.all()[0]
+        if data['order_status'] == 'Success':
+            payment.status = 'SUC'
+            payment.save()
+            booking.confirm()
+        elif data['order_status'] == 'Aborted':
+            payment.status = 'ABT'
+            payment.save()
+            booking.request()
+        elif data['order_status'] == 'Failure':
+            payment.status = 'FAL'
+            payment.save()
+            booking.request()
+        return redirect(reverse('booking_status') + '?bookingid=' + booking.booking_id)
+
+    def handle_cancel(self, request):
+        return self._handle_callback(request)
 
     def handle_success(self, request):
-        enc_resp = request.POST['encResp']
-        resp = decrypt(enc_resp, self._working_key)
-        return render(request, 'finance/ccavenue/success.html', context={'response': resp})
+        return self._handle_callback(request)

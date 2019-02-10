@@ -172,7 +172,8 @@ BOOKING_STATUS_CHOICES_DICT = getattr(
         (
             ('0', 'Request'),
             ('1', 'Confirmed'),
-            ('2', 'Declined')
+            ('2', 'Declined'),
+            ('3', 'Attempt'),
         )
     )
 )
@@ -192,6 +193,7 @@ BOOKING_PAYMENT_METHOD_CHOICES_DICT = getattr(
         (
             ('POA', 'Pay on arrival'),
             ('ONL', 'Online'),
+            ('', ''),
         )
     )
 )
@@ -227,7 +229,7 @@ class Booking(models.Model):
                               default='0')
     payment_method = models.CharField(
         choices=BOOKING_PAYMENT_METHOD_CHOICES_DICT.items(), max_length=3,
-        blank=True, null=True, default='POA'
+        blank=True, null=True, default=''
     )
     payment_status = models.CharField(
         choices=BOOKING_PAYMENT_STATUS_CHOICES_DICT.items(), max_length=3,
@@ -258,6 +260,14 @@ class Booking(models.Model):
     @property
     def booking_type_display(self):
         return BOOKING_TYPE_CHOICES_DICT.get(self.booking_type)
+
+    @property
+    def humanized_payment_method(self):
+        return BOOKING_PAYMENT_METHOD_CHOICES_DICT.get(self.payment_method)
+
+    @property
+    def humanized_payment_status(self):
+        return BOOKING_PAYMENT_STATUS_CHOICES_DICT.get(self.payment_status)
 
     def get_admin_url(self):
         return urlresolvers.reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name), args=(self.id,))
@@ -323,6 +333,8 @@ class Booking(models.Model):
         last_payment_date = None
 
         for payment in self.payments.all().order_by('timestamp'):
+            if payment.mode == 'PG' and payment.status != 'SUC':
+                continue
             if payment.type == 1:
                 payment_done += payment.amount.amount
             else:
@@ -453,6 +465,16 @@ class Booking(models.Model):
                           settings.FROM_EMAIL, [self.customer_email])
         except Exception as e:
             print("SMS Error: %s" % e)
+
+    def confirm(self):
+        self.status = '1'
+        self.save()
+        self.send_trip_status_to_customer()
+
+    def request(self):
+        self.status = '0'
+        self.save()
+        self.send_trip_status_to_customer()
 
 
 class BookingVehicle(models.Model):
