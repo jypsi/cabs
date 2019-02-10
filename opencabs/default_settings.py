@@ -48,7 +48,7 @@ LOGGING = {
     'handlers': {
         'console': {
             'level': 'INFO',
-            'filters': ['require_debug_true'],
+            'filters': [],
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         }
