@@ -94,7 +94,7 @@ class CCAvenue(object):
             payment.status = 'FAL'
             payment.save()
             booking.request()
-        return redirect(reverse('booking_status') + '?bookingid=' + booking.booking_id)
+        return redirect(reverse('booking_details') + '?bookingid=' + booking.booking_id)
 
     def handle_cancel(self, request):
         return self._handle_callback(request)

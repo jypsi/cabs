@@ -53,6 +53,8 @@ class BookingWizard(CookieWizardView):
         data.update(form_dict['vehicles'].cleaned_data)
         contact_info = form_dict['contactinfo'].cleaned_data
         data.update(contact_info)
+        payment_info = form_dict['paymentinfo'].cleaned_data
+        data.update(payment_info)
         booking = Booking(**data)
         if booking.payment_method == 'ONL':
             booking.status = '3'
