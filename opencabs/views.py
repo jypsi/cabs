@@ -82,9 +82,24 @@ def index(request):
 def booking_details(request):
     booking_id = request.GET.get('bookingid', '').upper()
     booking = get_object_or_404(Booking, booking_id=booking_id)
+    referer = request.META.get('HTTP_REFERER', '')
+    payment_gateway_base_url = settings.PAYMENT_GATEWAYS.get(settings.PAYMENT_GATEWAY, {}).get('GATEWAY_BASE_URL')
+    show_payment_ack = False
+    payment_status = ""
+    order_id = request.GET.get('orderid', None)
+    if payment_gateway_base_url in referer:
+        show_payment_ack = True
+        if booking.payment_status == 'PD':
+            payment_status = "success"
+        else:
+            payment_status = "failed"
+
     return render(request, 'opencabs/booking_details.html', {
         'settings': settings,
-        'booking': booking
+        'booking': booking,
+        'show_payment_ack': show_payment_ack,
+        'payment_status': payment_status,
+        'order_id': order_id
     })
 
 
