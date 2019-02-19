@@ -84,6 +84,8 @@ class CCAvenue(object):
         booking = payment.bookings.all()[0]
         if data['order_status'] == 'Success':
             payment.status = 'SUC'
+            payment.comment = u"tracking_id={}, bank_ref_no={}".format(
+                data['tracking_id'], data['bank_ref_no'])
             payment.save()
             booking.confirm()
         elif data['order_status'] == 'Aborted':
