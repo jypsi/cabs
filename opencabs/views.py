@@ -84,7 +84,7 @@ def booking_details(request):
     booking = get_object_or_404(Booking, booking_id=booking_id)
     payment_status = ""
     order_id = request.GET.get('orderid', None)
-    payment = booking.payment.get(invoice_id=order_id)
+    payment = booking.payments.get(invoice_id=order_id)
     if payment.status in ['ERR', 'CAN', 'ABT', 'FAL']:
         payment_status = "failure"
 
