@@ -27,6 +27,11 @@ class CCAvenue(object):
             raise Http404
 
         payment = get_object_or_404(Payment, invoice_id=invoice_id)
+        booking = payment.bookings.all()[0]
+
+        billing_name = booking.customer_name or self._billing_details['NAME']
+        billing_email = booking.customer_email or self._billing_details['EMAIL']
+        billing_tel = booking.customer_mobile or self._billing_details['TEL']
 
         merchant_data = '&'.join([
             'merchant_id={}'.format(self._merchant_id),
@@ -36,22 +41,22 @@ class CCAvenue(object):
             'redirect_url={}'.format(self._redirect_url),
             'cancel_url={}'.format(self._cancel_url),
             'language={}'.format(self._language),
-            'billing_name={}'.format(self._billing_details['NAME']),
+            'billing_name={}'.format(billing_name),
             'billing_address={}'.format(self._billing_details['ADDRESS']),
             'billing_city={}'.format(self._billing_details['CITY']),
             'billing_state={}'.format(self._billing_details['STATE']),
             'billing_zip={}'.format(self._billing_details['ZIP']),
             'billing_country={}'.format(self._billing_details['COUNTRY']),
-            'billing_tel={}'.format(self._billing_details['TEL']),
-            'billing_email={}'.format(self._billing_details['EMAIL']),
-            'delivery_name={}'.format(self._billing_details['NAME']),
+            'billing_tel={}'.format(billing_tel),
+            'billing_email={}'.format(billing_email),
+            'delivery_name={}'.format(billing_name),
             'delivery_address={}'.format(self._billing_details['ADDRESS']),
             'delivery_city={}'.format(self._billing_details['CITY']),
             'delivery_state={}'.format(self._billing_details['STATE']),
             'delivery_zip={}'.format(self._billing_details['ZIP']),
             'delivery_country={}'.format(self._billing_details['COUNTRY']),
-            'delivery_tel={}'.format(self._billing_details['TEL']),
-            'delivery_email={}'.format(self._billing_details['EMAIL']),
+            'delivery_tel={}'.format(billing_tel),
+            'delivery_email={}'.format(billing_email),
             'merchant_param1=',
             'merchant_param2=',
             'merchant_param3=',
