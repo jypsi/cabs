@@ -74,3 +74,10 @@ class BookingPaymentInfoForm(BaseBookingForm):
     class Meta:
         model = Booking
         fields = ('payment_method',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['payment_method'].choices = (
+            ('POA', 'Pay on arrival'),
+            ('ONL', 'Online')
+        )
