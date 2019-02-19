@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{% url 'payment_start' %}?order_id={{ order_id }}" method="POST">
+    {% csrf_token %}
+    <button type="submit" value="Submit">Pay</button>
+</form>
+
+</body>
+</html>

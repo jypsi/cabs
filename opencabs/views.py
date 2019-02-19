@@ -15,13 +15,15 @@ from .models import Booking
 FORMS = [
     ('itinerary', booking_form.BookingTravelForm),
     ('vehicles', booking_form.BookingVehiclesForm),
-    ('contactinfo', booking_form.BookingContactInfoForm)
+    ('contactinfo', booking_form.BookingContactInfoForm),
+    ('paymentinfo', booking_form.BookingPaymentInfoForm),
 ]
 
 TEMPLATES = {
     'itinerary': 'opencabs/index.html',
     'vehicles': 'opencabs/booking_vehicles.html',
-    'contactinfo': 'opencabs/booking_contactinfo.html'
+    'contactinfo': 'opencabs/booking_contactinfo.html',
+    'paymentinfo': 'opencabs/booking_paymentinfo.html',
 }
 
 
@@ -49,12 +51,23 @@ class BookingWizard(CookieWizardView):
     def done(self, form_list, form_dict, **kwargs):
         data = form_dict['itinerary'].cleaned_data
         data.update(form_dict['vehicles'].cleaned_data)
-        data.update(form_dict['contactinfo'].cleaned_data)
+        contact_info = form_dict['contactinfo'].cleaned_data
+        data.update(contact_info)
+        payment_info = form_dict['paymentinfo'].cleaned_data
+        data.update(payment_info)
         booking = Booking(**data)
+        if booking.payment_method == 'ONL':
+            booking.status = '3'
         booking.save()
-        booking.send_booking_request_ack_to_customer()
-        return redirect(
-            reverse('booking_details') + '?bookingid=' + booking.booking_id)
+
+        if booking.payment_method == 'ONL':
+            payment = booking.payments.create(
+                amount=booking.total_fare, type=1, mode='PG', status='WAT')
+            return redirect(reverse('payment_start') + '?order_id=' + payment.invoice_id)
+        else:
+            booking.send_booking_request_ack_to_customer()
+            return redirect(
+                reverse('booking_details') + '?bookingid=' + booking.booking_id)
 
 booking_wizard = BookingWizard.as_view()
 
@@ -69,9 +82,18 @@ def index(request):
 def booking_details(request):
     booking_id = request.GET.get('bookingid', '').upper()
     booking = get_object_or_404(Booking, booking_id=booking_id)
+    payment_status = ""
+    order_id = request.GET.get('orderid', None)
+    if order_id:
+        payment = booking.payments.get(invoice_id=order_id)
+        if payment.status in ['ERR', 'CAN', 'ABT', 'FAL']:
+            payment_status = "failure"
+
     return render(request, 'opencabs/booking_details.html', {
         'settings': settings,
-        'booking': booking
+        'booking': booking,
+        'payment_status': payment_status,
+        'order_id': order_id
     })
 
 

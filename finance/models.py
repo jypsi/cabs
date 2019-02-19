@@ -13,12 +13,23 @@ from djmoney.models.fields import MoneyField
 
 PAYMENT_MODE_CHOICES = getattr(settings, 'PAYMENT_MODE_CHOICES', (
     ('CA', 'Cash'),
-    ('BT', 'Bank Transfer')
+    ('BT', 'Bank Transfer'),
+    ('PG', 'Payment Gateway'),
 ))
 
 PAYMENT_TYPE_CHOICES = getattr(settings, 'PAYMENT_TYPE_CHOICES', (
     (1, 'Income'),
     (-1, 'Expenditure')
+))
+PAYMENT_STATUS_CHOICES = getattr(settings, 'PAYMENT_STATUS_CHOICES', (
+    ('WAT', 'Waiting'),
+    ('STR', 'Started'),
+    ('SUC', 'Success'),
+    ('CAN', 'Cancelled'),
+    ('ABT', 'Aborted'),
+    ('RFN', 'Refunded'),
+    ('FAL', 'Failure'),
+    ('ERR', 'Error')
 ))
 
 
@@ -31,6 +42,9 @@ class Payment(models.Model):
                             default='CA')
     reference_id = models.CharField(max_length=100, blank=True, null=True)
     comment = models.CharField(max_length=200, blank=True, null=True)
+    status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=3,
+                              blank=True, null=True)
+    details = models.TextField(max_length=1024, blank=True, null=True)
 
     # auto generated
     timestamp = models.DateTimeField(blank=True, default=timezone.now)

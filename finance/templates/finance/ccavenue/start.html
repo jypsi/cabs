@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title>{{ project_name }} checkout page</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <center>
+	<!-- width required mininmum 482px -->
+       	<iframe  width="482" height="500" scrolling="No" frameborder="0"  id="paymentFrame" src="{{ gateway_base_url }}/transaction/transaction.do?command=initiateTransaction&merchant_id={{ merchant_id }}&encRequest={{ encrypted_data }}&access_code={{ access_code }}">
+	  	</iframe>
+	</center>
+
+	<script type="text/javascript">
+    	$(document).ready(function(){
+    		$('iframe#paymentFrame').load(function() {
+				 window.addEventListener('message', function(e) {
+			    	 $("#paymentFrame").css("height",e.data['newHeight']+'px');
+			 	 }, false);
+			 });
+    	});
+	</script>
+  </body>
+</html>

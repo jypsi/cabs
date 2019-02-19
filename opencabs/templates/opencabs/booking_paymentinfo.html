@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Select payment method</h2>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+            {{ wizard.management_form }}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form }}
+                </div>
+            </div>
+
+            <br />
+            <input class="btn btn-primary" type="submit" value="Make payment"></input>
+        </form>
+    </div>
+</div>
+{% endblock %}
