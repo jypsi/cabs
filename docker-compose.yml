@@ -23,7 +23,7 @@ services:
     restart: on-failure
 
   db:
-    image: postgres:latest
+    image: postgres:10.8
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     environment:
