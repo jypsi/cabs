@@ -3,6 +3,8 @@ from django.dispatch import receiver
 
 from finance.models import Payment
 
+from .models import BookingVehicle
+
 
 @receiver([post_save, post_delete], sender=Payment)
 def update_booking_payment_info(sender, instance, **kwargs):
@@ -10,3 +12,8 @@ def update_booking_payment_info(sender, instance, **kwargs):
             instance.item_content_type.model == 'booking':
         if instance.item_object:
             instance.item_object.save()
+
+
+@receiver([post_save, post_delete], sender=BookingVehicle)
+def update_booking_drivers(sender, instance, **kwargs):
+    instance.booking.update_drivers()

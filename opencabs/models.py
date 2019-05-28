@@ -254,6 +254,8 @@ class Booking(models.Model):
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
 
+    drivers = models.CharField(max_length=500, default="", blank=True)
+
     def __str__(self):
         return self.booking_id
 
@@ -476,6 +478,13 @@ class Booking(models.Model):
         self.save()
         self.send_trip_status_to_customer()
 
+    def update_drivers(self):
+        drivers = ""
+        for vehicle in self.bookingvehicle_set.all().select_related('driver'):
+            if vehicle.driver:
+                drivers += vehicle.driver.name
+        self.drivers = drivers
+        self.save()
 
 class BookingVehicle(models.Model):
     booking = models.ForeignKey(Booking)
