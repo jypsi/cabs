@@ -519,6 +519,7 @@ class BookingVehicle(models.Model):
         else:
             msg += self.extra_info or ""
             msg += "\nVehicle/driver assignment pending."
+        msg += "\nOffice contact: {}".format(settings.CONTACT_PHONE)
         if self.booking.customer_mobile:
             send_sms([self.booking.customer_mobile], msg)
         if self.booking.customer_email:
