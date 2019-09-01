@@ -2,6 +2,7 @@ import json
 
 from django.shortcuts import get_object_or_404, Http404, render, redirect
 from django.urls import reverse
+from django.utils import timezone
 
 from finance.models import Payment
 
@@ -87,6 +88,7 @@ class CCAvenue(object):
         payment.details = json.dumps(data)
         payment.save()
         booking = payment.bookings.all()[0]
+        payment.timestamp = timezone.now()
         if data['order_status'] == 'Success':
             payment.status = 'SUC'
             payment.comment = u"tracking_id={}, bank_ref_no={}".format(

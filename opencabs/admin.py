@@ -107,13 +107,8 @@ class PaymentInline(GenericTabularInline):
     ct_field = 'item_content_type'
     ct_fk_field = 'item_object_id'
     can_delete = False
-    exclude = ('details',)
-
-    def get_readonly_fields(self, request, obj=None):
-        fields = ['invoice_id', 'created_by']
-        if not request.user.has_perm('finance.verify_payment'):
-            fields.extend(['accounts_verified', 'accounts_verified_timestamp'])
-        return fields
+    exclude = ('details', 'accounts_verified', 'accounts_received', 'accounts_due', 'accounts_comment')
+    readonly_fields = ['invoice_id', 'created_by', 'last_updated_by']
 
 
 class BookingVehicleInline(admin.TabularInline):
@@ -222,6 +217,10 @@ class BookingAdmin(ExportMixin, admin.ModelAdmin):
         if 'Payment' in str(formset.model):
             for obj in formset.new_objects:
                 obj.created_by = request.user
+                obj.last_updated_by = request.user
+                obj.save()
+            for obj, fields in formset.changed_objects:
+                obj.last_updated_by = request.user
                 obj.save()
 
 

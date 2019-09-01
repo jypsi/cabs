@@ -47,7 +47,7 @@ class Payment(models.Model):
     details = models.TextField(max_length=1024, blank=True, null=True)
 
     # auto generated
-    timestamp = models.DateTimeField(blank=True, default=timezone.now)
+    timestamp = models.DateTimeField(blank=True, null=True)
     invoice_id = models.CharField(max_length=50, blank=True)
 
     # Item towards which this payment is made
@@ -55,13 +55,20 @@ class Payment(models.Model):
         ContentType, on_delete=models.CASCADE)
     item_object_id = models.PositiveIntegerField()
     item_object = GenericForeignKey('item_content_type', 'item_object_id')
-    accounts_verified = models.BooleanField(default=False, blank=False, db_index=True)
-    accounts_verified_timestamp = models.DateTimeField(blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
     created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL,
-                                   help_text='User who created this entry')
+                                   related_name='+', help_text='User who created this entry')
+    last_updated_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL,
+                                        related_name='+', help_text='User who last updated this entry')
+
+
+    # accounts
+    accounts_verified = models.BooleanField(default=False, blank=False, db_index=True)
+    accounts_received = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
+    accounts_due = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
+    accounts_comment = models.CharField(max_length=200, default='', blank=True)
 
     class Meta:
         permissions = (
@@ -78,10 +85,11 @@ class Payment(models.Model):
     def save(self, *args, **kwargs):
         if not self.invoice_id:
             self.invoice_id = self._create_invoice_id()
-        if self.accounts_verified and not self.accounts_verified_timestamp:
-            self.accounts_verified_timestamp = timezone.now()
-        elif not self.accounts_verified and self.accounts_verified_timestamp:
-            self.accounts_verified_timestamp = None
+
+        if self.id is None and self.mode != 'PG' and self.timestamp is None:
+            self.timestamp = timezone.now()
+
+        self.accounts_due = self.amount.amount - self.accounts_received
         super().save(*args, **kwargs)
 
     def _create_invoice_id(self):
