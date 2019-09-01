@@ -69,6 +69,10 @@ class Payment(models.Model):
     accounts_received = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
     accounts_due = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
     accounts_comment = models.CharField(max_length=200, default='', blank=True)
+    accounts_last_updated_by = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name='+', help_text='Accountant who last updated this entry')
+    accounts_last_updated = models.DateTimeField(null=True, blank=True, editable=False)
 
     class Meta:
         permissions = (

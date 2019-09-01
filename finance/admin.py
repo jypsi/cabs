@@ -1,21 +1,28 @@
 from django.contrib import admin
+from django.utils import timezone
 
 from .models import Payment
 
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_filter = ('created_by', 'mode', 'created_by', 'accounts_verified')
+    list_filter = ('created_by', 'mode', 'created_by', 'accounts_verified',
+                   'accounts_last_updated_by', 'accounts_last_updated')
     search_fields = ('created', 'timestamp')
 
     def save_model(self, request, obj, form, change):
         if not obj.id or obj.created_by is None:
             obj.created_by = request.user
         obj.last_updated_by = request.user
+        if request.user.has_perm('finance.verify_payment'):
+            obj.accounts_last_updated_by = request.user
+            obj.accounts_last_updated = timezone.now()
+
         super().save_model(request, obj, form, change)
 
     def get_readonly_fields(self, request, obj=None):
-        fields = ['created_by', 'last_updated_by', 'created', 'last_updated']
+        fields = ['created_by', 'last_updated_by', 'created', 'last_updated',
+                  'accounts_last_updated', 'accounts_last_updated_by']
         if not request.user.has_perm('finance.verify_payment'):
             fields.extend(['accounts_verified', 'accounts_received', 'accounts_due', 'accounts_comment'])
         return fields
@@ -25,4 +32,5 @@ class PaymentAdmin(admin.ModelAdmin):
         if request.user.has_perm('finance.verify_payment'):
             fields.extend(['accounts_verified', 'accounts_received', 'accounts_comment', 'accounts_due'])
             self.list_editable = ['accounts_verified', 'accounts_received', 'accounts_comment']
+        fields.extend(['accounts_last_updated_by', 'accounts_last_updated'])
         return fields
