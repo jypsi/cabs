@@ -10,8 +10,8 @@ from .models import Payment
 class PaymentAdmin(admin.ModelAdmin):
     list_filter = ('created_by', 'mode', 'created_by', 'accounts_verified',
                    'accounts_last_updated_by', 'accounts_last_updated')
-    search_fields = ('created', 'timestamp', 'bookings__booking_id',
-                     'bookings__customer_name')
+    search_fields = ('bookings__booking_id',
+                     'bookings__customer_name', 'bookings__travel_date')
 
     def booking(self, obj):
         return '<a href="{}">{}</a>'.format(obj.item_object.get_admin_url(),
