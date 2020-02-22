@@ -25,6 +25,8 @@ class BookingTravelForm(BaseBookingForm):
         self.fields['booking_type'].widget = forms.RadioSelect()
         self.fields['booking_type'].widget.choices = self.fields['booking_type'].choices[1:]
         self.fields['booking_type'].widget.attrs = {'class': 'radio-inline'}
+        self.fields['source'].queryset = self.fields['source'].queryset.order_by('name')
+        self.fields['destination'].queryset = self.fields['destination'].queryset.order_by('name')
 
 
 
