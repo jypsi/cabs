@@ -97,6 +97,8 @@ class Rate(models.Model):
     created = models.DateTimeField(auto_now_add=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True)
 
+    objects = models.Manager()
+
     class Meta:
         unique_together = ('code', 'vehicle_category')
 
