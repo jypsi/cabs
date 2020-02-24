@@ -17,7 +17,7 @@
             <dd>{{  booking.humanized_payment_method }}</dd>
 
             <dt>Payment status</dt>
-            <dd>{{  booking.humanize_payment_status }}</dd>
+            <dd>{{  booking.humanized_payment_status }}</dd>
 
             <dt>Source<dt>
             <dd>{{ booking.source }}</dd>
@@ -29,7 +29,7 @@
             <dd>{{ booking.get_booking_type_display }}</dd>
 
             <dt>Travel datetime</dt>
-            <dd>{{ booking.travel_datetime }}</dd>
+            <dd>{{ booking.travel_date }} {{ booking.travel_time }}</dd>
 
             <dt>Vehicle type</dt>
             <dd>{{ booking.vehicle_type }}</dd>
