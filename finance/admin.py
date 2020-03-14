@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import admin
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 from .models import Payment
 
@@ -13,9 +14,12 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = ('bookings__booking_id',
                      'bookings__customer_name', 'bookings__travel_date')
 
+
     def booking(self, obj):
-        return '<a href="{}">{}</a>'.format(obj.item_object.get_admin_url(),
-                                            obj.item_object)
+        return mark_safe(
+            '<a href="{}">{}</a>'.format(obj.item_object.get_admin_url(),
+                                         obj.item_object)
+        )
 
     def travel_datetime(self, obj):
         return datetime.combine(obj.item_object.travel_date, obj.item_object.travel_time)
