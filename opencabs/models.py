@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.core import urlresolvers
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
 from django.utils import timezone
@@ -272,7 +272,7 @@ class Booking(models.Model):
         return BOOKING_PAYMENT_STATUS_CHOICES_DICT.get(self.payment_status)
 
     def get_admin_url(self):
-        return urlresolvers.reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name), args=(self.id,))
+        return reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name), args=(self.id,))
 
     def save(self, *args, **kwargs):
         if not self.customer_email and not self.customer_mobile:
@@ -487,7 +487,7 @@ class Booking(models.Model):
         self.save()
 
 class BookingVehicle(models.Model):
-    booking = models.ForeignKey(Booking)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     driver_paid = models.BooleanField(default=False)
     driver_pay = models.PositiveIntegerField(blank=True, default=0)
     driver_invoice_id = models.CharField(max_length=50, blank=True)
