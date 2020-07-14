@@ -29,3 +29,6 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
+Update README
+
+More changes
