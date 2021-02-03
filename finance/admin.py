@@ -9,7 +9,7 @@ from .models import Payment
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_filter = ('type', 'created_by', 'mode', 'accounts_verified',
+    list_filter = ('type', 'created_by', 'created', 'mode', 'accounts_verified',
                    'accounts_last_updated_by', 'accounts_last_updated')
     search_fields = ('bookings__booking_id',
                      'bookings__customer_name', 'bookings__travel_date')
