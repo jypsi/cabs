@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'formtools',
     'import_export',
     'djmoney',
+    'anymail',
 
     'opencabs',
     'finance'
@@ -213,10 +214,17 @@ MSG91_SENDER_ID = os.environ.get('MSG91_SENDER_ID', 'SOMEID')
 MSG91_ROUTE_ID = os.environ.get('MSG91_ROUTE_ID', 4)
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND',
-                               'django_mailgun.MailgunBackend')
+                               'anymail.backends.mailgun.EmailBackend')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@opencabs.org')
 MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY', '')
 MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME', '')
-FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@opencabs.org')
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": os.environ.get("MAILGUN_ACCESS_KEY", ''),
+    "MAILGUN_SENDER_DOMAIN": os.environ.get("MAILGUN_SERVER_NAME", ''),
+    "MAILGUN_API_URL": os.environ.get("MAILGUN_API_URL", "https://api.mailgun.net/v3"),
+}
+
 
 INVOICE_ID_PREFIX = os.environ.get('INVOICE_ID_PREFIX', 'OCV')
 
