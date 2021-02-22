@@ -4,11 +4,13 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
+from djangoql.admin import DjangoQLSearchMixin
+
 from .models import Payment
 
 
 @admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
+class PaymentAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     list_filter = ('type', 'created_by', 'created', 'mode', 'accounts_verified',
                    'accounts_last_updated_by', 'accounts_last_updated')
     search_fields = ('bookings__booking_id',

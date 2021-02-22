@@ -21,3 +21,4 @@ wcwidth==0.1.8
 reportlab==3.5.59
 django-logentry-admin==1.0.5
 pycrypto==2.6.1
+djangoql==0.14.0

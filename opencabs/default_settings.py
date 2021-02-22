@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'import_export',
     'djmoney',
     'anymail',
+    'djangoql',
 
     'opencabs',
     'finance'
