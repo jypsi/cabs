@@ -6,6 +6,7 @@ django-formtools==2.2
 django-import-export==2.0.2
 django-anymail[mailgun]==7.0.0
 django-money==1.0
+py-moneyed==2.0
 pexpect==4.8.0
 pickleshare==0.7.5
 prompt-toolkit==3.0.4
