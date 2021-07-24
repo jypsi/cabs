@@ -3,18 +3,50 @@ from datetime import datetime
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from import_export import resources
+from import_export.admin import ExportMixin
+from import_export import fields
 
 from djangoql.admin import DjangoQLSearchMixin
 
 from .models import Payment
 
 
+class PaymentResource(resources.ModelResource):
+    booking_id = fields.Field()
+    customer_name = fields.Field()
+    travel_datetime = fields.Field()
+
+    class Meta:
+        model = Payment
+        fields = ['invoice_id', 'booking_id', 'customer_name',
+                  'travel_datetime', 'mode', 'status', 'amount',
+                  'reference_id', 'comment', 'accounts_verified',
+                  'accounts_received', 'accounts_due', 'accounts_comment',
+                  'created_by', 'created', 'accounts_last_updated_by',
+                  'accounts_last_updated']
+        export_order = fields
+
+    def dehydrate_booking_id(self, payment):
+        return payment.bookings.first().booking_id
+
+    def dehydrate_customer_name(self, payment):
+        return payment.bookings.first().customer_name
+
+    def dehydrate_travel_datetime(self, payment):
+        booking = payment.bookings.first()
+        return datetime.combine(booking.travel_date, booking.travel_time)
+
+
+
 @admin.register(Payment)
-class PaymentAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
+class PaymentAdmin(ExportMixin, DjangoQLSearchMixin, admin.ModelAdmin):
     list_filter = ('type', 'accounts_verified', 'created_by', 'created', 'mode',
                    'accounts_last_updated_by', 'accounts_last_updated')
     search_fields = ('bookings__booking_id',
                      'bookings__customer_name', 'bookings__travel_date')
+
+    resource_class = PaymentResource
 
 
     def booking(self, obj):
