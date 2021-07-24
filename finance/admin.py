@@ -37,6 +37,9 @@ class PaymentResource(resources.ModelResource):
         booking = payment.bookings.first()
         return datetime.combine(booking.travel_date, booking.travel_time)
 
+    def dehydrate_amount(self, payment):
+        return payment.amount.amount
+
 
 
 @admin.register(Payment)
