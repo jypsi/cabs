@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 from django.template.loader import render_to_string
 
-from ..models import Booking, Rate
+from ..models import Booking, Rate, BOOKING_PAYMENT_METHOD_CHOICES_DICT
 
 
 class BaseBookingForm(forms.ModelForm):
@@ -79,7 +79,7 @@ class BookingPaymentInfoForm(BaseBookingForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['payment_method'].choices = (
-            ('POA', 'Pay on arrival'),
-            ('ONL', 'Online')
-        )
+        self.fields['payment_method'].choices = tuple([
+            (item, BOOKING_PAYMENT_METHOD_CHOICES_DICT.get(item)) for item in settings.BOOKING_FORM_PAYMENT_MODES
+            if BOOKING_PAYMENT_METHOD_CHOICES_DICT.get(item)
+        ])

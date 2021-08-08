@@ -206,6 +206,7 @@ PROJECT_DESCRIPTION = os.environ.get('PROJECT_DESCRIPTION', '')
 HEADER_IMAGE = os.environ.get('HEADER_IMAGE', '/static/img/header.jpg')
 BOOKING_ID_PREFIX = os.environ.get('PNR_PREFIX', 'OC')
 BOOKING_RESOURCE_CLASS = os.environ.get('BOOKING_RESOURCE_CLASS', 'opencabs.admin.BookingResource')
+BOOKING_FORM_PAYMENT_MODES = ["ONL", "POA"]
 ROUTE_CODE_FUNC = lambda a, b: '%s-%s' % (a, b) if a > b else '%s-%s' % (b, a)
 CONTACT_PHONE = os.environ.get('CONTACT_PHONE', '123-456-6789')
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'your-email@your-domain.com')
