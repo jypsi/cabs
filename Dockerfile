@@ -14,6 +14,7 @@ ADD opencabs /src/opencabs
 ADD finance /src/finance
 ADD utils /src/utils
 ADD manage.py /src/
+ADD wsgi.py /src/
 
 EXPOSE 8000
 
